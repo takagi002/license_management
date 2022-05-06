@@ -22,7 +22,7 @@ public class Customer {
 	@Column(name = "adresse", length=100, nullable = false)
     private String adresse;
 	
-	@OneToMany(mappedBy = "customer")
+	@OneToMany(mappedBy = "customerId")
 	private List<User> users;
 	
 	public Customer() {}

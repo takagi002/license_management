@@ -9,8 +9,8 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
-import de.hse.swa.jpa.orm.model.User;
 import de.hse.swb.jpa.orm.model.Contract;
+import de.hse.swb.jpa.orm.model.User;
 
 @ApplicationScoped
 public class ContractDao {
@@ -27,23 +27,23 @@ public class ContractDao {
 		return em.find(Contract.class, id);
 	}
 	
-	public List<Contract> getContracts(User User) {
+	public List<Contract> getContracts(User user) {
 	   	 TypedQuery<Contract> query = em.createQuery(
-	   			 "SELECT proj FROM Contract AS proj JOIN proj.Users pers WHERE pers.id = :PERS", 
+	   			 "SELECT contr FROM Contract AS contr JOIN contr.User users WHERE users.userId = :USER", 
 	   			 Contract.class);
-	   	 query.setParameter("PERS",User.getId());
+	   	 query.setParameter("USER",user.getId());
 	   	 List<Contract> results = query.getResultList();
 	   	 return results;
 	   }
 
     @Transactional
-    public Contract save(Contract Contract) {
-    	if (Contract.getContractId() != null) {
-    		Contract = em.merge(Contract);
+    public Contract save(Contract contract) {
+    	if (contract.getContractId() != null) {
+    		contract = em.merge(contract);
     	} else {
-    		em.persist(Contract);
+    		em.persist(contract);
     	}
-    	return Contract;
+    	return contract;
     }
 
     @Transactional
@@ -60,9 +60,16 @@ public class ContractDao {
     }
     
     @Transactional
+    public void addUser2ToContract(User user, Contract contract) {
+    	if(contract.getUser2() == null) {
+    		contract.setUser2(user);
+    	}
+		save(contract);
+    }
+    
+    @Transactional
     public void removeAllContracts() {
     	try {
-
     	    Query del = em.createQuery("DELETE FROM Contract WHERE id >= 0");
     	    del.executeUpdate();
 

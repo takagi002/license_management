@@ -2,24 +2,74 @@ package de.hse.swb.jpa.orm.dao;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
+import de.hse.swa.jpa.orm.model.User;
 import de.hse.swb.jpa.orm.model.Contract;
 
+@ApplicationScoped
 public class ContractDao {
 	@Inject
 	EntityManager em;
 	
-	public List<Contract> getUsers(){
+	public List<Contract> getContracts(){
 		TypedQuery<Contract> query = em.createQuery("SELECT c FROM Contract c", Contract.class);
 		List<Contract> results = query.getResultList();
 		return results;
 	}
 	
-	public Contract getUser(long id) {
+	public Contract getContract(long id) {
 		return em.find(Contract.class, id);
 	}
+	
+	public List<Contract> getContracts(User User) {
+	   	 TypedQuery<Contract> query = em.createQuery(
+	   			 "SELECT proj FROM Contract AS proj JOIN proj.Users pers WHERE pers.id = :PERS", 
+	   			 Contract.class);
+	   	 query.setParameter("PERS",User.getId());
+	   	 List<Contract> results = query.getResultList();
+	   	 return results;
+	   }
 
+    @Transactional
+    public Contract save(Contract Contract) {
+    	if (Contract.getContractId() != null) {
+    		Contract = em.merge(Contract);
+    	} else {
+    		em.persist(Contract);
+    	}
+    	return Contract;
+    }
+
+    @Transactional
+    public void removeContract(Contract Contract) {
+    	em.remove(Contract);
+    }
+    
+    @Transactional
+    public void addUser1ToContract(User user, Contract contract) {
+    	if(contract.getUser1() == null) {
+    		contract.setUser1(user);
+    	}
+		save(contract);
+    }
+    
+    @Transactional
+    public void removeAllContracts() {
+    	try {
+
+    	    Query del = em.createQuery("DELETE FROM Contract WHERE id >= 0");
+    	    del.executeUpdate();
+
+    	} catch (SecurityException | IllegalStateException  e) {
+    	    e.printStackTrace();
+    	}
+
+    	return;
+    }
 }

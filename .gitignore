@@ -32,8 +32,6 @@ bin/
 # Local environment
 .env
 
-documentation/ERM_Diagramm.mwb.bak
-
 .metadata
 tmp/
 *.tmp
@@ -62,3 +60,7 @@ local.properties
 # Annotation Processing
 .apt_generated/
 .apt_generated_test/
+
+
+documentation/ERM_Diagramm.mwb.bak
+Libraries/

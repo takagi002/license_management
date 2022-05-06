@@ -10,7 +10,7 @@ public class Customer {
 	@Id
     @SequenceGenerator(name = "custSeq", sequenceName = "ZSEQ_CUS_ID", allocationSize = 1, initialValue = 10)
     @GeneratedValue(generator = "custSeq")
-	@Column(name = "customerId")
+	@Column(name = "customerId", nullable = false)
     private Long customerId;
 	
 	@Column(name = "name", length=60, nullable = false)
@@ -24,6 +24,9 @@ public class Customer {
 	
 	@OneToMany(mappedBy = "customerId")
 	private List<User> users;
+	
+	@OneToMany(mappedBy = "customerId")
+	private List<Contract> contracts;
 	
 	public Customer() {}
 
@@ -69,5 +72,13 @@ public class Customer {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
-	}	
+	}
+
+	public List<Contract> getContracts() {
+		return contracts;
+	}
+
+	public void setContracts(List<Contract> contracts) {
+		this.contracts = contracts;
+	}
 }

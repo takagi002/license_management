@@ -8,7 +8,7 @@ public class User {
 	@Id
 	@SequenceGenerator (name = "userSeq", sequenceName = "ZSEQ_USER_ID", allocationSize = 1, initialValue = 10)
 	@GeneratedValue (generator = "userSeq")
-	@Column(name = "userId")
+	@Column(name = "userId", nullable = false)
 	private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)

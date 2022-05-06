@@ -21,7 +21,7 @@ public class User {
 	@Column(name="firstname", length=60, nullable = false)
 	private String firstname;
 	
-	@Column(name="username", length=10, nullable = false)
+	@Column(name="username", length=10, nullable = false, unique = true)
 	private String username;
 	
 	@Column(name="email", length=50, nullable = false)
@@ -30,7 +30,7 @@ public class User {
 	@Column(name="phoneNumber1", length=45, nullable = false)
 	private String phoneNumber1;
 	
-	@Column(name="phoneNumber2", length=45, nullable = true)
+	@Column(name="phoneNumber2", length=45)
 	private String phoneNumber2;
 	
 	@Column(name="isAdmin", length=45, nullable = false)

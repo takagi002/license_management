@@ -15,7 +15,8 @@ public class UserDao {
 	EntityManager em;
 	
 	public List<User> getUsers(){
-		TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+		//TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+		TypedQuery<User> query = em.createQuery("SELECT * FROM User", User.class);
 		List<User> results = query.getResultList();
 		return results;
 	}

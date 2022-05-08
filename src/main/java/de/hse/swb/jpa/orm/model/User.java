@@ -24,6 +24,9 @@ public class User {
 	@Column(name="username", length=10, nullable = false, unique = true)
 	private String username;
 	
+	@Column(name="password", length=10, nullable = false, unique = true)
+	private String password;
+	
 	@Column(name="email", length=50, nullable = false)
 	private String email;
 	
@@ -115,5 +118,9 @@ public class User {
 
 	public void setAdmin(boolean isAdmin) {
 		this.isAdmin = isAdmin;
+	}
+	
+	public void setPassword(String pass) {
+		this.password = pass;
 	}
 }

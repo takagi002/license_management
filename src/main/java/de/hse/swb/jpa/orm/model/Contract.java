@@ -54,8 +54,8 @@ public class Contract {
 
 	public Contract() {}
 	
-	public Contract(Long contractID) {
-		this.contractId = contractID;
+	public Contract(Customer customer) {
+		this.customer = customer;
 	}
 	
 	public Long getContractId() {

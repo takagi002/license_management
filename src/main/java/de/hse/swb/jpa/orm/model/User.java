@@ -36,10 +36,13 @@ public class User {
 	@Column(name="isAdmin", length=45, nullable = false)
 	private boolean isAdmin;
 	
-	public User() {}
+	public User() {
+		this.isAdmin = false;
+	}
 	
-	public User(String userName) {
-		this.username = userName;
+	public User(String username) {
+		this.username = username;
+		this.isAdmin = false;
 	}
 
 	public Long getId() {

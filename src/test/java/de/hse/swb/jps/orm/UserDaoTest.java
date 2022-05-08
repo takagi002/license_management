@@ -1,5 +1,7 @@
 package de.hse.swb.jps.orm;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -31,14 +33,14 @@ public class UserDaoTest {
 		userdao.removeAllUsers();
 	}
 	
-//	@Test
-//	void addUser_1() {
-//		User firstPerson = createUser("first");
-//		userdao.save(firstPerson);
-//		List<User> users = userdao.getUsers();
-//		assertEquals(users.size(),1);
-//		printUser(users.get(0));
-//	}
+	@Test
+	void addUser_1() {
+		User firstPerson = createUser("first");
+		userdao.save(firstPerson);
+		List<User> users = userdao.getUsers();
+		assertEquals(users.size(),1);
+		printUser(users.get(0));
+	}
 
 	private void printUser(User user) {
 		System.out.println("id: " + user.getId());

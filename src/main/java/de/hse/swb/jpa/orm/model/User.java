@@ -3,10 +3,10 @@ package de.hse.swb.jpa.orm.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "user")
+@Table(name = "User")
 public class User {
 	@Id
-	@SequenceGenerator (name = "userSeq", sequenceName = "ZSEQ_USER_ID", allocationSize = 1, initialValue = 10)
+	@SequenceGenerator (name = "userSeq", sequenceName = "ZSEQ_USER_ID", allocationSize = 1, initialValue = 1)
 	@GeneratedValue (generator = "userSeq")
 	@Column(name = "userId", nullable = false)
 	private Long id;
@@ -24,7 +24,7 @@ public class User {
 	@Column(name="username", length=10, nullable = false, unique = true)
 	private String username;
 	
-	@Column(name="password", length=10, nullable = false, unique = true)
+	@Column(name="password", length=129, nullable = false, unique = true)
 	private String password;
 	
 	@Column(name="email", length=50, nullable = false)

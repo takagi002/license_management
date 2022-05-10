@@ -23,20 +23,20 @@ public class UserDaoTest {
 	
 	public Customer creatCostomer(String name) {
 		Customer c = new Customer(name);
-		c.setCustomerId(new Long(3));
+		c.setCustomerId(new Long(1));
 		c.setAdresse("sdf");
 		c.setDepartment("gh");
 		return c;
 	}
 	
-	private User createUser(String prefix) {
-		User user = new User(prefix+"UserName");
+	private User createUser(String username) {
+		User user = new User(username);
 		user.setPassword("xyz");
 		user.setName("test");
 		user.setFirstname("tester");
 		user.setEmail("df@test.ste");
 		user.setPhoneNumber1("135425");
-		user.setCustomer(creatCostomer("bla"));
+		//user.setCustomer(creatCostomer("name"));
 		printUser(user);
 		return user;
 	}

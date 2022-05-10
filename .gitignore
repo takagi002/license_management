@@ -65,3 +65,5 @@ local.properties
 documentation/ERM_Diagramm.mwb.bak
 Libraries/
 src/main/resources/application.properties
+
+src/main/resources/application.properties.backup

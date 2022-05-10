@@ -17,8 +17,8 @@ public class UserDao {
 	EntityManager em;
 	
 	public List<User> getUsers(){
-		//TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
-		TypedQuery<User> query = em.createQuery("SELECT * FROM User", User.class);
+		TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
+		//TypedQuery<User> query = em.createQuery("SELECT * FROM User", User.class);
 		List<User> results = query.getResultList();
 		return results;
 	}
@@ -29,11 +29,7 @@ public class UserDao {
 	
 	@Transactional
     public User save(User user) {
-    	if (user.getId() != null) {
-    		user = em.merge(user);
-    	} else {
-        	em.persist(user);
-    	}
+		em.persist(user);
     	return user;
     }
 
@@ -46,7 +42,7 @@ public class UserDao {
     public void removeAllUsers() {
     	try {
 
-    	    Query del = em.createQuery("DELETE FROM user WHERE id >= 0");
+    	    Query del = em.createQuery("DELETE FROM User WHERE id >= 0");
     	    del.executeUpdate();
 
     	} catch (SecurityException | IllegalStateException  e) {

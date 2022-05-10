@@ -12,7 +12,7 @@ public class User {
 	private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
-	@JoinColumn(name = "customerId", referencedColumnName = "customerId", nullable = false)
+	@JoinColumn(name = "customerId", referencedColumnName = "customerId")
 	private Customer customer;
 	
 	@Column(name="name", length=60, nullable = false)

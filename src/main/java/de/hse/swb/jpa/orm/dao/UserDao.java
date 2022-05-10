@@ -2,6 +2,7 @@ package de.hse.swb.jpa.orm.dao;
 
 import java.util.List;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -10,6 +11,7 @@ import javax.transaction.Transactional;
 
 import de.hse.swb.jpa.orm.model.User;
 
+@ApplicationScoped
 public class UserDao {
 	@Inject
 	EntityManager em;
@@ -21,7 +23,7 @@ public class UserDao {
 		return results;
 	}
 	
-	public User getUser(long id) {
+	public User getUser(Long id) {
 		return em.find(User.class, id);
 	}
 	

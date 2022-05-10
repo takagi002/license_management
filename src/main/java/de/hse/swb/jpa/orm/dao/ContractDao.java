@@ -23,7 +23,7 @@ public class ContractDao {
 		return results;
 	}
 	
-	public Contract getContract(long id) {
+	public Contract getContract(Long id) {
 		return em.find(Contract.class, id);
 	}
 	

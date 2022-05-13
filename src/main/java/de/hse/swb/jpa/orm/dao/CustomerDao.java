@@ -47,7 +47,6 @@ public class CustomerDao {
     	try {
     		Query del = em.createQuery("DELETE FROM Customer WHERE id >= 0");
     	    del.executeUpdate();
-
     	} catch (SecurityException | IllegalStateException  e) {
     	    e.printStackTrace();
     	}

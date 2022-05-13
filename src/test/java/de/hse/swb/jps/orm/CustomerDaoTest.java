@@ -11,13 +11,17 @@ import org.junit.jupiter.api.Test;
 
 import de.hse.swb.jpa.orm.dao.CustomerDao;
 import de.hse.swb.jpa.orm.model.Customer;
+import io.quarkus.test.junit.QuarkusTest;
 
+@QuarkusTest
 public class CustomerDaoTest {
 	@Inject
 	CustomerDao customerDao;
     
 	private Customer createCustomer(String prefix) {
 		Customer customer = new Customer(prefix);
+		customer.setDepartment("Test Department");
+		customer.setAdresse("Test Adress");
 		return customer;
 	}
 	
@@ -26,8 +30,9 @@ public class CustomerDaoTest {
 		customerDao.addCustomer(first);
 		Customer second = createCustomer("secondCustomer");
 		customerDao.addCustomer(second);
+		printCustomer(first);
+		printCustomer(second);
 	}
-
 	
 	private void printCustomer(Customer customer) {
 		System.out.println("ID: " + customer.getCustomerId());
@@ -45,8 +50,8 @@ public class CustomerDaoTest {
 	
 	@Test
 	void addCustomer_1() {
-		Customer first = createCustomer("first");
-		customerDao.addCustomer(first);
+		Customer c1 = createCustomer("first");
+		customerDao.addCustomer(c1);
 		List<Customer> deps = customerDao.getCustomers();
 		assertEquals(deps.size(),1);
 		printCustomer(deps.get(0));

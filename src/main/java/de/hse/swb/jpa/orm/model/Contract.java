@@ -59,11 +59,11 @@ public class Contract {
 	}
 	
 	public Long getContractId() {
-		return contractId;
+		return id;
 	}
 
-	public void setContractId(Long contractId) {
-		this.contractId = contractId;
+	public void setContractId(Long id) {
+		this.id = id;
 	}
 
 	public Customer getCustomer() {

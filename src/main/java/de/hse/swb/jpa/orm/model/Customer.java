@@ -35,11 +35,11 @@ public class Customer {
     }
 
 	public Long getCustomerId() {
-		return customerId;
+		return id;
 	}
 
-	public void setCustomerId(Long customerId) {
-		this.customerId = customerId;
+	public void setCustomerId(Long id) {
+		this.id = id;
 	}
 
 	public String getName() {

@@ -6,8 +6,8 @@ import javax.persistence.*;
 @Table(name = "User")
 public class User {
 	@Id
-	@SequenceGenerator (name = "userSeq", sequenceName = "ZSEQ_USER_ID", allocationSize = 1, initialValue = 1)
-	@GeneratedValue (generator = "userSeq")
+	//@SequenceGenerator (name = "userSeq", sequenceName = "ZSEQ_USER_ID", allocationSize = 1, initialValue = 1)
+	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	@Column(name = "userId", nullable = false, unique = true)
 	private Long id;
 	
@@ -24,7 +24,7 @@ public class User {
 	@Column(name="username", length=10, nullable = false, unique = true)
 	private String username;
 	
-	@Column(name="password", length=129, nullable = false, unique = true)
+	@Column(name="password", length=129, nullable = false)
 	private String password;
 	
 	@Column(name="email", length=50, nullable = false)

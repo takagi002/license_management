@@ -8,10 +8,10 @@ import javax.persistence.*;
 @Table(name = "Customer")
 public class Customer {
 	@Id
-    @SequenceGenerator(name = "custSeq", sequenceName = "ZSEQ_CUS_ID", allocationSize = 1, initialValue = 10)
+    @SequenceGenerator(name = "custSeq", sequenceName = "ZSEQ_CUS_ID", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "custSeq")
-	@Column(name = "customerId", nullable = false)
-    private Long customerId;
+	@Column(name = "customerId", nullable = false, unique = true)
+    private Long id;
 	
 	@Column(name = "name", length=60, nullable = false)
     private String name;

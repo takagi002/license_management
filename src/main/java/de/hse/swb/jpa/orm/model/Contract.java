@@ -8,10 +8,10 @@ import javax.persistence.*;
 @Table(name = "Contract")
 public class Contract {
 	@Id
-    @SequenceGenerator(name = "conSeq", sequenceName = "ZSEQ_CON_ID", allocationSize = 1, initialValue = 10)
+    @SequenceGenerator(name = "conSeq", sequenceName = "ZSEQ_CON_ID", allocationSize = 1, initialValue = 1)
     @GeneratedValue(generator = "conSeq")
-    @Column(name = "contractId", nullable = false)
-    private Long contractId;
+    @Column(name = "contractId", nullable = false, unique = true)
+    private Long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "customerId", referencedColumnName = "customerId", nullable = false)

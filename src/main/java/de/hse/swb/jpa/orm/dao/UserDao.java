@@ -18,12 +18,11 @@ public class UserDao {
 	
 	public List<User> getUsers(){
 		TypedQuery<User> query = em.createQuery("SELECT u FROM User u", User.class);
-		//TypedQuery<User> query = em.createQuery("SELECT * FROM User", User.class);
 		List<User> results = query.getResultList();
 		return results;
 	}
 	
-	public User getUser(Long id) {
+	public User getUser(long id) {
 		return em.find(User.class, id);
 	}
 	

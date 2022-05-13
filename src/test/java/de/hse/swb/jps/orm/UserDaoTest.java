@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.hse.swb.jpa.orm.dao.UserDao;
-import de.hse.swb.jpa.orm.model.Customer;
 import de.hse.swb.jpa.orm.model.User;
 
 import io.quarkus.test.junit.QuarkusTest;
@@ -20,7 +19,7 @@ public class UserDaoTest {
 	
 	@Inject
     UserDao userdao;
-	
+
 	private User createUser(String username) {
 		User user = new User(username);
 		user.setPassword("xyz");

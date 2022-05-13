@@ -8,7 +8,7 @@ public class User {
 	@Id
 	@GeneratedValue (strategy=GenerationType.IDENTITY)
 	@Column(name = "userId", nullable = false, unique = true)
-	private Long id;
+	private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "customerId", referencedColumnName = "customerId")
@@ -47,11 +47,11 @@ public class User {
 		this.isAdmin = false;
 	}
 
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

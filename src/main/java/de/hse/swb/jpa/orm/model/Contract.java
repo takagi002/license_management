@@ -10,7 +10,7 @@ public class Contract {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "contractId", nullable = false, unique = true)
-    private Long id;
+    private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name = "customerId", referencedColumnName = "customerId", nullable = false)
@@ -57,11 +57,11 @@ public class Contract {
 		this.customer = customer;
 	}
 	
-	public Long getContractId() {
+	public long getContractId() {
 		return id;
 	}
 
-	public void setContractId(Long id) {
+	public void setContractId(long id) {
 		this.id = id;
 	}
 

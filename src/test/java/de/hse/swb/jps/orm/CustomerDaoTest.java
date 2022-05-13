@@ -17,14 +17,14 @@ public class CustomerDaoTest {
 	CustomerDao customerDao;
     
 	private Customer createCustomer(String prefix) {
-		Customer Customer = new Customer();
-		return Customer;
+		Customer customer = new Customer(prefix);
+		return customer;
 	}
 	
 	public void addTwoCustomers() {
-		Customer first = createCustomer("firstDep");
+		Customer first = createCustomer("firstCustomer");
 		customerDao.addCustomer(first);
-		Customer second = createCustomer("secondDep");
+		Customer second = createCustomer("secondCustomer");
 		customerDao.addCustomer(second);
 	}
 

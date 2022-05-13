@@ -36,7 +36,6 @@ public class UserDaoTest {
 		user.setFirstname("tester");
 		user.setEmail("df@test.ste");
 		user.setPhoneNumber1("135425");
-		//user.setCustomer(creatCostomer("name"));
 		printUser(user);
 		return user;
 	}

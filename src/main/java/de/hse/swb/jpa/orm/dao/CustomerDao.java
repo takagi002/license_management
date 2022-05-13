@@ -45,7 +45,7 @@ public class CustomerDao {
     @Transactional
     public void removeAllCustomers() {
     	try {
-    	    Query del = em.createQuery("DELETE FROM Customer WHERE id >= 0");
+    		Query del = em.createQuery("DELETE FROM Customer WHERE id >= 0");
     	    del.executeUpdate();
 
     	} catch (SecurityException | IllegalStateException  e) {

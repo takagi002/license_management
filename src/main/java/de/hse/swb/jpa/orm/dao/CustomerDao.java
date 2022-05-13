@@ -18,8 +18,7 @@ public class CustomerDao {
 	
 	public List<Customer> getCustomers(){
 		TypedQuery<Customer> query = em.createQuery("SELECT c FROM Customer c", Customer.class);
-		List<Customer> results = query.getResultList();
-		return results;
+		return query.getResultList();
 	}
 	
 	public Customer getCustomer(long id) {
@@ -41,7 +40,6 @@ public class CustomerDao {
     @Transactional
     public void removeUser(Customer Customer) {
     	em.remove(Customer);
-    	return;
     }
     
     @Transactional
@@ -53,6 +51,5 @@ public class CustomerDao {
     	} catch (SecurityException | IllegalStateException  e) {
     	    e.printStackTrace();
     	}
-    	return;
     }
 }

@@ -19,8 +19,7 @@ public class ContractDao {
 	
 	public List<Contract> getContracts(){
 		TypedQuery<Contract> query = em.createQuery("SELECT c FROM Contract c", Contract.class);
-		List<Contract> results = query.getResultList();
-		return results;
+		return query.getResultList();
 	}
 	
 	public Contract getContract(Long id) {
@@ -32,8 +31,7 @@ public class ContractDao {
 	   			 "SELECT contr FROM Contract AS contr JOIN contr.User users WHERE users.userId = :USER", 
 	   			 Contract.class);
 	   	 query.setParameter("USER",user.getId());
-	   	 List<Contract> results = query.getResultList();
-	   	 return results;
+	   	 return query.getResultList();
 	   }
 
     @Transactional
@@ -76,7 +74,5 @@ public class ContractDao {
     	} catch (SecurityException | IllegalStateException  e) {
     	    e.printStackTrace();
     	}
-
-    	return;
     }
 }

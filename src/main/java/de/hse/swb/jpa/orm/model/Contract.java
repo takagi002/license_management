@@ -8,7 +8,6 @@ import javax.persistence.*;
 @Table(name = "Contract")
 public class Contract {
 	@Id
-    //@SequenceGenerator(name = "conSeq", sequenceName = "ZSEQ_CON_ID", allocationSize = 1, initialValue = 1)
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "contractId", nullable = false, unique = true)
     private Long id;

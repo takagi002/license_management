@@ -21,14 +21,6 @@ public class UserDaoTest {
 	@Inject
     UserDao userdao;
 	
-	public Customer creatCostomer(String name) {
-		Customer c = new Customer(name);
-		c.setCustomerId(new Long(1));
-		c.setAdresse("sdf");
-		c.setDepartment("gh");
-		return c;
-	}
-	
 	private User createUser(String username) {
 		User user = new User(username);
 		user.setPassword("xyz");

@@ -32,8 +32,8 @@ public class ContractDao {
 	   			 Contract.class);
 	   	 query.setParameter("USER",user.getId());
 	   	 return query.getResultList();
-	   }
-
+	}
+	
     @Transactional
     public Contract save(Contract contract) {
     	if (contract.getContractId() != null) {

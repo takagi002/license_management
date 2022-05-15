@@ -37,13 +37,21 @@ public class UserDaoTest {
 	}
 	
 	@Test
-	void addUser_1() {
+	void addUser() {
 		User firstPerson = createUser("first");
 		userdao.save(firstPerson);
 		List<User> users = userdao.getUsers();
 		assertEquals(users.size(),1);
 		printUser(users.get(0));
 		
+	}
+	
+	@Test
+	void loginTest(){
+		User firstPerson = createUser("first");
+		userdao.save(firstPerson);
+		User logedIn = userdao.login("first", "password");
+		assertEquals(logedIn, null);
 	}
 
 	private void printUser(User user) {

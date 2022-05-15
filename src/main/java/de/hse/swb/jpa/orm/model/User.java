@@ -119,6 +119,11 @@ public class User {
 		this.isAdmin = isAdmin;
 	}
 	
+	public String getPassword() {
+		return this.password;
+		
+	}
+	
 	public void setPassword(String pass) {
 		this.password = pass;
 	}

@@ -10,7 +10,7 @@ public class Contract {
 	@Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "contractId", nullable = false, unique = true)
-    private Long id;
+    private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name = "customerId", referencedColumnName = "customerId", nullable = false)
@@ -42,14 +42,14 @@ public class Contract {
 	@Column(name = "ipV4Adress3", columnDefinition = "VARCHAR(16) NULL")
     private String ipV4Adress3;
 	
-	@Column(name = "feature1", columnDefinition = "MEDIUMINT NOT NULL")
-    private String feature1;
+	@Column(name = "feature1", columnDefinition = "INT NOT NULL")
+    private int feature1;
 	
-	@Column(name = "feature2", columnDefinition = "MEDIUMINT NOT NULL")
-    private String feature2;
+	@Column(name = "feature2", columnDefinition = "INT NOT NULL")
+    private int feature2;
 	
-	@Column(name = "feature3", columnDefinition = "MEDIUMINT NOT NULL")
-    private String feature3;
+	@Column(name = "feature3", columnDefinition = "INT NOT NULL")
+    private int feature3;
 
 	public Contract() {}
 	
@@ -57,11 +57,11 @@ public class Contract {
 		this.customer = customer;
 	}
 	
-	public Long getContractId() {
+	public long getContractId() {
 		return id;
 	}
 
-	public void setContractId(Long id) {
+	public void setContractId(long id) {
 		this.id = id;
 	}
 
@@ -137,27 +137,27 @@ public class Contract {
 		this.ipV4Adress3 = ipV4Adress3;
 	}
 
-	public String getFeature1() {
+	public int getFeature1() {
 		return feature1;
 	}
 
-	public void setFeature1(String feature1) {
+	public void setFeature1(int feature1) {
 		this.feature1 = feature1;
 	}
 
-	public String getFeature2() {
+	public int getFeature2() {
 		return feature2;
 	}
 
-	public void setFeature2(String feature2) {
+	public void setFeature2(int feature2) {
 		this.feature2 = feature2;
 	}
 
-	public String getFeature3() {
+	public int getFeature3() {
 		return feature3;
 	}
 
-	public void setFeature3(String feature3) {
+	public void setFeature3(int feature3) {
 		this.feature3 = feature3;
 	}
 }

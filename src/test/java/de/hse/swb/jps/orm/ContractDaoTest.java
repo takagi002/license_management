@@ -7,10 +7,13 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.hse.swb.jpa.orm.dao.ContractDao;
+import de.hse.swb.jpa.orm.dao.UserDao;
 import de.hse.swb.jpa.orm.model.Contract;
 import de.hse.swb.jpa.orm.model.Customer;
 import de.hse.swb.jpa.orm.model.User;
@@ -20,6 +23,9 @@ import io.quarkus.test.junit.QuarkusTest;
 public class ContractDaoTest {
 	@Inject
 	ContractDao contractdao;
+	
+	@Inject
+	UserDao userdao;
     
 	private Contract createContract() {
 		Customer customer = new Customer("customer1");
@@ -35,9 +41,9 @@ public class ContractDaoTest {
 		contract.setEndDate(new Date(new java.util.Date().getTime()));
 		contract.setLicenseKey("larfai8rgvinev");
 		contract.setIpV4Adress1("192.0.2.146");
-		contract.setFeature1("feature 1");
-		contract.setFeature1("feature 2");
-		contract.setFeature1("feature 3");		
+		contract.setFeature1(45);
+		contract.setFeature1(50);
+		contract.setFeature1(98);		
 		return contract;
 	}
 	
@@ -45,6 +51,8 @@ public class ContractDaoTest {
 		Contract first = createContract();
 		contractdao.save(first);
 		Contract second = createContract();
+		second.setUser1(createUserTest("user3"));
+		second.setUser2(createUserTest("user4"));
 		contractdao.save(second);
 	}
 	
@@ -66,10 +74,12 @@ public class ContractDaoTest {
 //		}
 	}
 	
-	@BeforeEach
+	@BeforeEach @AfterEach
 	public void clearAllFromDatabase() {
 		contractdao.removeAllContracts();
+		userdao.removeAllUsers();
 	}
+	
 	
 	@Test
 	void addContract_1() {

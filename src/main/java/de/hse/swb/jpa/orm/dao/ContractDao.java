@@ -36,7 +36,7 @@ public class ContractDao {
 	
     @Transactional
     public Contract save(Contract contract) {
-    	if (contract.getContractId() != null) {
+    	if (contract.getContractId() != 0) {
     		contract = em.merge(contract);
     	} else {
     		em.persist(contract);

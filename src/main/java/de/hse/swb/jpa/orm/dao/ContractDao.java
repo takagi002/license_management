@@ -28,7 +28,7 @@ public class ContractDao {
 	
 	public List<Contract> getContracts(User user) {
 	   	 TypedQuery<Contract> query = em.createQuery(
-	   			 "SELECT contr FROM Contract AS contr JOIN contr.User users WHERE users.userId = :USER", 
+	   			 "SELECT contr FROM Contract contr JOIN contr.User users WHERE users.userId = :USER", 
 	   			 Contract.class);
 	   	 query.setParameter("USER",user.getId());
 	   	 return query.getResultList();
@@ -36,7 +36,7 @@ public class ContractDao {
 	
     @Transactional
     public Contract save(Contract contract) {
-    	if (contract.getContractId() != 0) {
+    	if (contract.getContractId() != null) {
     		contract = em.merge(contract);
     	} else {
     		em.persist(contract);
@@ -45,8 +45,8 @@ public class ContractDao {
     }
 
     @Transactional
-    public void removeContract(Contract Contract) {
-    	em.remove(Contract);
+    public void removeContract(Contract contract) {
+    	em.remove(contract);
     }
     
     @Transactional

@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.hse.swb.jpa.orm.dao.CustomerDao;
+import de.hse.swb.jpa.orm.dao.UserDao;
+
 import de.hse.swb.jpa.orm.model.Customer;
 import io.quarkus.test.junit.QuarkusTest;
 
@@ -17,6 +19,9 @@ import io.quarkus.test.junit.QuarkusTest;
 public class CustomerDaoTest {
 	@Inject
 	CustomerDao customerDao;
+	
+	@Inject
+	UserDao userDao;
     
 	private Customer createCustomer(String prefix) {
 		Customer customer = new Customer(prefix);
@@ -45,6 +50,7 @@ public class CustomerDaoTest {
 	
 	@BeforeEach
 	public void clearAllFromDatabase() {
+		userDao.removeAllUsers();
 		customerDao.removeAllCustomers();
 	}
 	

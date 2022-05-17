@@ -19,9 +19,6 @@ import io.quarkus.test.junit.QuarkusTest;
 public class CustomerDaoTest {
 	@Inject
 	CustomerDao customerDao;
-	
-	@Inject
-	UserDao userDao;
     
 	private Customer createCustomer(String prefix) {
 		Customer customer = new Customer(prefix);
@@ -49,8 +46,7 @@ public class CustomerDaoTest {
 	}
 	
 	@BeforeEach
-	public void clearAllFromDatabase() {
-		userDao.removeAllUsers();
+	public void clearDatabase() {
 		customerDao.removeAllCustomers();
 	}
 	

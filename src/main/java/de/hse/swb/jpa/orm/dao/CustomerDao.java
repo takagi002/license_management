@@ -32,13 +32,13 @@ public class CustomerDao {
     } 
     
     @Transactional
-    public Customer updateUser(Customer Customer) {
+    public Customer updateCustomer(Customer Customer) {
     	em.merge(Customer);
     	return Customer;
     }
 
     @Transactional
-    public void removeUser(Customer Customer) {
+    public void removeCustomer(Customer Customer) {
     	em.remove(Customer);
     }
     

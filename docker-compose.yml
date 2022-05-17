@@ -9,7 +9,7 @@ services:
       - '3306:3306'
     environment:
        MYSQL_ROOT_PASSWORD: '`Yp|?!.5L0RH6%~6|Li1tlsJJo2|m|'
-       MYSQL_DATABASE: 'db'
+       MYSQL_DATABASE: 'license'
        MYSQL_USER: 'user'
        MYSQL_PASSWORD: 'AHcJ!SHed8?fIMla.eCmqxtpG1vhS0z_'
        MYSQL_ROOT_HOST: '%'

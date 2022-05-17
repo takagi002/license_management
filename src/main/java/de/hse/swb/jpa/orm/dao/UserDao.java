@@ -82,9 +82,6 @@ public class UserDao {
     public User login(String username, String password) {
     	User user = getUserByUsername(username);
     	
-    	String passwordHash = hashPassword(password);
-	    System.out.println(passwordHash);
-    	
     	if(user.getPassword().equals(hashPassword(password))) {
     		return user;
     	}

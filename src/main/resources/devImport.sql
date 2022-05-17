@@ -33,7 +33,7 @@ insert into User (name, firstname, username, password, email, phoneNumber1, phon
 
 -- cerf
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("thirder", "three", "thth000", "5f4dcc3b5aa765d61d8327deb882cf99", "thth000@test.test", "+009990000343", "6553457777", 3, false);
+	values ("thirder", "third", "thth000", "5f4dcc3b5aa765d61d8327deb882cf99", "thth000@test.test", "+009990000343", "6553457777", 3, false);
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
 	values ("forer", "fore", "fofon000", "5f4dcc3b5aa765d61d8327deb882cf99", "fofon000@test.test", "+009990000343", "6553457777", 3, false);
 
@@ -69,6 +69,6 @@ insert into User (name, firstname, username, password, email, phoneNumber1, phon
 
 -- no customer
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("admin", "admin", "adad000", "password", "adad000@test.test", "+009990000343", "6553457777", null, true);
+	values ("admin", "admin", "adad000", "5f4dcc3b5aa765d61d8327deb882cf99", "adad000@test.test", "+009990000343", "6553457777", null, true);
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("bob", "bob", "bobo000", "password", "bobo000@test.test", "+009990000343", "6553457777", null, false);
+	values ("bob", "bob", "bobo000", "5f4dcc3b5aa765d61d8327deb882cf99", "bobo000@test.test", "+009990000343", "6553457777", null, false);

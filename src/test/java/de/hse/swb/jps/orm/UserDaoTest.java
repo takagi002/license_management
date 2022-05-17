@@ -8,9 +8,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.hse.swb.jpa.orm.dao.UserDao;
@@ -75,6 +73,7 @@ public class UserDaoTest {
 		userdao.add(user);
 		
 		user.setEmail("ding@test.test");
+		userdao.update(user);
 		
 		User result = userdao.getUser(1);
 		assertNotEquals("test0@test.test", result.getEmail());

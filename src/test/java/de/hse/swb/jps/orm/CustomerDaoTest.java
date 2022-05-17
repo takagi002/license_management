@@ -10,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.hse.swb.jpa.orm.dao.CustomerDao;
-import de.hse.swb.jpa.orm.dao.UserDao;
 
 import de.hse.swb.jpa.orm.model.Customer;
 import io.quarkus.test.junit.QuarkusTest;

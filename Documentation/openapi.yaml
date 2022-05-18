@@ -162,7 +162,7 @@ paths:
     post:
       tags:
         - login
-      summary: Authentication of User
+      summary: Authentication of a user.
       description: Returns a API token after authentication.
       operationId: login
       requestBody:
@@ -202,7 +202,7 @@ paths:
     post:
       tags:
         - users
-      summary: Add a user
+      summary: Add a user.
       description: Returns the added user.
       operationId: addUser
       requestBody:
@@ -318,7 +318,7 @@ paths:
     post:
       tags:
         - contracts
-      summary: Add a contract
+      summary: Add a contract.
       description: Returns the added contract.
       operationId: addContract
       requestBody:
@@ -335,7 +335,7 @@ paths:
     patch:
       tags:
         - contracts
-      summary: Updates a contract
+      summary: Updates a contract.
       description: This can only be done by the logged in user.
       operationId: updateContract
       parameters:
@@ -364,7 +364,7 @@ paths:
     delete:
       tags:
         - contracts
-      summary: Removes a contract
+      summary: Removes a contract.
       description: This can only be done by the logged in admin user.
       operationId: deleteContract
       parameters:

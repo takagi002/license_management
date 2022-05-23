@@ -67,6 +67,15 @@ public class UserResource {
     }
     
     @DELETE
+    @Path("id")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void deleteUser(Long id) {
+    	User user = userdao.getUser(id);
+    	userdao.removeUser(user);
+    }
+    
+    
+    @DELETE
     @Produces(MediaType.APPLICATION_JSON)
     public void removeAllUsers() {
     	userdao.removeAllUsers();

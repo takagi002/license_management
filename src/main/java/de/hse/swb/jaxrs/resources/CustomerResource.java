@@ -69,6 +69,14 @@ public class CustomerResource {
 	    }
 	    
 	    @DELETE
+	    @Path("id")
+	    @Produces(MediaType.APPLICATION_JSON)
+	    public void deleteCustomer(Long id) {
+	    	Customer customer = customerDao.getCustomer(id);
+	    	customerDao.removeCustomer(customer);
+	    }
+	    
+	    @DELETE
 	    @Produces(MediaType.APPLICATION_JSON)
 	    public void removeAllCustomers() {
 	    	customerDao.removeAllCustomers();

@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 
 import de.hse.swb.jpa.orm.dao.ContractDao;
 import de.hse.swb.jpa.orm.model.Contract;
+import de.hse.swb.jpa.orm.model.User;
 import io.vertx.core.http.HttpServerRequest;
 
 @RequestScoped
@@ -64,6 +65,15 @@ public class ContractResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Contract addContract(Contract Contract) {
         return contractDao.save(Contract);
+    }
+    
+    
+    @DELETE
+    @Path("id")
+    @Produces(MediaType.APPLICATION_JSON)
+    public void deleteContract(Long id) {
+    	Contract contract = contractDao.getContract(id);
+    	contractDao.removeContract(contract);
     }
     
     @DELETE

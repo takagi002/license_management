@@ -1,4 +1,4 @@
--- Add sampel Customers
+-- Add sample Customers
 INSERT INTO Customer (name, department, adresse) 
 	VALUES ( "Cool Inc.", "Trains", "26 County Road 45 N, Nashville,ar, 31852  United States");
 INSERT INTO Customer (name, department, adresse) 
@@ -14,11 +14,9 @@ INSERT INTO Customer (name, department, adresse)
 INSERT INTO Customer (name, department, adresse) 
 	VALUES ( "Brum AG", "Cars", "Quelkhorner Straße 9, 28325  Osterholz, Germany");
 INSERT INTO Customer (name, department, adresse) 
-	VALUES ( "トラクター", "Farming", "〒300-0068茨城県土浦市西並木町23番3號");
-INSERT INTO Customer (name, department, adresse) 
 	VALUES ( "NoCear", "Space", "2 466th Avenue, Stuart,ne, 68380  United States");
 
--- Add sampel users
+-- Add sample users
 -- Cool Inc. 
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
 	values ("oneoner", "one", "onon000", "5f4dcc3b5aa765d61d8327deb882cf99", "onon000@test.test", "+009990000343", "6553457777", 1, false);
@@ -58,14 +56,6 @@ insert into User (name, firstname, username, password, email, phoneNumber1, phon
 	values ("niner", "nine", "nini000", "5f4dcc3b5aa765d61d8327deb882cf99", "nini000@test.test", "+009990000343", null, 7, false);
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
 	values ("tener", "ten", "tete000", "5f4dcc3b5aa765d61d8327deb882cf99", "tete000@test.test", "+009990000343", "6553457777", 7, false);
-
--- トラクター  
-insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("elefener", "elefen", "elel000", "5f4dcc3b5aa765d61d8327deb882cf99", "elel000@test.test", "+009990000343", "6553457777", 8, false);
-insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("twelver", "twelf", "twtw002", "5f4dcc3b5aa765d61d8327deb882cf99", "twtw002@test.test", "+009990000343", "6553457777", 8, false);
-insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("dud", "admin", "duad000", "5f4dcc3b5aa765d61d8327deb882cf99", "duad000@test.test", "+009990000343", "6553457777", 8, true);
 
 -- no customer
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)

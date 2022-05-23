@@ -21,11 +21,11 @@ public class Customer {
 	@Column(name = "adresse", length=100, nullable = false)
     private String adresse;
 	
-	@OneToMany(mappedBy = "customer")
-	private List<User> users;
+	//@OneToMany(mappedBy = "customer")
+	//private List<User> users;
 	
-	@OneToMany(mappedBy = "customer")
-	private List<Contract> contracts;
+	//@OneToMany(mappedBy = "customer")
+	//private List<Contract> contracts;
 	
 	public Customer() {}
 
@@ -65,7 +65,7 @@ public class Customer {
 		this.adresse = adresse;
 	}
 
-	public List<User> getUsers() {
+	/*public List<User> getUsers() {
 		return users;
 	}
 
@@ -79,5 +79,5 @@ public class Customer {
 
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
-	}
+	}*/
 }

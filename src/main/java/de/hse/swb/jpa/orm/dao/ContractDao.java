@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 
 import de.hse.swb.jpa.orm.model.Contract;
+import de.hse.swb.jpa.orm.model.Customer;
 import de.hse.swb.jpa.orm.model.User;
 
 @ApplicationScoped
@@ -41,6 +42,18 @@ public class ContractDao {
     	} else {
     		em.persist(contract);
     	}
+    	return contract;
+    }
+    
+	@Transactional 
+    public Contract addContract(Contract contract) {
+    	em.persist(contract);
+    	return contract;
+    } 
+    
+    @Transactional
+    public Contract updateContract(Contract contract) {
+    	em.merge(contract);
     	return contract;
     }
 

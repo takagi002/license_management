@@ -1,0 +1,541 @@
+openapi: 3.0.1
+info:
+  title: License Management
+  description: 'Student project'
+  contact:
+    email: rubait01@hs-esslingen.de
+  version: 1.0.0
+servers:
+- url: https://localhost:8080/api/
+tags:
+- name: customers
+  description: Retrieve and update customer information.
+- name: users
+  description: Retrieve and update user information.
+- name: contracts
+  description: Retrieve and update contract information. 
+paths:
+  /customers:
+    get:
+      tags:
+        - customers
+      summary: Returns a list of all customers.
+      description: Returns a list of all customers.
+      operationId: getCustomers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customers'
+    post:
+      tags:
+        - customers
+      summary: Add a customer.
+      description: Returns a list of all customers.
+      operationId: addCustomers
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /customers/{customerId}:
+    get:
+      tags:
+        - customers
+      summary: Returns a customer.
+      description: Returns the specified customer.
+      operationId: getCustomer
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: customer not found
+          content: {}
+    patch:
+      tags:
+        - customers
+      summary: Updates a customer.
+      description: This can only be done by the logged in user.
+      operationId: updateCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: id of customer
+        required: true
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: Customer not found
+          content: {}
+    delete:
+      tags:
+        - customers
+      summary: Removes a customer.
+      description: This can only be done by the logged in user.
+      operationId: deleteCustomer
+      parameters:
+      - name: customerId
+        in: path
+        description: id of customer
+        required: true
+        schema:
+          type: number
+      responses:
+        default:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: Customer not found
+          content: {}
+  /customers/{customerId}/users:
+    get:
+      tags:
+        - customers
+      summary: Returns list of users belonging to a customer.
+      description: Returns a list of all customer's users.
+      operationId: getCustomerUsers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: Customer not found
+          content: {}
+  /customers/{customerId}/contracts:
+    get:
+      tags:
+        - customers
+      summary: Returns list of contracts belonging to a customer.
+      description: Returns a list of all customer's contracts.
+      operationId: addCustomers
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contracts'
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: customer not found
+          content: {}
+  
+  /login:
+    post:
+      tags:
+        - login
+      summary: Authentication of a user.
+      description: Returns a API token after authentication.
+      operationId: login
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Login'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+
+        400:
+          description: invalid login details    
+          content: {}
+  /users:
+    get:
+      tags:
+      - users
+      summary: Returns a list of all users.
+      operationId: getUsers
+      parameters:
+      - name: userId
+        in: path
+        description: The id of a user.
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Users'
+    post:
+      tags:
+        - users
+      summary: Add a user.
+      description: Returns the added user.
+      operationId: addUser
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /users/{userId}:
+    get:
+      tags:
+        - users
+      summary: Returns the specified user.
+      operationId: getUser
+      parameters:
+      - name: userId
+        in: path
+        description: The id of a user
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: User not found
+          content: {}
+    patch:
+      tags:
+        - users
+      summary: Updates a user.
+      description: This can only be done by the logged in user.
+      operationId: updateUser
+      parameters:
+      - name: userId
+        in: path
+        description: id of a user
+        required: true
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: User not found
+          content: {}
+    delete:
+      tags:
+        - users
+      summary: Removes a user.
+      description: This can only be done by the logged in user.
+      operationId: deleteUser
+      parameters:
+      - name: userId
+        in: path
+        description: id of user
+        required: true
+        schema:
+          type: number
+      responses:
+        default:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: User not found
+          content: {}
+  
+  /contracts:
+    get:
+      tags:
+      - contracts
+      summary: Returns a list of contracts.
+      operationId: getContracts
+      parameters:
+      - name: contractId
+        in: path
+        description: successful operation
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contracts'
+
+    post:
+      tags:
+        - contracts
+      summary: Add a contract.
+      description: Returns the added contract.
+      operationId: addContract
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+  /contracts/{contractId}:
+    patch:
+      tags:
+        - contracts
+      summary: Updates a contract.
+      description: This can only be done by the logged in user.
+      operationId: updateContract
+      parameters:
+      - name: contractId
+        in: path
+        description: id of room
+        required: true
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: Contract not found
+          content: {}
+    delete:
+      tags:
+        - contracts
+      summary: Removes a contract.
+      description: This can only be done by the logged in admin user.
+      operationId: deleteContract
+      parameters:
+      - name: contractId
+        in: path
+        description: id of contract
+        required: true
+        schema:
+          type: number
+      requestBody:
+        required: true
+        content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Contract'
+      responses:
+        default:
+          description: successful operation
+          content: {}
+        400:
+          description: Invalid Id supplied
+          content: {}
+        404:
+          description: Contract not found
+          content: {}
+
+components:
+  schemas:
+
+    Customers:
+      type: array
+      items: 
+        $ref: '#/components/schemas/CustomerSimple'
+
+    CustomerSimple:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        address:
+          type: string
+        addressOptional: 
+          type: string
+      
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        address:
+          type: string
+        addressOptional: 
+          type: string
+        department:
+          type: string
+    
+    Users:
+      type: array
+      items:
+        $ref: '#/components/schemas/UserSimple'
+
+    UserSimple:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        firstname:
+          type: string
+        email:
+          type: string
+        customerId:
+          type: integer
+          format: int64
+        customerName:
+          type: string
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        firstname:
+          type: string
+        username:
+          type: string
+        password:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        phoneNumberOptional:
+          type: string
+        isAdmin:
+         type: boolean
+        customerId:
+          type: integer
+          format: int64
+        customerName:
+          type: string
+    
+    Contracts:
+      type: array
+      items:
+        $ref: '#/components/schemas/ContractSimple'
+
+    ContractSimple:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        startDate:
+          type: string
+        endDate:
+          type: string
+        version:
+          type: string
+        customerId:
+          type: integer
+          format: int64
+        customerName:
+          type: string
+        
+    Contract:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        customer:
+          $ref: '#/components/schemas/CustomerSimple'
+        startDate:
+          type: string
+        endDate:
+          type: string
+        licenseKey:
+          type: string
+        version:
+          type: string
+        features:
+          type: array
+          items:
+            type: integer
+        ipv4address1:
+          type: string
+        ipv4address2:
+          type: string
+        ipv4address3:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserSimple'
+ 
+    Login:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string

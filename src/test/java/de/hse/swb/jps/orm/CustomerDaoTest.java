@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import de.hse.swb.jpa.orm.dao.CustomerDao;
 
 import de.hse.swb.jpa.orm.model.Customer;
+import de.hse.swb.jpa.orm.model.User;
 import io.quarkus.test.junit.QuarkusTest;
 
 @QuarkusTest
@@ -56,5 +57,16 @@ public class CustomerDaoTest {
 		List<Customer> deps = customerDao.getCustomers();
 		assertEquals(deps.size(),1);
 		printCustomer(deps.get(0));
+	}
+	
+	@Test
+	void removeCustomer() {
+		Customer customer = createCustomer("customer");
+		customerDao.addCustomer(customer);
+		
+		customerDao.removeCustomer(customer);
+		
+		List<Customer> results = customerDao.getCustomers();
+		assertEquals(0, results.size());
 	}
 }

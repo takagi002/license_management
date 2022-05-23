@@ -81,13 +81,13 @@ public class UserDaoTest {
 	
 	@Test
 	void testRemoveUser() {
-		List<User> users = createMultipleUsers(7);
-		users.forEach((user) -> userdao.add(user));
+		User user = createUser(0);
+		userdao.add(user);
 		
-		userdao.removeUser(users.get(0));
+		userdao.removeUser(user);
 		
 		List<User> results = userdao.getUsers();
-		assertEquals(6, results.size());
+		assertEquals(0, results.size());
 	}
 	
 	@Test
@@ -123,7 +123,7 @@ public class UserDaoTest {
 		User user = createUser(0);
 		userdao.add(user);
 		
-		User result = userdao.getUser(1);
+		User result = userdao.getUser(user.getId());
 		assertEquals("test0", result.getUsername());
 	}
 	
@@ -132,8 +132,8 @@ public class UserDaoTest {
 		List<User> users = createMultipleUsers(6);
 		users.forEach((user) -> userdao.add(user));
 		
-		User result = userdao.getUser(3);
-		assertEquals("test2", result.getId());
+		User result = userdao.getUser(users.get(2).getId());
+		assertEquals("test2", result.getUsername());
 	}
 	
 	@Test

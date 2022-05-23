@@ -46,7 +46,7 @@ public class ContractDao {
 
     @Transactional
     public void removeContract(Contract contract) {
-    	em.remove(contract);
+    	em.remove(em.merge(contract));
     }
     
     @Transactional

@@ -39,7 +39,7 @@ public class CustomerDao {
 
     @Transactional
     public void removeCustomer(Customer Customer) {
-    	em.remove(Customer);
+    	em.remove(em.merge(Customer));
     }
     
     @Transactional

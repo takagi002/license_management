@@ -7,7 +7,14 @@ const styles = theme => ({});
 const theUrl ="http://localhost:8080/";
 
 class Users extends React.Component {
-	customers = [];
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			customers: [],
+			users: [],
+		}
+	}
 	
 	status( response ) {
         if ( response.status >= 200 && response.status < 300 ) {
@@ -17,39 +24,49 @@ class Users extends React.Component {
         }
     }
 
-	componentDidUpdate(){
-		this.customers = this.fetchCustomers()
+	componentDidMount(){
+		this.fetchCustomers()
+		this.fetchUsers()
 	}
 
+
 	fetchCustomers(){
-		return fetch( this.props.url + "customers")
+		fetch( this.props.url + "customers")
             .then( this.status )
             .then( (response) => { return response.json() } )
+			.then( (json) => {this.setState({customers: json})})
             .catch( function( error ) {
                 console.log( 'Request failed', error );
             });
 	}
 	
 	fetchUsers(){
-		
+		fetch(this.props.url + "users")
+			.then( this.status )
+			.then( (response) => {return response.json() } )
+			.then( (json) => {this.setState({users: json})})
+			.catch( function( error ) {
+                console.log( 'Request failed', error );
+            });
 	}
 	
 	render() {
 		return (
 			<div>{
-				this.customers.map((customer, index) => {
+				this.state.customers.map((customer, index) => {
 					return (
-					<div class="customerGrid">
+					<div class="customerGrid" key={index}>
 						<span>{customer.name}</span>
-						<div>
-							for(let user of users){
-								<div class="userGrid">
-									<div>User Name</div>
-									<div>UserEmail</div>
+						<div>{
+							this.state.users.map((user, index, customer) => {
+								if (user.customer.id == customer.id) {return (
+								<div class="userGrid" key={index}>
+									<div>{user.firstname} {user.name}</div>
+									<div>{user.email}</div>
 									<button>Edit</button>
 									<button>Delete</button>
 								</div>
-							}
+							)}})}
 						</div>
 					</div>
 				)})}

@@ -58,8 +58,9 @@ class Users extends React.Component {
 					<div class="customerGrid" key={index}>
 						<span>{customer.name}</span>
 						<div>{
-							this.state.users.map((user, index, customer) => {
-								if (user.customer.id == customer.id) {return (
+							this.state.users.map((user, index) => {
+								if (user.customer.id == customer.id)
+								{ return (
 								<div class="userGrid" key={index}>
 									<div>{user.firstname} {user.name}</div>
 									<div>{user.email}</div>

@@ -153,4 +153,10 @@
 .addButton span:first-Child {
   -webkit-transform: rotate(90deg);
           transform: rotate(90deg); }
-
+.customerGrid {
+	display: grid;
+	grid-template-columns: 1fr 2fr;}
+	
+.userGrid {
+	display: grid;
+	grid-template-columns: auto auto auto auto;}

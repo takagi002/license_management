@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 
 import Login from './Login';
-import Posts from './Posts'
+import Users from './Users';
 
 const styles = theme => ({
 	center: {
@@ -13,7 +13,7 @@ const styles = theme => ({
 	},
 });
 
-const theUrl ="http://localhost:8080/step4/";
+const theUrl ="http://localhost:8080/";
 
 class App extends React.Component {
 
@@ -31,7 +31,7 @@ class App extends React.Component {
 	render() {
 		if (this.state.loggedIn) {
 			return (
-			<Posts url={theUrl} ></Posts> 
+			<Users url={theUrl} ></Users> 
 			);
 		} else {
 			return (

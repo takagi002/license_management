@@ -61,14 +61,14 @@ insert into User (name, firstname, username, password, email, phoneNumber1, phon
 
 -- トラクター  
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("elefener", "elefen", "elel000", "password", "elel000@test.test", "+009990000343", "6553457777", 8, false);
+	values ("elefener", "elefen", "elel000", "5f4dcc3b5aa765d61d8327deb882cf99", "elel000@test.test", "+009990000343", "6553457777", 8, false);
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("twelver", "twelf", "twtw002", "password", "twtw002@test.test", "+009990000343", "6553457777", 8, false);
+	values ("twelver", "twelf", "twtw002", "5f4dcc3b5aa765d61d8327deb882cf99", "twtw002@test.test", "+009990000343", "6553457777", 8, false);
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("dud", "admin", "duad000", "password", "duad000@test.test", "+009990000343", "6553457777", 8, true);
+	values ("dud", "admin", "duad000", "5f4dcc3b5aa765d61d8327deb882cf99", "duad000@test.test", "+009990000343", "6553457777", 8, true);
 
 -- no customer
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
-	values ("admin", "admin", "adad000", "5f4dcc3b5aa765d61d8327deb882cf99", "adad000@test.test", "+009990000343", "6553457777", null, true);
+	values ("admin", "admin", "admin", "5f4dcc3b5aa765d61d8327deb882cf99", "adad000@test.test", "+009990000343", "6553457777", null, true);
 insert into User (name, firstname, username, password, email, phoneNumber1, phoneNumber2, customerId, isAdmin)
 	values ("bob", "bob", "bobo000", "5f4dcc3b5aa765d61d8327deb882cf99", "bobo000@test.test", "+009990000343", "6553457777", null, false);

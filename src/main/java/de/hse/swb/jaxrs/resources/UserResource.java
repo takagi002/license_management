@@ -80,5 +80,13 @@ public class UserResource {
     public void removeAllUsers() {
     	userdao.removeAllUsers();
     }
+    
+    @POST
+    @Path("login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public User login (User user) {
+        return userdao.login(user.getUsername(), user.getPassword());
+    }
 	
 }

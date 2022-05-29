@@ -160,3 +160,17 @@
 .userGrid {
 	display: grid;
 	grid-template-columns: auto auto auto auto;}
+	
+.customerDetailGrid {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto auto;
+}
+
+.contractGrid {
+	display: grid;
+	grid-template-columns: auto auto auto auto auto auto;
+}
+
+.popup {
+	display:absolute;
+}

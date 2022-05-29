@@ -13,13 +13,13 @@ const styles = theme => ({
 
 const theUrl ="http://localhost:8080/";
 
-class Users extends React.Component {
+class Contracts extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
 			customers: [],
-			users: [],
+			contracts: [],
 		}
 	}
 	
@@ -33,7 +33,7 @@ class Users extends React.Component {
 
 	componentDidMount(){
 		this.fetchCustomers()
-		this.fetchUsers()
+		this.fetchContracts()
 	}
 
 
@@ -47,8 +47,8 @@ class Users extends React.Component {
             });
 	}
 	
-	fetchUsers(){
-		fetch(this.props.url + "users")
+	fetchContracts(){
+		fetch(this.props.url + "contracts")
 			.then( this.status )
 			.then( (response) => {return response.json() } )
 			.then( (json) => {this.setState({users: json})})
@@ -65,15 +65,17 @@ class Users extends React.Component {
 					<div class="customerGrid" key={index}>
 						<span>{customer.name}</span>
 						<div>{
-							this.state.users.map((user, index) => {
-								if (user.customer)
+							this.state.contracts.map((contract, index) => {
+								if (customer.id === contract.customer.id)
 								{
 								return (
-								<div class="userGrid" key={index}>
-									<div>{user.firstname} {user.name}</div>
-									<div>{user.email}</div>
+								<div class="contractGrid" key={index}>
+									<div>{contract.startDate}</div>
+									<div>{contract.endDate}</div>
+									<div>{contract.endDate}</div>
 									<button>Edit</button>
 									<button>Delete</button>
+									<button>Details</button>
 								</div>
 							)}})}
 						</div>
@@ -84,4 +86,4 @@ class Users extends React.Component {
 	}
 }
 
-export default withStyles(styles)(Users);
+export default withStyles(styles)(Contracts);

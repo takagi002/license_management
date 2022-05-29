@@ -1,6 +1,6 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-
+import CustomerDetail from './CustomerDetail';
 
 const styles = theme => ({
 		center: {
@@ -13,13 +13,14 @@ const styles = theme => ({
 
 const theUrl ="http://localhost:8080/";
 
-class Users extends React.Component {
+class Customers extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
 			customers: [],
 			users: [],
+			editing = false,
 		}
 	}
 	
@@ -30,7 +31,11 @@ class Users extends React.Component {
             return Promise.reject( new Error( response.statusText ) )
         }
     }
-
+    
+    isEditing = () => {
+		this.setState({editing: true});
+	}
+    
 	componentDidMount(){
 		this.fetchCustomers()
 		this.fetchUsers()
@@ -56,27 +61,19 @@ class Users extends React.Component {
                 console.log( 'Request failed', error );
             });
 	}
-	
-	render() {
+    render(){
 		return (
 			<div>{
 				this.state.customers.map((customer, index) => {
 					return (
-					<div class="customerGrid" key={index}>
+					<div class="customerDetailGrid" key={index}>
 						<span>{customer.name}</span>
-						<div>{
-							this.state.users.map((user, index) => {
-								if (user.customer)
-								{
-								return (
-								<div class="userGrid" key={index}>
-									<div>{user.firstname} {user.name}</div>
-									<div>{user.email}</div>
-									<button>Edit</button>
-									<button>Delete</button>
-								</div>
-							)}})}
-						</div>
+						<span>{customer.adresse}</span>
+						<span>{customer.department}</span>
+						<button onClick={this.isEditing}>Edit</button>
+						<button>Delete</button>
+						<button>Contracts</button>
+						<button>Users</button>
 					</div>
 				)})}
 			</div>
@@ -84,4 +81,4 @@ class Users extends React.Component {
 	}
 }
 
-export default withStyles(styles)(Users);
+export default withStyles(styles)(Customers);

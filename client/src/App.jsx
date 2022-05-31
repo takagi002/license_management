@@ -1,10 +1,10 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 
-import Login from './Login';
-import Users from './Users';
-import Customers from './Customers';
-import Contracts from './Contracts';
+import Login from './login/Login';
+import Users from './users/Users';
+import Customers from './customers/Customers';
+import Contracts from './contracts/Contracts';
 
 const styles = theme => ({
 	center: {
@@ -33,7 +33,7 @@ class App extends React.Component {
 	render() {
 		if (this.state.loggedIn) {
 			return (
-			<Contracts url={theUrl} ></Contracts> 
+			<Customers url={theUrl}></Customers> 
 			);
 		} else {
 			return (

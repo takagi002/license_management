@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-
+import UserDetail from "./UserDetail";
+import {fetchCustomers, fetchUsers} from '../common/apiUtility';
 
 const styles = theme => ({
 		center: {
@@ -20,41 +21,19 @@ class Users extends React.Component {
 		this.state = {
 			customers: [],
 			users: [],
+			isEditing: false,
+			selectedUser: null,
 		}
 	}
 	
-	status( response ) {
-        if ( response.status >= 200 && response.status < 300 ) {
-            return Promise.resolve( response )
-        } else {
-            return Promise.reject( new Error( response.statusText ) )
-        }
-    }
+	openEditor = (user) => {
+		this.setState({editing: true});
+		this.setState({selectedUser: user})
+	}
 
 	componentDidMount(){
-		this.fetchCustomers()
-		this.fetchUsers()
-	}
-
-
-	fetchCustomers(){
-		fetch( this.props.url + "customers")
-            .then( this.status )
-            .then( (response) => { return response.json() } )
-			.then( (json) => {this.setState({customers: json})})
-            .catch( function( error ) {
-                console.log( 'Request failed', error );
-            });
-	}
-	
-	fetchUsers(){
-		fetch(this.props.url + "users")
-			.then( this.status )
-			.then( (response) => {return response.json() } )
-			.then( (json) => {this.setState({users: json})})
-			.catch( function( error ) {
-                console.log( 'Request failed', error );
-            });
+		fetchCustomers(this.props.url, (json) => {this.setState({customers: json})});
+		fetchUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
 	
 	render() {
@@ -72,13 +51,14 @@ class Users extends React.Component {
 								<div class="userGrid" key={index}>
 									<div>{user.firstname} {user.name}</div>
 									<div>{user.email}</div>
-									<button>Edit</button>
+									<button onClick={() => this.openEditor(user)}>Edit</button>
 									<button>Delete</button>
 								</div>
 							)}})}
 						</div>
 					</div>
 				)})}
+				<UserDetail currentUser={this.state.selectedUser} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);
 	}

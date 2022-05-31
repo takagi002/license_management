@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-
+import ContractDetails from "./ContractDetails";
+import {fetchCustomers, fetchContracts} from '../common/apiUtility';
 
 const styles = theme => ({
 		center: {
@@ -11,8 +12,6 @@ const styles = theme => ({
 	},
 });
 
-const theUrl ="http://localhost:8080/";
-
 class Contracts extends React.Component {
 	
 	constructor(props) {
@@ -20,43 +19,22 @@ class Contracts extends React.Component {
 		this.state = {
 			customers: [],
 			contracts: [],
+			isEditing: false,
+			selectedContract: null,
 		}
 	}
 	
-	status( response ) {
-        if ( response.status >= 200 && response.status < 300 ) {
-            return Promise.resolve( response )
-        } else {
-            return Promise.reject( new Error( response.statusText ) )
-        }
-    }
+
+	openEditor = (contract) => {
+		this.setState({isEditing: true});
+		this.setState({selectedContract: contract});
+	}
 
 	componentDidMount(){
-		this.fetchCustomers()
-		this.fetchContracts()
+		fetchCustomers(this.props.url, (json) => {this.setState({customers: json})});
+		fetchContracts(this.props.url, (json) => {this.setState({contracts: json})} );
 	}
 
-
-	fetchCustomers(){
-		fetch( this.props.url + "customers")
-            .then( this.status )
-            .then( (response) => { return response.json() } )
-			.then( (json) => {this.setState({customers: json})})
-            .catch( function( error ) {
-                console.log( 'Request failed', error );
-            });
-	}
-	
-	fetchContracts(){
-		fetch(this.props.url + "contracts")
-			.then( this.status )
-			.then( (response) => {return response.json() } )
-			.then( (json) => {this.setState({users: json})})
-			.catch( function( error ) {
-                console.log( 'Request failed', error );
-            });
-	}
-	
 	render() {
 		return (
 			<div>{
@@ -67,13 +45,12 @@ class Contracts extends React.Component {
 						<div>{
 							this.state.contracts.map((contract, index) => {
 								if (customer.id === contract.customer.id)
-								{
-								return (
+								{return (
 								<div class="contractGrid" key={index}>
 									<div>{contract.startDate}</div>
 									<div>{contract.endDate}</div>
 									<div>{contract.endDate}</div>
-									<button>Edit</button>
+									<button onClick={() => this.openEditor(contract)}>Edit</button>
 									<button>Delete</button>
 									<button>Details</button>
 								</div>
@@ -81,6 +58,7 @@ class Contracts extends React.Component {
 						</div>
 					</div>
 				)})}
+				<ContractDetails currentContract={this.selectedContract} isOpen={this.isEditing}></ContractDetails>
 			</div>
 		);
 	}

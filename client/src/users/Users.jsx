@@ -12,8 +12,6 @@ const styles = theme => ({
 	},
 });
 
-const theUrl ="http://localhost:8080/";
-
 class Users extends React.Component {
 	
 	constructor(props) {
@@ -27,7 +25,7 @@ class Users extends React.Component {
 	}
 	
 	openEditor = (user) => {
-		this.setState({editing: true});
+		this.setState({isEditing: true});
 		this.setState({selectedUser: user})
 	}
 

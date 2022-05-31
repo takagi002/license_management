@@ -26,9 +26,13 @@ class Customers extends React.Component {
 	}
 	
     
-    openEditor = (customer) => {
+    openEditor(customer) {
 		this.setState({isEditing: true});
 		this.setState({selectedCustomer: customer});
+	}
+	closeEditor() {
+		this.setState({isEditing: false});
+		this.setState({selectedCustomer: null});
 	}
     
 	componentDidMount(){
@@ -52,7 +56,7 @@ class Customers extends React.Component {
 						<button>Users</button>
 					</div>
 				)})}
-				<CustomerDetail currentCustomer={this.state.selectedCustomer} isOpen={this.state.isEditing}></CustomerDetail>
+				<CustomerDetail currentCustomer={this.state.selectedCustomer} isOpen={this.state.isEditing} handelClose={this.closeEditor}></CustomerDetail>
 			</div>
 		);
 	}

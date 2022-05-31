@@ -33,7 +33,7 @@ class App extends React.Component {
 	render() {
 		if (this.state.loggedIn) {
 			return (
-			<Customers url={theUrl}></Customers> 
+			<Users url={theUrl}></Users> 
 			);
 		} else {
 			return (

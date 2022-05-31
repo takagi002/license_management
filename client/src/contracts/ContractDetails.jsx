@@ -12,7 +12,6 @@ const styles = theme => ({
 	},
 });
 
-let currentContract;
 
 class ContractDetails extends React.Component {
 	
@@ -22,14 +21,14 @@ class ContractDetails extends React.Component {
 
 		}
 	}
-	
-	status( response ) {
-        if ( response.status >= 200 && response.status < 300 ) {
-            return Promise.resolve( response )
-        } else {
-            return Promise.reject( new Error( response.statusText ) )
-        }
-    }
+
+	handleSave(){
+		this.props.isOpen = false;
+	}
+
+	handelCancel() {
+		this.props.isOpen = false;
+	}
 	
 	render() {
 		return (

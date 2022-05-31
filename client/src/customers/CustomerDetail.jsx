@@ -21,7 +21,13 @@ class CustomerDetail extends React.Component {
 		}
 	}
 
-	handelclose() {}
+	handleSave() {
+		this.props.handelClose();
+	}
+
+	handelCancel() {
+		this.props.handelClose();
+	}
 		
 	render() {
 		return (
@@ -62,8 +68,8 @@ class CustomerDetail extends React.Component {
 							/>
 						</DialogContent>
 						<DialogActions>
-							<Button>Save</Button>
-							<Button>Cancel</Button>
+							<Button onClick={() => this.handleSave}>Save</Button>
+							<Button onClick={() => this.handelCancel}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
 				}

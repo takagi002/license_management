@@ -2,7 +2,9 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import CustomerDetail from './CustomerDetail';
 import {fetchCustomers, fetchUsers} from '../common/apiUtility';
-
+import { Button, Typography} from "@material-ui/core";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const styles = theme => ({
 		center: {
@@ -47,13 +49,14 @@ class Customers extends React.Component {
 				this.state.customers.map((customer, index) => {
 					return (
 					<div class="customerDetailGrid" key={index}>
-						<span>{customer.name}</span>
-						<span>{customer.adresse}</span>
-						<span>{customer.department}</span>
-						<button onClick={() => this.openEditor(customer)}>Edit</button>
-						<button>Delete</button>
-						<button>Contracts</button>
-						<button>Users</button>
+						<Typography variant="body1" gutterBottom>{customer.name}</Typography>
+						<Typography variant="body1" gutterBottom>{customer.adresse}</Typography>
+						<Typography variant="body1" gutterBottom>{customer.department}</Typography>
+						<Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer)}>Edit</Button>
+						<Button startIcon={<DeleteIcon />}>Delete</Button>
+						<Button>Contracts</Button>
+						<Button>Users</Button>
+						<div class='row-border'></div>
 					</div>
 				)})}
 				<CustomerDetail currentCustomer={this.state.selectedCustomer} isOpen={this.state.isEditing} handelClose={this.closeEditor}></CustomerDetail>

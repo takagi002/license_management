@@ -164,7 +164,8 @@
 	
 .customerDetailGrid {
 	display: grid;
-	grid-template-columns: auto auto auto auto auto auto auto;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
 }
 
 .contractGrid {
@@ -174,5 +175,5 @@
 
 .row-border{
   border-top: 2px solid gray;
-  grid-column: 1 / 5; 
+  grid-column: 1 / 8; 
 }

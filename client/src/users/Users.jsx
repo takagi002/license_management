@@ -39,34 +39,47 @@ class Users extends React.Component {
 	
 	render() {
 		return (
-			<div>{
-				this.state.customers.map((customer, index) => {
+			<div>
+				{this.state.customers.map((customer, cIndex) => {
 					return (
-					<div class="customerGrid" key={index}>
-						<Typography variant="body1" gutterBottom>
-						{customer.name}	
-     					</Typography>
-						<div>{
-							this.state.users.map((user, index) => {
-								if (user.customer)
+					<div class="customerGrid" key={cIndex}>
+						<Typography>{customer.name}</Typography>
+						<div>
+							{this.state.users.map((user, uIndex) => {
+								if (user.customer && user.customer.customerId === customer.customerId)
 								{
 								return (
-								<div class="userGrid" key={index}>
-									<div class='row-border'></div>
-									<Typography variant="body1" gutterBottom>
-									{user.firstname} {user.name}
-     					 			</Typography>
-									<Typography variant="body1" gutterBottom>
-									{user.email}
-     					 			</Typography>
+								<div class="userGrid" key={uIndex}>
+									<Typography>{user.firstname} {user.name}</Typography>
+									<Typography>{user.email}</Typography>
 									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />} >Delete</Button>
+									<Button startIcon={<DeleteIcon />}>Delete</Button>
+									<div class='row-border'></div>
 								</div>
 							)}})}
 						</div>
 						<div class='row-border'></div>
 					</div>
 				)})}
+				<div class='row-border'></div>
+				<div class="customerGrid" >
+						<Typography>Without Customer</Typography>
+						<div>
+							{this.state.users.map((user, index) => {
+
+								if (!user.customer)
+								{
+								return (
+								<div class="userGrid" key={index}>
+									<Typography>{user.firstname} {user.name}</Typography>
+									<Typography>{user.email}</Typography>
+									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user)}>Edit</Button>
+									<Button startIcon={<DeleteIcon />}>Delete</Button>
+									<div class='row-border'></div>
+								</div>
+							)}})}
+						</div>
+					</div>
 				<UserDetail currentUser={this.state.selectedUser} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);

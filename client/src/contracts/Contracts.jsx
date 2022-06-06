@@ -2,6 +2,10 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import ContractDetails from "./ContractDetails";
 import {fetchCustomers, fetchContracts} from '../common/apiUtility';
+import { Button, Typography} from "@material-ui/core";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
 
 const styles = theme => ({
 		center: {
@@ -41,21 +45,23 @@ class Contracts extends React.Component {
 				this.state.customers.map((customer, index) => {
 					return (
 					<div class="customerGrid" key={index}>
-						<span>{customer.name}</span>
+						<Typography variant="body1" gutterBottom>{customer.name}</Typography>
 						<div>{
 							this.state.contracts.map((contract, index) => {
 								if (customer.id === contract.customer.id)
 								{return (
 								<div class="contractGrid" key={index}>
-									<div>{contract.startDate}</div>
-									<div>{contract.endDate}</div>
-									<div>{contract.endDate}</div>
-									<button onClick={() => this.openEditor(contract)}>Edit</button>
-									<button>Delete</button>
-									<button>Details</button>
+									<Typography variant="body1" gutterBottom>{contract.startDate}</Typography>
+									<Typography variant="body1" gutterBottom>{contract.endDate}</Typography>
+									<Typography variant="body1" gutterBottom>{contract.endDate}</Typography>
+									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract)}>Edit</Button>
+									<Button startIcon={<DeleteIcon />} >Delete</Button>
+									<Button startIcon={<InfoIcon />} >Details</Button>
+									<div class='row-border'></div>
 								</div>
 							)}})}
 						</div>
+						<div class='row-border'></div>
 					</div>
 				)})}
 				<ContractDetails currentContract={this.selectedContract} isOpen={this.isEditing}></ContractDetails>

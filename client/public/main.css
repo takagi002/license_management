@@ -155,11 +155,12 @@
           transform: rotate(90deg); }
 .customerGrid {
 	display: grid;
-	grid-template-columns: 1fr 2fr;}
+	grid-template-columns: 1fr 4fr;}
 	
 .userGrid {
 	display: grid;
-	grid-template-columns: auto auto auto auto;}
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
 	
 .customerDetailGrid {
 	display: grid;
@@ -171,6 +172,7 @@
 	grid-template-columns: auto auto auto auto auto auto;
 }
 
-.popup {
-	display:absolute;
+.row-border{
+  border-top: 2px solid gray;
+  grid-column: 1 / 5; 
 }

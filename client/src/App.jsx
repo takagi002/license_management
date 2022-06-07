@@ -2,9 +2,7 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 
 import Login from './login/Login';
-import Users from './users/Users';
-import Customers from './customers/Customers';
-import Contracts from './contracts/Contracts';
+import MainLayout from './MainLayout';
 
 const styles = theme => ({
 	center: {
@@ -33,7 +31,7 @@ class App extends React.Component {
 	render() {
 		if (this.state.loggedIn) {
 			return (
-			<Users url={theUrl}></Users> 
+			<MainLayout url={theUrl}></MainLayout> 
 			);
 		} else {
 			return (

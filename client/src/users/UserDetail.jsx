@@ -1,6 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, TextField , FormControlLabel, FormGroup} from "@material-ui/core";
+import { putUser } from "../common/apiUtility";
 
 const styles = theme => ({
 		center: {
@@ -19,14 +20,18 @@ class UserDetail extends React.Component {
 
 		}
 	}
+
+	//save() {
+	//	putUser
+	//}
 	
 	render() {
 		return (
 			<div>
-				{ this.props.currentUser &&
+				{ this.props.para.user &&
 					<Dialog open={this.props.isOpen}>
 						<DialogContent>
-							<DialogTitle>Editing User {this.props.currentUser.firstname}</DialogTitle>
+							<DialogTitle>Editing User {this.props.para.user.firstname}</DialogTitle>
 							<TextField
             					autoFocus
             					margin="dense"
@@ -35,17 +40,17 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.currentUser.customer.name}
+								defaultValue={this.props.para.user.customer.name}
 							/>
 							<TextField
             					autoFocus
             					margin="dense"
-            					id="name"
+            					id="firstname"
             					label="First Name"
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.currentUser.firstname}
+								defaultValue={this.props.para.user.firstname}
 							/>
 							<TextField
             					autoFocus
@@ -55,7 +60,7 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.currentUser.name}
+								defaultValue={this.props.para.user.name}
 							/>
 							<TextField
             					autoFocus
@@ -65,7 +70,7 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.currentUser.email}
+								defaultValue={this.props.para.user.email}
 							/>
 							<TextField
             					autoFocus
@@ -75,7 +80,7 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.currentUser.phoneNumber1}
+								defaultValue={this.props.para.user.phoneNumber1}
 							/>
 							<TextField
             					autoFocus
@@ -85,12 +90,12 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.currentUser.phoneNumber2}
+								defaultValue={this.props.para.user.phoneNumber2}
 							/>
 							<div>
 								<FormGroup>
 								        {(() => {
-											if (this.props.currentUser.admin) {
+											if (this.props.para.user.admin) {
 											  return (
 												<FormControlLabel control={<Checkbox defaultChecked/>} label="isAdministrator" />
 											  )
@@ -105,8 +110,8 @@ class UserDetail extends React.Component {
 						</DialogContent>
 
 						<DialogActions>
-							<Button>Save</Button>
-							<Button>Cancel</Button>
+							<Button onClick={() => this.props.para.save()} >Save</Button>
+							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
 				}

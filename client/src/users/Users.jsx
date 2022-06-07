@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import UserDetail from "./UserDetail";
-import {fetchCustomers, fetchUsers} from '../common/apiUtility';
+import {getCustomers, getUsers} from '../common/apiUtility';
 import { Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -22,19 +22,33 @@ class Users extends React.Component {
 		this.state = {
 			customers: [],
 			users: [],
+			editorParameters: {},
 			isEditing: false,
-			selectedUser: null,
+
 		}
 	}
 	
-	openEditor = (user) => {
+	openEditor(user, index) {
 		this.setState({isEditing: true});
-		this.setState({selectedUser: user})
+		this.setState({editorParameters:{
+			user,
+			index,
+			cancel: () => this.setState({isEditing: false}),
+			save: () => this.saveUser(),
+		}});
+	}
+	saveUser(user, index) {
+		const temp = this.state.users.slice();
+		temp[index] = user;
+		this.setState({users: temp});
+		
+		// close window
+		this.setState({isEditing: false})
 	}
 
 	componentDidMount(){
-		fetchCustomers(this.props.url, (json) => {this.setState({customers: json})});
-		fetchUsers(this.props.url, (json) => {this.setState({users: json})});
+		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+		getUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
 	
 	render() {
@@ -52,7 +66,7 @@ class Users extends React.Component {
 								<div class="userGrid" key={uIndex}>
 									<Typography>{user.firstname} {user.name}</Typography>
 									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user)}>Edit</Button>
+									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, uIndex)}>Edit</Button>
 									<Button startIcon={<DeleteIcon />}>Delete</Button>
 									<div class='row-border'></div>
 								</div>
@@ -73,14 +87,14 @@ class Users extends React.Component {
 								<div class="userGrid" key={index}>
 									<Typography>{user.firstname} {user.name}</Typography>
 									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user)}>Edit</Button>
+									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, index)}>Edit</Button>
 									<Button startIcon={<DeleteIcon />}>Delete</Button>
 									<div class='row-border'></div>
 								</div>
 							)}})}
 						</div>
 					</div>
-				<UserDetail currentUser={this.state.selectedUser} isOpen={this.state.isEditing}></UserDetail>
+				<UserDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);
 	}

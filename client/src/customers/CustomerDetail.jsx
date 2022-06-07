@@ -20,22 +20,14 @@ class CustomerDetail extends React.Component {
 
 		}
 	}
-
-	handleSave() {
-		this.props.handelClose();
-	}
-
-	handelCancel() {
-		this.props.handelClose();
-	}
 		
 	render() {
 		return (
 			<div>
-				{ this.props.currentCustomer &&
+				{ this.props.para.customer &&
 					<Dialog open={this.props.isOpen}>
 						<DialogContent>
-							<DialogTitle>Edit Customer {this.props.currentCustomer.name}</DialogTitle>
+							<DialogTitle>Edit Customer {this.props.para.customer.name}</DialogTitle>
 							<TextField
 								autoFocus
 								margin="dense"
@@ -44,7 +36,7 @@ class CustomerDetail extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentCustomer.name}
+								defaultValue={this.props.para.customer.name}
 							/>
 							<TextField
 								autoFocus
@@ -54,7 +46,7 @@ class CustomerDetail extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentCustomer.adresse}
+								defaultValue={this.props.para.customer.adresse}
 							/>
 							<TextField
 								autoFocus
@@ -64,12 +56,12 @@ class CustomerDetail extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentCustomer.department}
+								defaultValue={this.props.para.customer.department}
 							/>
 						</DialogContent>
 						<DialogActions>
-							<Button onClick={() => this.handleSave}>Save</Button>
-							<Button onClick={() => this.handelCancel}>Cancel</Button>
+							<Button onClick={() => this.props.para.save()}>Save</Button>
+							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
 				}

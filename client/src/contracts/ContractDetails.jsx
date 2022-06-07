@@ -22,18 +22,11 @@ class ContractDetails extends React.Component {
 		}
 	}
 
-	handleSave(){
-		this.props.isOpen = false;
-	}
 
-	handelCancel() {
-		this.props.isOpen = false;
-	}
-	
 	render() {
 		return (
 			<div>
-				{ this.props.currentContract &&
+				{ this.props.para.contract &&
 					<Dialog open={this.props.isOpen}>
 						<DialogContent>
 							<DialogTitle>Editing Contract</DialogTitle>
@@ -45,7 +38,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.startdate}
+								defaultValue={this.props.para.contract.startdate}
 							/>
 							<TextField
 								autoFocus
@@ -55,7 +48,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.enddate}
+								defaultValue={this.props.para.contract.enddate}
 							/>
 							<TextField
 								autoFocus
@@ -65,7 +58,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.version}
+								defaultValue={this.props.para.contract.version}
 							/>
 							<TextField
 								autoFocus
@@ -75,7 +68,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.user1.name + ", " + this.props.currentContract.user2.name}
+								defaultValue={this.props.para.contract.user1.name + ", " + this.propspara.contract.user2.name}
 							/>
 							<TextField
 								autoFocus
@@ -85,7 +78,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.ipV4Adress1}
+								defaultValue={this.props.para.contract.ipV4Adress1}
 							/>
 							<TextField
 								autoFocus
@@ -95,7 +88,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.ipV4Adress2}
+								defaultValue={this.props.para.contract.ipV4Adress2}
 							/>
 							<TextField
 								autoFocus
@@ -105,7 +98,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.ipV4Adress3}
+								defaultValue={this.props.para.contract.ipV4Adress3}
 							/>
 							<TextField
 								autoFocus
@@ -115,7 +108,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.feature1}
+								defaultValue={this.props.para.contract.feature1}
 							/>
 							<TextField
 								autoFocus
@@ -125,7 +118,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.feature2}
+								defaultValue={this.propspara.contract.feature2}
 							/>
 							<TextField
 								autoFocus
@@ -135,7 +128,7 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.feature3}
+								defaultValue={this.props.para.contract.feature3}
 							/>
 							<TextField
 								autoFocus
@@ -145,15 +138,15 @@ class ContractDetails extends React.Component {
 								type="text"
 								fullWidth
 								variant="standard"
-								defaultValue={this.props.currentContract.licenseKey}
+								defaultValue={this.props.para.contract.licenseKey}
 							/>
 						</DialogContent>
 
 						<DialogActions>
 							<Button>Update Key</Button>
 							<Button>Mail Key</Button>
-							<Button>Save</Button>
-							<Button>Cancel</Button>
+							<Button onClick={() => this.props.para.save()} >Save</Button>
+							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
 				}

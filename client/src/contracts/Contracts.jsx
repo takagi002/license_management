@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import ContractDetails from "./ContractDetails";
-import {fetchCustomers, fetchContracts} from '../common/apiUtility';
+import {getCustomers, getContracts} from '../common/apiUtility';
 import { Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -29,14 +29,26 @@ class Contracts extends React.Component {
 	}
 	
 
-	openEditor = (contract) => {
+	openEditor = (contract, index) => {
 		this.setState({isEditing: true});
-		this.setState({selectedContract: contract});
+		this.setState({editorParameters:{
+			contract,
+			index,
+			cancel: () => this.setState({isEditing: false}),
+		}});
+	}
+	saveContract(contract, index) {
+		const temp = this.state.contracts.slice();
+		temp[index] = contract;
+		this.setState({contracts: temp});
+
+		// close window
+		this.setState({isEditing: false})
 	}
 
 	componentDidMount(){
-		fetchCustomers(this.props.url, (json) => {this.setState({customers: json})});
-		fetchContracts(this.props.url, (json) => {this.setState({contracts: json})} );
+		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+		getContracts(this.props.url, (json) => {this.setState({contracts: json})} );
 	}
 
 	render() {
@@ -54,7 +66,7 @@ class Contracts extends React.Component {
 									<Typography variant="body1" gutterBottom>{contract.startDate}</Typography>
 									<Typography variant="body1" gutterBottom>{contract.endDate}</Typography>
 									<Typography variant="body1" gutterBottom>{contract.endDate}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract)}>Edit</Button>
+									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract, index)}>Edit</Button>
 									<Button startIcon={<DeleteIcon />} >Delete</Button>
 									<Button startIcon={<InfoIcon />} >Details</Button>
 									<div class='row-border'></div>
@@ -64,7 +76,7 @@ class Contracts extends React.Component {
 						<div class='row-border'></div>
 					</div>
 				)})}
-				<ContractDetails currentContract={this.selectedContract} isOpen={this.isEditing}></ContractDetails>
+				<ContractDetails para={this.state.editorParameters} isOpen={this.state.isEditing}></ContractDetails>
 			</div>
 		);
 	}

@@ -7,7 +7,7 @@ function resolveStatus( response ){
     }
 }
 
-function fetchCustomers(baseUrl, callback){
+function getCustomers(baseUrl, callback){
     fetch( baseUrl + "customers")
         .then( resolveStatus )
         .then( (response) => { return response.json() } )
@@ -17,7 +17,7 @@ function fetchCustomers(baseUrl, callback){
         });
 }
 
-function fetchUsers(baseUrl, callback){
+function getUsers(baseUrl, callback){
     fetch(baseUrl + "users")
         .then( resolveStatus )
         .then( (response) => {return response.json() } )
@@ -27,7 +27,7 @@ function fetchUsers(baseUrl, callback){
         });
 }
 
-function fetchContracts(baseUrl, callback){
+function getContracts(baseUrl, callback){
     fetch(baseUrl + "contracts")
         .then( resolveStatus )
         .then( (response) => {return response.json() } )
@@ -37,5 +37,42 @@ function fetchContracts(baseUrl, callback){
         });
 }
 
+function putUser(userData, baseUrl, callback){
+    var formdata = JSON.stringify(userData);
+    fetch(baseUrl + "users/"+ userData.id, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'put',
+        body: formdata
+    })
 
-export {resolveStatus, fetchCustomers, fetchUsers, fetchContracts};
+}
+
+function putContract(contractData, baseUrl, callback){
+    var formdata = JSON.stringify(contractData);
+    fetch(baseUrl + "contracts/"+ contractData, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'put',
+        body: formdata
+    })
+}
+
+function putCustomer(customerData, baseUrl, callback){
+    var formdata = JSON.stringify(customerData);
+    fetch(baseUrl + "customers/"+ customerData, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'put',
+        body: formdata
+    })
+}
+
+
+export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer};

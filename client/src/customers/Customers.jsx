@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import CustomerDetail from './CustomerDetail';
-import {fetchCustomers, fetchUsers} from '../common/apiUtility';
+import {getCustomers, getUsers} from '../common/apiUtility';
 import { Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -28,18 +28,32 @@ class Customers extends React.Component {
 	}
 	
     
-    openEditor(customer) {
+    openEditor(customer, index) {
 		this.setState({isEditing: true});
-		this.setState({selectedCustomer: customer});
+		this.setState({editorParameters:{
+			customer,
+			index,
+			cancel: () => this.setState({isEditing: false}),
+		}});
 	}
+
+	saveCustomer(customer, index){
+		const temp = this.state.customers.slice();
+		temp[index] = customer;
+		this.setState({customer: temp});
+		
+		// close window
+		this.setState({isEditing: false})
+	}
+
 	closeEditor() {
 		this.setState({isEditing: false});
 		this.setState({selectedCustomer: null});
 	}
     
 	componentDidMount(){
-		fetchCustomers(this.props.url, (json) => {this.setState({customers: json})});
-		fetchUsers(this.props.url, (json) => {this.setState({users: json})});
+		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+		getUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
 
 
@@ -59,7 +73,7 @@ class Customers extends React.Component {
 						<div class='row-border'></div>
 					</div>
 				)})}
-				<CustomerDetail currentCustomer={this.state.selectedCustomer} isOpen={this.state.isEditing} handelClose={this.closeEditor}></CustomerDetail>
+				<CustomerDetail para={this.state.editorParameters} isOpen={this.state.isEditing} handelClose={this.closeEditor}></CustomerDetail>
 			</div>
 		);
 	}

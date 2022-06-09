@@ -1,7 +1,12 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
-import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, TextField , FormControlLabel, FormGroup} from "@material-ui/core";
-import { putUser } from "../common/apiUtility";
+import { Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, TextField , FormControlLabel, FormGroup} from "@mui/material";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import {getCustomers} from '../common/apiUtility';
+
 
 const styles = theme => ({
 		center: {
@@ -17,8 +22,17 @@ class UserDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			customers: [],
+			customerName: "No Customer"
 		}
+	}
+
+	componentDidMount(){
+		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+	}
+
+	handleChange = (event) => {
+		this.setState({customerName: event.target.value})
 	}
 
 	//save() {
@@ -32,16 +46,23 @@ class UserDetail extends React.Component {
 					<Dialog open={this.props.isOpen}>
 						<DialogContent>
 							<DialogTitle>Editing User {this.props.para.user.firstname}</DialogTitle>
-							<TextField
-            					autoFocus
-            					margin="dense"
-            					id="name"
-            					label="Customer"
-            					type="text"
-            					fullWidth
-            					variant="standard"
-								defaultValue={this.props.para.user.customer.name}
-							/>
+							<FormControl fullWidth>
+  								<InputLabel id="demo-simple-select-label">Customer</InputLabel>
+  								<Select
+								  onChange={this.handleChange}
+  								  labelId="demo-simple-select-label"
+  								  id="demo-simple-select"
+  								  value={this.state.customerName}
+  								  label="Customer"
+  								>
+  								  <MenuItem value={"No Customer"}>No Customer</MenuItem>
+									<MenuItem value={"Customer 1"}>Customer 1</MenuItem>
+  								  {this.state.customers.map((customer, index) => {
+									return (
+										<MenuItem value={customer.name}>{customer.name}</MenuItem>
+									)})}
+  								</Select>
+							</FormControl>
 							<TextField
             					autoFocus
             					margin="dense"

@@ -82,7 +82,7 @@ class Login extends React.Component {
     processData = ( data ) => {
 		let tid = data.id;
 		if ( tid !== 0 ) {
-			this.props.authorized();
+			this.props.authorized(data);
 		}
     }
 

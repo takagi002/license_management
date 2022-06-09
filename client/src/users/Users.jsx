@@ -32,9 +32,8 @@ class Users extends React.Component {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
 			user,
-			index,
 			cancel: () => this.setState({isEditing: false}),
-			save: () => this.saveUser(),
+			save: (user) => this.saveUser(),
 		}});
 	}
 	saveUser(user, index) {

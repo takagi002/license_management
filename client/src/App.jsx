@@ -21,18 +21,20 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 	    this.state = {	  
-			loggedIn: true,
+			loggedIn: false,
+			loggedInUser: null,
 		};
 	}
 
-	authorized = () => {
+	authorized = (user) => {
 		this.setState({loggedIn: true});
+		this.setState({loggedInUser: user})
 	}
   
 	render() {
 		if (this.state.loggedIn) {
 			return (
-			<MainLayout url={theUrl}></MainLayout> 
+			<MainLayout loggedInUser={this.state.loggedInUser} url={theUrl}></MainLayout> 
 			);
 		} else {
 			return (

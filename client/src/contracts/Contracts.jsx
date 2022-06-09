@@ -24,10 +24,9 @@ class Contracts extends React.Component {
 			customers: [],
 			contracts: [],
 			isEditing: false,
-			selectedContract: null,
+			editorParameters: {},
 		}
 	}
-	
 
 	openEditor = (contract, index) => {
 		this.setState({isEditing: true});
@@ -35,8 +34,10 @@ class Contracts extends React.Component {
 			contract,
 			index,
 			cancel: () => this.setState({isEditing: false}),
+			save: () => this.saveContract(),
 		}});
 	}
+	
 	saveContract(contract, index) {
 		const temp = this.state.contracts.slice();
 		temp[index] = contract;

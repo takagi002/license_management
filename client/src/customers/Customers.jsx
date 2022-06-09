@@ -23,17 +23,17 @@ class Customers extends React.Component {
 			customers: [],
 			users: [],
 			isEditing: false,
-			selectedCustomer: null
+			editorParameters: {},
 		}
 	}
 	
-    
     openEditor(customer, index) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
 			customer,
 			index,
 			cancel: () => this.setState({isEditing: false}),
+			save: () => this.saveCustomer(),
 		}});
 	}
 
@@ -66,14 +66,14 @@ class Customers extends React.Component {
 						<Typography variant="body1" gutterBottom>{customer.name}</Typography>
 						<Typography variant="body1" gutterBottom>{customer.adresse}</Typography>
 						<Typography variant="body1" gutterBottom>{customer.department}</Typography>
-						<Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer)}>Edit</Button>
+						<Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer, index)}>Edit</Button>
 						<Button startIcon={<DeleteIcon />}>Delete</Button>
 						<Button>Contracts</Button>
 						<Button>Users</Button>
 						<div class='row-border'></div>
 					</div>
 				)})}
-				<CustomerDetail para={this.state.editorParameters} isOpen={this.state.isEditing} handelClose={this.closeEditor}></CustomerDetail>
+				<CustomerDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></CustomerDetail>
 			</div>
 		);
 	}

@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 import Login from './login/Login';
 import MainLayout from './MainLayout';
+import Customers from "./customers/Customers";
 
 const styles = theme => ({
 	center: {

@@ -36,13 +36,22 @@ public class CustomerDao {
     	em.merge(customer);
     	return customer;
     }
+    
+    @Transactional
+    public Customer saveCustomer(Customer customer) {
+    	if( customer.getId() != 0) {
+			return updateCustomer(customer);
+		} else {
+			return addCustomer(customer);
+		}
+    }
 
     @Transactional
     public void removeCustomer(Customer customer) {
     	try {
-    		Query removeForeignKey = em.createQuery("UPDATE User SET customerId=null WHERE customerId="+ customer.getCustomerId());
+    		Query removeForeignKey = em.createQuery("UPDATE User SET customerId=null WHERE customerId="+ customer.getId());
     		removeForeignKey.executeUpdate();
-    		removeForeignKey = em.createQuery("UPDATE Contract SET customerId=null WHERE customerId="+ customer.getCustomerId());
+    		removeForeignKey = em.createQuery("UPDATE Contract SET customerId=null WHERE customerId="+ customer.getId());
     		removeForeignKey.executeUpdate();
     		em.remove(em.merge(customer));
     	} catch (SecurityException | IllegalStateException  e) {

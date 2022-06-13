@@ -13,11 +13,11 @@ public class Contract {
     private long id;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name = "customerId", referencedColumnName = "customerId", nullable = false)
+	@JoinColumn(name = "customerId", referencedColumnName = "customerId")
 	private Customer customer;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name = "user1_userId", referencedColumnName = "userId", nullable = false)
+	@JoinColumn(name = "user1_userId", referencedColumnName = "userId")
 	private User user1;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)

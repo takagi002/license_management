@@ -74,5 +74,17 @@ function putCustomer(customerData, baseUrl, callback){
     })
 }
 
+function deleteUser(userData, baseUrl, callback){
+    fetch(baseUrl + "users/" + userData, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'delete',
+        body: formdata
+    })
 
-export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer};
+}
+
+
+export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer, deleteUser};

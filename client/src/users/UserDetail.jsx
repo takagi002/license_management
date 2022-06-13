@@ -5,7 +5,6 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {getCustomers} from '../common/apiUtility';
 
 
 const styles = theme => ({
@@ -23,13 +22,10 @@ class UserDetail extends React.Component {
 		super(props);
 		this.state = {
 			customers: [],
-			customerName: "No Customer"
+			customerId: null
 		}
 	}
 
-	componentDidMount(){
-		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
-	}
 
 	handleChange = (event) => {
 		this.setState({customerName: event.target.value})
@@ -52,14 +48,14 @@ class UserDetail extends React.Component {
 								  onChange={this.handleChange}
   								  labelId="demo-simple-select-label"
   								  id="demo-simple-select"
-  								  value={this.state.customerName}
-  								  label="Customer"
+  								  value={this.state.customerId}
+								  label="Customer"
   								>
-  								  <MenuItem value={"No Customer"}>No Customer</MenuItem>
-									<MenuItem value={"Customer 1"}>Customer 1</MenuItem>
-  								  {this.state.customers.map((customer, index) => {
+  								  <MenuItem value={null}>No Customer</MenuItem>
+  								  {this.props.customers.map((customer, index) => {
+									console.log(this.state.customers)
 									return (
-										<MenuItem value={customer.name}>{customer.name}</MenuItem>
+										<MenuItem value={customer.id}>{customer.name}</MenuItem>
 									)})}
   								</Select>
 							</FormControl>

@@ -11,6 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import UserDetail from "./users/UserDetail";
+import {getCustomers} from './common/apiUtility';
 
 const styles = theme => ({
 		center: {
@@ -30,7 +31,12 @@ class MainLayout extends React.Component {
             currentPageName: "Users",
             editorParameters: {},
 			isEditing: false,
+            customers: []
 		}
+	}
+
+    componentDidMount(){
+		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
 	}
 
     switchPage = (component, name) => {
@@ -38,10 +44,11 @@ class MainLayout extends React.Component {
         this.setState({currentPageName: name});
     }
 
-    openEditor(user) {
+    openEditor(user, customer) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
 			user,
+            customer,
 			cancel: () => this.setState({isEditing: false}),
 			save: () => this.saveUser(),
 		}});
@@ -71,7 +78,9 @@ class MainLayout extends React.Component {
                                     }}
                                     variant="standard"
                                 /> 
-                                <Button onClick={() => this.openEditor(this.props.loggedInUser)} startIcon={<AccountCircle />}>Account Settings</Button>
+                                <Button onClick={
+                                    () => this.openEditor(this.props.loggedInUser, this.props.loggedInUser.customer ? this.props.loggedInUser.customer : {name: "No Customer", id: null} )
+                                    } startIcon={<AccountCircle />}>Account Settings</Button>
                                 <Button startIcon={<LogoutIcon />}>Logout</Button>
                             </div>
                         </header>
@@ -96,7 +105,7 @@ class MainLayout extends React.Component {
                         </main>
                     </Grid>
                 </Grid>
-                <UserDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+                <UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
             </div>
         );
 	}

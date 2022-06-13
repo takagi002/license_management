@@ -1,7 +1,5 @@
 package de.hse.swb.jpa.orm.model;
 
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity

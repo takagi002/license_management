@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import UserDetail from "./UserDetail";
-import {getCustomers, getUsers} from '../common/apiUtility';
+import {getCustomers, getUsers, deleteUser} from '../common/apiUtility';
 import { Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -28,14 +28,21 @@ class Users extends React.Component {
 		}
 	}
 	
-	openEditor(user, index) {
+	openEditor(user, customer, index) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
 			user,
+			customer,
 			cancel: () => this.setState({isEditing: false}),
 			save: (user) => this.saveUser(),
 		}});
 	}
+
+	removeUser(user){
+		
+		deleteUser(this.props.url, )
+	}
+
 	saveUser(user, index) {
 		const temp = this.state.users.slice();
 		temp[index] = user;
@@ -65,8 +72,8 @@ class Users extends React.Component {
 								<div class="userGrid" key={uIndex}>
 									<Typography>{user.firstname} {user.name}</Typography>
 									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, uIndex)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />}>Delete</Button>
+									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, customer, uIndex)}>Edit</Button>
+									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user)}>Delete</Button>
 									<div class='row-border'></div>
 								</div>
 							)}})}
@@ -79,21 +86,26 @@ class Users extends React.Component {
 						<Typography>Without Customer</Typography>
 						<div>
 							{this.state.users.map((user, index) => {
+								const noCustomer = {
+									id: null,
+									name: "No Customer",
 
+								}
+								
 								if (!user.customer)
 								{
 								return (
 								<div class="userGrid" key={index}>
 									<Typography>{user.firstname} {user.name}</Typography>
 									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, index)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />}>Delete</Button>
+									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, noCustomer, index)}>Edit</Button>
+									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user)}>Delete</Button>
 									<div class='row-border'></div>
 								</div>
 							)}})}
 						</div>
 					</div>
-				<UserDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+				<UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);
 	}

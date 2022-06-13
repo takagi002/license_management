@@ -10,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -38,9 +39,9 @@ public class CustomerResource {
 	    }
 	    
 	    @GET
-	    @Path("id")
+	    @Path("{id}")
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public Customer getCustomer(Long id) {
+	    public Customer getCustomer(@PathParam("id") long id) {
 	        return customerDao.getCustomer(id);
 	    }
 
@@ -69,9 +70,9 @@ public class CustomerResource {
 	    }
 	    
 	    @DELETE
-	    @Path("id")
+	    @Path("{id}")
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public void deleteCustomer(Long id) {
+	    public void deleteCustomer(@PathParam("id") long id) {
 	    	Customer customer = customerDao.getCustomer(id);
 	    	customerDao.removeCustomer(customer);
 	    }

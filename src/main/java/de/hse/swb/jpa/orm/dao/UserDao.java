@@ -62,6 +62,12 @@ public class UserDao {
 
     @Transactional
     public void removeUser(User user) {
+
+		Query removeForeignKey = em.createQuery("UPDATE Contract SET user1_userId=null WHERE user1_userId=" + user.getId());
+		removeForeignKey.executeUpdate();
+		removeForeignKey = em.createQuery("UPDATE Contract SET user2_userId=null WHERE user2_userId=" + user.getId());
+		removeForeignKey.executeUpdate();
+		
     	em.remove(em.merge(user));
     }
     
@@ -69,6 +75,11 @@ public class UserDao {
     public void removeAllUsers() {
     	try {
 
+    		Query removeForeignKey = em.createQuery("UPDATE Contract SET user1_userId=null WHERE user1_userId >= 0");
+    		removeForeignKey.executeUpdate();
+    		removeForeignKey = em.createQuery("UPDATE Contract SET user2_userId=null WHERE user2_userId >= 0");
+    		removeForeignKey.executeUpdate();
+    		
     	    Query del = em.createQuery("DELETE FROM User WHERE id >= 0");
     	    del.executeUpdate();
 

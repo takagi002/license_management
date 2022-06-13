@@ -35,29 +35,29 @@ public class UserDao {
 	}
 	
 	@Transactional
-    public User add(User user) {
+    public User addUser(User user) {
 		em.persist(user);
     	return user;
     }
 	
 	@Transactional
-	public User update(User user) {
+	public User updateUser(User user) {
 		return em.merge(user);
 	}
 	
 	@Transactional
-	public User save(User user) {
+	public User saveUser(User user) {
 		if( user.getId() != 0) {
-			return update(user);
+			return updateUser(user);
 		} else {
-			return add(user);
+			return addUser(user);
 		}
 	}
 	
 	@Transactional
 	public User changePassword(User user, String newPassword) {
 		user.setPassword(hashPassword(newPassword));
-		return update(user);
+		return updateUser(user);
 	}
 
     @Transactional

@@ -52,7 +52,7 @@ public class UserDaoTest {
 	@Test
 	void testAddUser_1() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		List<User> results = userdao.getUsers();
 		assertEquals(1, results.size());
@@ -61,7 +61,7 @@ public class UserDaoTest {
 	@Test
 	void testAddUser_11() {
 		List<User> users = createMultipleUsers(11);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		List<User> results = userdao.getUsers();
 		assertEquals(11, results.size());
@@ -70,10 +70,10 @@ public class UserDaoTest {
 	@Test
 	void testUpdateUser() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		user.setEmail("ding@test.test");
-		userdao.update(user);
+		userdao.updateUser(user);
 		
 		User result = userdao.getUser(1);
 		assertNotEquals("test0@test.test", result.getEmail());
@@ -82,7 +82,7 @@ public class UserDaoTest {
 	@Test
 	void testRemoveUser() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		userdao.removeUser(user);
 		
@@ -93,7 +93,7 @@ public class UserDaoTest {
 	@Test
 	void testRemoveUsers() {
 		List<User> users = createMultipleUsers(7);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		userdao.removeAllUsers();
 		
@@ -111,7 +111,7 @@ public class UserDaoTest {
 	@Test
 	void testGetUsers_34() {
 		List<User> users = createMultipleUsers(34);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		List<User> results = userdao.getUsers();
 		assertEquals(34, results.size());
@@ -121,7 +121,7 @@ public class UserDaoTest {
 	@Test
 	void testGetUser_Solo() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		User result = userdao.getUser(user.getId());
 		assertEquals("test0", result.getUsername());
@@ -130,7 +130,7 @@ public class UserDaoTest {
 	@Test
 	void testGetUser_3thOutOf6() {
 		List<User> users = createMultipleUsers(6);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		User result = userdao.getUser(users.get(2).getId());
 		assertEquals("test2", result.getUsername());
@@ -139,7 +139,7 @@ public class UserDaoTest {
 	@Test
 	void testGetUserByUsername_Solo() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		User result = userdao.getUserByUsername("test0");
 		assertEquals("test0", result.getUsername());
@@ -148,7 +148,7 @@ public class UserDaoTest {
 	@Test
 	void testGetUserByUsername_3thOutOf6() {
 		List<User> users = createMultipleUsers(6);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		User result = userdao.getUserByUsername("test2");
 		assertEquals("test2", result.getUsername());
@@ -157,7 +157,7 @@ public class UserDaoTest {
 	@Test
 	void testLoginCorrect(){
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		User result = userdao.login("test0", "password");
 		assertNotEquals(null, result);
@@ -166,7 +166,7 @@ public class UserDaoTest {
 	@Test
 	void testLoginWrong(){
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		User result = userdao.login("test0", "wrong");
 		assertEquals(null, result);
@@ -177,7 +177,7 @@ public class UserDaoTest {
 		String newPassword = "12345";
 		
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		userdao.changePassword(user, newPassword);
 		

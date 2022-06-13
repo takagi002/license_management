@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import CustomerDetail from './CustomerDetail';
-import {getCustomers, getUsers} from '../common/apiUtility';
+import {getCustomers, getUsers, deleteCustomer} from '../common/apiUtility';
 import { Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -46,6 +46,15 @@ class Customers extends React.Component {
 		this.setState({isEditing: false})
 	}
 
+	removeCustomer(customerId, index){
+		deleteCustomer(customerId, this.props.url)
+
+		const temp = this.state.customers.slice();
+		temp.splice(index,1);
+
+		this.setState({customers: temp});
+	}
+
 	closeEditor() {
 		this.setState({isEditing: false});
 		this.setState({selectedCustomer: null});
@@ -67,7 +76,7 @@ class Customers extends React.Component {
 						<Typography variant="body1" gutterBottom>{customer.adresse}</Typography>
 						<Typography variant="body1" gutterBottom>{customer.department}</Typography>
 						<Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer, index)}>Edit</Button>
-						<Button startIcon={<DeleteIcon />}>Delete</Button>
+						<Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.id, index)}>Delete</Button>
 						<Button>Contracts</Button>
 						<Button>Users</Button>
 						<div class='row-border'></div>

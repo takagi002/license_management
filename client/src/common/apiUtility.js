@@ -74,17 +74,35 @@ function putCustomer(customerData, baseUrl, callback){
     })
 }
 
-function deleteUser(userData, baseUrl, callback){
-    fetch(baseUrl + "users/" + userData, {
+function deleteUser(userId, baseUrl){
+    fetch(baseUrl + "users/" + userId, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
         },
-        method: 'delete',
-        body: formdata
+        method: 'delete'
     })
+}
 
+function deleteCustomer(customerId, baseUrl){
+    fetch(baseUrl + "customers/" + customerId, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'delete'
+    })
+}
+
+function deleteContract(contractId, baseUrl){
+    fetch(baseUrl + "contracts/" + contractId, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'delete'
+    })
 }
 
 
-export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer, deleteUser};
+export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer, deleteUser, deleteCustomer, deleteContract};

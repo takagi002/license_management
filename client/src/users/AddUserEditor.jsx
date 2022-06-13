@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import {putUser} from '../common/apiUtility';
 
 
 const styles = theme => ({
@@ -22,12 +23,49 @@ class AddUserEditor extends React.Component {
 		super(props);
 		this.state = {
 			customers: [],
-			customerId: null
+			customerId: null,			    
+        	name: "",
+        	firstname: "",
+        	password: "",
+        	email: "",
+        	phoneNumber: "",
+        	phoneNumberOptional: "",
+        	isAdmin: false,
+        	customerId: "",
+        	customerName: ""
 		}
 	}
 
 	handleChange = (event) => {
-		this.setState({customerName: event.target.value})
+		if (event.target.id==="customer-select") {
+			this.setState({customerId: event.target.value})
+		}
+		if (event.target.id==="name") {
+			this.setState({name: event.target.value});
+		}
+		if (event.target.id==="firstname") {
+			this.setState({firstname: event.target.value});
+		}
+		if (event.target.id==="password") {
+			this.setState({password: event.target.value});
+		}
+		if (event.target.id==="email") {
+			this.setState({email: event.target.value});
+		}
+		if (event.target.id==="phoneNumber") {
+			this.setState({phoneNumber: event.target.value});
+		}
+		if (event.target.id==="phoneNumberOptional") {
+			this.setState({phoneNumberOptional: event.target.value});
+		}
+		if (event.target.id==="isAdministrator") {
+			this.setState({isAdmin: event.target.value});
+		}
+	}
+
+	addUser(userData){
+		putUser(userData, this.props.url)
+		this.props.para.cancel()
 	}
 
 	render() {
@@ -41,7 +79,7 @@ class AddUserEditor extends React.Component {
   							<Select
 							  onChange={this.handleChange}
   							  labelId="demo-simple-select-label"
-  							  id="demo-simple-select"
+  							  id="customer-select"
   							  value={this.state.customerId}
 							  label="Customer"
   							>
@@ -60,6 +98,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
+							onChange={this.handleChange}
 						/>
 						<TextField
             				autoFocus
@@ -69,6 +108,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
+							onChange={this.handleChange}
 						/>
 						<TextField
             				autoFocus
@@ -78,6 +118,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
+							onChange={this.handleChange}
 						/>
 						<TextField
             				autoFocus
@@ -87,6 +128,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
+							onChange={this.handleChange}
 						/>
 						<TextField
             				autoFocus
@@ -96,13 +138,26 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
+							onChange={this.handleChange}
 						/>
 						<div>
-                            <FormControlLabel control={<Checkbox/>} label="isAdministrator" />
+                            <FormControlLabel control={<Checkbox/>} label="isAdministrator" onChange={this.handleChange}/>
 						</div>
 					</DialogContent>
 					<DialogActions>
-						<Button>Submit</Button>
+						<Button onClick={() => this.addUser({
+							id: 0,				    
+        					name: this.state.name,
+        					firstname: this.state.firstname,
+        					username: "aow;efijaoweifnoaeiwfmwaoef",
+        					password: this.state.password,
+        					email: this.state.password,
+        					phoneNumber: this.state.phoneNumber,
+        					phoneNumberOptional: this.state.phoneNumberOptional,
+        					isAdmin: this.state.admin,
+        					customerId: this.state.customerId,
+        					customerName: this.state.customerName
+						})}>Submit</Button>
 						<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 					</DialogActions>
 				</Dialog>

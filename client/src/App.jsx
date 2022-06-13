@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import Login from './login/Login';
 import MainLayout from './MainLayout';
 import Customers from "./customers/Customers";
+import Logout from "@mui/icons-material/Logout";
 
 const styles = theme => ({
 	center: {
@@ -23,6 +24,9 @@ class App extends React.Component {
 	    this.state = {	  
 			loggedIn: false,
 			loggedInUser: null,
+			mainParameters: {
+				logout: () => this.setState({loggedIn: false})
+			}
 		};
 	}
 
@@ -30,11 +34,11 @@ class App extends React.Component {
 		this.setState({loggedIn: true});
 		this.setState({loggedInUser: user})
 	}
-  
+
 	render() {
 		if (this.state.loggedIn) {
 			return (
-			<MainLayout loggedInUser={this.state.loggedInUser} url={theUrl}></MainLayout> 
+				<MainLayout para={this.state.mainParameters} loggedInUser={this.state.loggedInUser} url={theUrl}></MainLayout> 
 			);
 		} else {
 			return (

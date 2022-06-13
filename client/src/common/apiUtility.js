@@ -39,7 +39,7 @@ function getContracts(baseUrl, callback){
 
 function putUser(userData, baseUrl, callback){
     var formdata = JSON.stringify(userData);
-    fetch(baseUrl + "users/"+ userData.id, {
+    fetch(baseUrl + "users", {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -52,7 +52,7 @@ function putUser(userData, baseUrl, callback){
 
 function putContract(contractData, baseUrl, callback){
     var formdata = JSON.stringify(contractData);
-    fetch(baseUrl + "contracts/"+ contractData, {
+    fetch(baseUrl + "contracts", {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -64,7 +64,7 @@ function putContract(contractData, baseUrl, callback){
 
 function putCustomer(customerData, baseUrl, callback){
     var formdata = JSON.stringify(customerData);
-    fetch(baseUrl + "customers/"+ customerData, {
+    fetch(baseUrl + "customers", {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',

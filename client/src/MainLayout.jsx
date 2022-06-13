@@ -106,7 +106,7 @@ class MainLayout extends React.Component {
                                 <Button onClick={
                                     () => this.openEditor(this.props.loggedInUser, this.props.loggedInUser.customer ? this.props.loggedInUser.customer : {name: "No Customer", id: null} )
                                     } startIcon={<AccountCircle />}>Account Settings</Button>
-                                <Button startIcon={<LogoutIcon />}>Logout</Button>
+                                <Button startIcon={<LogoutIcon />} onClick={() => this.props.para.logout()}>Logout</Button>
                             </div>
                         </header>
                     </Grid>
@@ -131,10 +131,10 @@ class MainLayout extends React.Component {
                     </Grid>
                 </Grid>
                 <UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
-                <AddUserEditor customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingUser}></AddUserEditor>
+                <AddUserEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingUser}></AddUserEditor>
                 <AddCustomerEditor customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingCustomer}></AddCustomerEditor>
-                <AddContractEditor para={this.state.addItemParameters} isOpen={this.state.isAddingContract}></AddContractEditor>
-            </div>
+                <AddContractEditor para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>
+            </div>                      
         );
 	}
 }

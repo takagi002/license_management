@@ -23,7 +23,7 @@ class CustomerDetail extends React.Component {
 		
 	render() {
 		return (
-			<div>{console.log(this.props.para.customer)}
+			<div>
 				{ this.props.para.customer &&
 					<Dialog open={this.props.isOpen}>
 						<DialogContent>

@@ -13,6 +13,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
@@ -39,9 +40,17 @@ public class UserResource {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserSimpelSchema> getUsers() {
+    public List<UserSimpelSchema> getUsers(@QueryParam("customerId") Long customerId) {
     	List<UserSimpelSchema> users = new ArrayList<>();
-    	List<User> dbUsers = userdao.getUsers();
+    	
+    	List<User> dbUsers;
+    	System.out.println(customerId);
+    	if (customerId == null) {
+    		dbUsers = userdao.getUsers();
+    	} else {
+    		dbUsers = customerDao.getCustomer(customerId).getUsers();
+    	}
+    	
     	
     	dbUsers.forEach(user -> users.add(new UserSimpelSchema(user)));
         return users;
@@ -75,6 +84,10 @@ public class UserResource {
     	dbUser.setPhoneNumber1(userSchema.getPhoneNumber());
     	dbUser.setPhoneNumber2(userSchema.getPhoneNumberOptional());
     	dbUser.setAdmin(userSchema.isAdmin());
+    	
+    	
+    	//TODO generateUsername.
+    	//TODO Ignor forbidden in password fild.
     	
     	if(userSchema.getCustomerId() > 0) {
     		dbUser.setCustomer(customerDao.getCustomer(userSchema.getCustomerId()));

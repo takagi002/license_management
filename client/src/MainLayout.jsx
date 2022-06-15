@@ -133,7 +133,7 @@ class MainLayout extends React.Component {
                 <UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
                 <AddUserEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingUser}></AddUserEditor>
                 <AddCustomerEditor customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingCustomer}></AddCustomerEditor>
-                <AddContractEditor para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>
+                <AddContractEditor customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>
             </div>                      
         );
 	}

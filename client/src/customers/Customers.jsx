@@ -76,7 +76,7 @@ class Customers extends React.Component {
 						<Typography variant="body1" gutterBottom>{customer.adresse}</Typography>
 						<Typography variant="body1" gutterBottom>{customer.department}</Typography>
 						<Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer, index)}>Edit</Button>
-						<Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.id, index)}>Delete</Button>
+						<Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.customerId, index)}>Delete</Button>
 						<Button>Contracts</Button>
 						<Button>Users</Button>
 						<div class='row-border'></div>

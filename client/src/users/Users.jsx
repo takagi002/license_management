@@ -103,7 +103,7 @@ class Users extends React.Component {
 									<Typography>{user.firstname} {user.name}</Typography>
 									<Typography>{user.email}</Typography>
 									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, noCustomer, index)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user)}>Delete</Button>
+									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)}>Delete</Button>
 									<div class='row-border'></div>
 								</div>
 							)}})}

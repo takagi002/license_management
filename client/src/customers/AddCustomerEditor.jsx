@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import { Dialog, DialogContent, DialogTitle, DialogActions, TextField, Button} from "@mui/material";
-
+import { putCustomer } from "../common/apiUtility";
 
 const styles = theme => ({
 		center: {
@@ -25,6 +25,17 @@ class AddCustomerEditor extends React.Component {
 
 	handleNameChange = (event) => {
 		this.setState({name: event.target.value})
+	}
+	handleAddressChange = (event) => {
+		this.setState({address: event.target.value})
+	}
+	handleDepartmentChange = (event) => {
+		this.setState({department: event.target.value})
+	}
+
+	addCustomer(customerData){
+		putCustomer(customerData, this.props.url)
+		this.props.para.cancel()
 	}
 		
 	render() {
@@ -51,6 +62,7 @@ class AddCustomerEditor extends React.Component {
 							type="text"
 							fullWidth
 							variant="standard"
+							onChange={this.handleAddressChange}
 						/>
 						<TextField
 							autoFocus
@@ -60,10 +72,16 @@ class AddCustomerEditor extends React.Component {
 							type="text"
 							fullWidth
 							variant="standard"
+							onChange={this.handleDepartmentChange}
 						/>
 					</DialogContent>
 					<DialogActions>
-						<Button>Submit</Button>
+						<Button onClick={() => this.addCustomer({
+							customerId: 0,
+							name: this.state.name,
+							adresse: this.state.address,
+							department: this.state.department
+						})}>Submit</Button>
 						<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 					</DialogActions>
 				</Dialog>

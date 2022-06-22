@@ -23,7 +23,8 @@ class AddUserEditor extends React.Component {
 		super(props);
 		this.state = {
 			customers: [],
-			customerId: null,			    
+			customerId: null,	
+			customer: null,		    
         	name: "",
         	firstname: "",
         	password: "",
@@ -38,30 +39,31 @@ class AddUserEditor extends React.Component {
 
 	handleCustomerChange = (event) => {
 		this.setState({customerId: event.target.value})
+
+		this.setState({customer: 
+			this.state.customers.find(customer => customer.customerId === this.state.customerId) })
 	}
 
-	handleChange = (event) => {
-		if (event.target.id==="name") {
-			this.setState({name: event.target.value});
-		}
-		if (event.target.id==="firstname") {
-			this.setState({firstname: event.target.value});
-		}
-		if (event.target.id==="password") {
-			this.setState({password: event.target.value});
-		}
-		if (event.target.id==="email") {
-			this.setState({email: event.target.value});
-		}
-		if (event.target.id==="phoneNumber") {
-			this.setState({phoneNumber: event.target.value});
-		}
-		if (event.target.id==="phoneNumberOptional") {
-			this.setState({phoneNumberOptional: event.target.value});
-		}
-		if (event.target.id==="isAdministrator") {
-			this.setState({isAdmin: event.target.value});
-		}
+	handleNameChange = (event) => {
+		this.setState({name: event.target.value});
+	}
+	handleFirstnameChange = (event) => {
+		this.setState({firstname: event.target.value});
+	}
+	handlePasswordChange = (event) => {	
+		this.setState({password: event.target.value});
+	}
+	handleEmailChange = (event) => {
+		this.setState({email: event.target.value});
+	}
+	handlePhoneChange = (event) => {
+		this.setState({phoneNumber: event.target.value});
+	}
+	handleOptPhoneChange = (event) => {
+		this.setState({phoneNumberOptional: event.target.value});
+	}
+	handleAdminChange = (event) => {
+		this.setState({isAdmin: event.target.checked});
 	}
 
 	addUser(userData){
@@ -99,7 +101,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
-							onChange={this.handleChange}
+							onChange={this.handleFirstnameChange}
 						/>
 						<TextField
             				autoFocus
@@ -109,7 +111,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
-							onChange={this.handleChange}
+							onChange={this.handleNameChange}
 						/>
 						<TextField
             				autoFocus
@@ -119,7 +121,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
-							onChange={this.handleChange}
+							onChange={this.handleEmailChange}
 						/>
 						<TextField
             				autoFocus
@@ -129,7 +131,7 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
-							onChange={this.handleChange}
+							onChange={this.handlePhoneChange}
 						/>
 						<TextField
             				autoFocus
@@ -139,10 +141,10 @@ class AddUserEditor extends React.Component {
             				type="text"
             				fullWidth
             				variant="standard"
-							onChange={this.handleChange}
+							onChange={this.handleOptPhoneChange}
 						/>
 						<div>
-                            <FormControlLabel control={<Checkbox/>} label="isAdministrator" onChange={this.handleChange}/>
+                            <FormControlLabel control={<Checkbox/>} label="isAdministrator" onChange={this.handleAdminChange}/>
 						</div>
 					</DialogContent>
 					<DialogActions>
@@ -150,14 +152,18 @@ class AddUserEditor extends React.Component {
 							id: 0,				    
         					name: this.state.name,
         					firstname: this.state.firstname,
-        					username: "aow;efijaoweifnoaeiwfmwaoef",
+        					username: this.state.email.substring(0,8), /*TODO: autogen the username*/
         					password: this.state.password,
-        					email: this.state.password,
-        					phoneNumber: this.state.phoneNumber,
-        					phoneNumberOptional: this.state.phoneNumberOptional,
-        					isAdmin: this.state.admin,
-        					customerId: this.state.customerId,
-        					customerName: this.state.customerName
+        					email: this.state.email,
+        					phoneNumber1: this.state.phoneNumber,
+        					phoneNumber2: this.state.phoneNumberOptional,
+        					customer: {
+								customerId: 0,
+								name: "a customer",
+								adresse: "addaress",
+								department: "car"
+							},
+							admin: this.state.isAdmin
 						})}>Submit</Button>
 						<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 					</DialogActions>

@@ -21,7 +21,6 @@ import de.hse.swb.jaxrs.model.UserSchema;
 import de.hse.swb.jaxrs.model.UserSimpelSchema;
 import de.hse.swb.jpa.orm.dao.CustomerDao;
 import de.hse.swb.jpa.orm.dao.UserDao;
-import de.hse.swb.jpa.orm.model.Customer;
 import de.hse.swb.jpa.orm.model.User;
 import io.vertx.core.http.HttpServerRequest;
 
@@ -74,11 +73,14 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public UserSchema saveUser(UserSchema userSchema) {
-    	User dbUser = new User();
-    	dbUser.setId(userSchema.getId());
+    	User dbUser = userdao.getUser(userSchema.getId());
+    	if(dbUser == null) {
+    		dbUser = new User();
+    		dbUser.setId(0);
+    	}else {
+    		dbUser.setId(userSchema.getId());
+    	}
     	dbUser.setName(userSchema.getName());
-    	dbUser.setFirstname(userSchema.getFirstname());
-    	dbUser.setUsername(userSchema.getUsername());
     	dbUser.setEmail(userSchema.getEmail());
     	dbUser.setPassword("tmp");
     	dbUser.setPhoneNumber1(userSchema.getPhoneNumber());
@@ -86,15 +88,14 @@ public class UserResource {
     	dbUser.setAdmin(userSchema.isAdmin());
     	
     	
-    	//TODO generateUsername.
-    	//TODO Ignor forbidden in password fild.
-    	
     	if(userSchema.getCustomerId() > 0) {
     		dbUser.setCustomer(customerDao.getCustomer(userSchema.getCustomerId()));
     	}
     	
     	UserSchema user = new UserSchema(userdao.saveUser(dbUser));
-    	userdao.changePassword(dbUser, userSchema.getPassword());
+    	if(userSchema.getPassword() != "forbidden") {
+    		userdao.changePassword(dbUser, userSchema.getPassword());
+    	}
     	user.setPassword("forbidden");
     	return user;
     } 
@@ -112,7 +113,6 @@ public class UserResource {
     	dbUser.setId(0);
     	dbUser.setName(userSchema.getName());
     	dbUser.setFirstname(userSchema.getFirstname());
-    	dbUser.setUsername(userSchema.getUsername());
     	dbUser.setPassword("tmp");
     	dbUser.setEmail(userSchema.getEmail());
     	dbUser.setPhoneNumber1(userSchema.getPhoneNumber());

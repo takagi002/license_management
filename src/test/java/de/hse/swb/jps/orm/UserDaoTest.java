@@ -2,6 +2,7 @@ package de.hse.swb.jps.orm;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -124,7 +125,15 @@ public class UserDaoTest {
 		userdao.addUser(user);
 		
 		User result = userdao.getUser(user.getId());
-		assertEquals("test0", result.getUsername());
+		assertEquals("tete000", result.getUsername());
+	}
+	@Test
+	void testGetUser_ID0() {
+		User user = createUser(0);
+		userdao.addUser(user);
+		
+		User result = userdao.getUser(0);
+		assertNull(result);
 	}
 	
 	@Test
@@ -133,7 +142,7 @@ public class UserDaoTest {
 		users.forEach((user) -> userdao.addUser(user));
 		
 		User result = userdao.getUser(users.get(2).getId());
-		assertEquals("test2", result.getUsername());
+		assertEquals("tete002", result.getUsername());
 	}
 	
 	@Test
@@ -141,8 +150,8 @@ public class UserDaoTest {
 		User user = createUser(0);
 		userdao.addUser(user);
 		
-		User result = userdao.getUserByUsername("test0");
-		assertEquals("test0", result.getUsername());
+		User result = userdao.getUserByUsername("tete000");
+		assertEquals("tete000", result.getUsername());
 	}
 	
 	@Test
@@ -150,8 +159,8 @@ public class UserDaoTest {
 		List<User> users = createMultipleUsers(6);
 		users.forEach((user) -> userdao.addUser(user));
 		
-		User result = userdao.getUserByUsername("test2");
-		assertEquals("test2", result.getUsername());
+		User result = userdao.getUserByUsername("tete002");
+		assertEquals("tete002", result.getUsername());
 	}
 	
 	@Test
@@ -159,7 +168,7 @@ public class UserDaoTest {
 		User user = createUser(0);
 		userdao.addUser(user);
 		
-		User result = userdao.login("test0", "password");
+		User result = userdao.login("tete000", "password");
 		assertNotEquals(null, result);
 	}
 	
@@ -168,7 +177,7 @@ public class UserDaoTest {
 		User user = createUser(0);
 		userdao.addUser(user);
 		
-		User result = userdao.login("test0", "wrong");
+		User result = userdao.login("tete000", "wrong");
 		assertEquals(null, result);
 	}
 	
@@ -181,7 +190,7 @@ public class UserDaoTest {
 		
 		userdao.changePassword(user, newPassword);
 		
-		User result = userdao.login("test0", newPassword);
+		User result = userdao.login("tete000", newPassword);
 		assertNotEquals(null, result);
 	}	
 

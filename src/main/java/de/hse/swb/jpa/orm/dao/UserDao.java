@@ -36,6 +36,10 @@ public class UserDao {
 	
 	@Transactional
     public User addUser(User user) {
+		
+		String username = generateUsername(user.getFirstname(), user.getName());
+		user.setUsername(username);
+		
 		em.persist(user);
     	return user;
     }
@@ -117,11 +121,23 @@ public class UserDao {
            
 			
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
     	 return passwordDigest;
     	
+    }
+    private String generateUsername(String firstname, String name) {
+    	
+		String username = firstname.substring(0, 2) + name.substring(0, 2);
+		
+		TypedQuery<User> query = em.createQuery("SELECT u FROM User u where u.username like '%"+username+"%'", User.class);
+		List<User> results = query.getResultList();
+		
+		int amountOfUsers = results.size();
+		String number = String.format("%03d", amountOfUsers);
+		
+		//System.out.println(username + number);
+		return username + number;
     }
 }

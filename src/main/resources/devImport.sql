@@ -75,17 +75,17 @@ insert into User (name, firstname, username, password, email, phoneNumber1, phon
 
 -- Add sample contracts
 -- Contract -> Customer: Cool Inc.  /	UserIDs: 1 and 2
-insert into contracts (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
+insert into Contract (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
 	values (1, 1, 2, '2022-06-19', '2022-06-22', 'BC195F447B9681F7', '110.98.77.177', '57.228.77.32', '211.154.51.8', 973, 9, 34);
 
 -- Contract -> Customer: BUG Ltd.	/	UserIDs: 4 and 5
-insert into contracts (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
+insert into Contract (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
 	values (5, 4, 5, '2018-03-19', '2020-09-31', '6DF7688E7FFC1E5C', '184.226.122.157', '242.66.42.247', '28.61.236.173', 52, 76, 157);
 
 -- Contract -> Customer: BUG Ltd.	/	UserIDs: 4 and 5
-insert into contracts (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
+insert into Contract (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
 	values (5, 6, 7, '2020-07-19', '2021-02-29', 'C1BBCFE74944293C', '151.240.237.194', '106.231.49.9', '85.204.9.139', 47, 77, 1);
 
 -- Constract -> Customer: NoCear	/	UserIDs: 3 and 4
-insert into contracts (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
+insert into Contract (customerId, userId, userId, startDate, endDate, licenseKey, ipV4Adress1, ipV4Adress2, ipV4Adress3, feature1, feature2, feature3)
 	values (9, 3, 4, '2022-02-04', '2021-02-29', '9B928DCBC51ECD46', '93.1.169.20', '145.165.229.5', '161.103.136.219', 67, 59, 37);

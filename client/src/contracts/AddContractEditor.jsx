@@ -26,8 +26,8 @@ class AddContractEditor extends React.Component {
 			startDate: "",
 			endDate: "",
 			version: "",
-			responsible1: null,
-			responsible2: null,
+			responsible1: 0,
+			responsible2: 0,
 			ip1: "",
 			ip2: "",
 			ip3: "",
@@ -58,14 +58,6 @@ class AddContractEditor extends React.Component {
 
 	handleUserOneChange = (event) => {
 		this.setState({responsible1: event.target.value})
-		let users = this.state.validUsers.slice()
-		let aindex
-		users.forEach( (user, index) => {
-			if(user.id == event.target.value.id){ aindex = index }
-		})
-		
-		users.splice(aindex, 1)
-		this.setState({validUsers: users})
 	}
 	handleUserTwoChange = (event) => {
 		this.setState({responsible2: event.target.value})
@@ -138,9 +130,11 @@ class AddContractEditor extends React.Component {
   							  value={this.state.responsible1}
 							  label="User 1"
   							>
+								<MenuItem value={0}>No User</MenuItem>
   							   {this.state.validUsers.map((user, index) => {
 								return (
-									<MenuItem value={user.id}>{user.firstname} {user.name}</MenuItem>
+									user.id !== this.state.responsible2 &&
+										<MenuItem value={user.id}>{user.firstname} {user.name}</MenuItem>
 								)})}
   							</Select>
 						</FormControl>
@@ -150,10 +144,15 @@ class AddContractEditor extends React.Component {
 							  onChange={this.handleUserTwoChange}
   							  labelId="demo-simple-select-label"
   							  id="responsible-user-2"
-  							  value={this.state.customerId}
+  							  value={this.state.responsible2}
 							  label="User 2"
   							>
-  		
+								<MenuItem value={0}>No User</MenuItem>
+								{this.state.validUsers.map((user, index) => {
+								return (
+									user.id !== this.state.responsible1 &&
+										<MenuItem value={user.id}>{user.firstname} {user.name}</MenuItem>
+								)})}
   							</Select>
 						</FormControl>
 						<TextField

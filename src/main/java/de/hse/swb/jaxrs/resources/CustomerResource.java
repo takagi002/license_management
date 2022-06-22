@@ -60,15 +60,18 @@ public class CustomerResource {
 	    @Consumes(MediaType.APPLICATION_JSON)
 	    @Produces(MediaType.APPLICATION_JSON)
 	    public CustomerSchema saveUser(CustomerSchema customerSchema) {
+	    	Customer dbCustomer = customerDao.getCustomer(customerSchema.getId());
+	    	if(dbCustomer == null) {
+	    		dbCustomer = new Customer();
+		    	dbCustomer.setId(0);
+	    	}
+
+	    	dbCustomer.setName(customerSchema.getName());
+	    	dbCustomer.setAdresse(customerSchema.getAddress());
+	    	dbCustomer.setAdresse2(customerSchema.getAddressOptional());
+	    	dbCustomer.setDepartment(customerSchema.getDepartment());
 	    	
-	    	Customer customer = new Customer();
-	    	customer.setId(customerSchema.getId());
-	    	customer.setName(customerSchema.getName());
-	    	customer.setAdresse(customerSchema.getAddress());
-	    	customer.setAdresse2(customerSchema.getAddressOptional());
-	    	customer.setDepartment(customerSchema.getDepartment());
-	    	
-	        return new CustomerSchema(customerDao.saveCustomer(customer));
+	        return new CustomerSchema(customerDao.saveCustomer(dbCustomer));
 	    } 
 	    
 	    /**

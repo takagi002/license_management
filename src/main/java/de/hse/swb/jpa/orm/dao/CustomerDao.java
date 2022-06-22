@@ -51,8 +51,9 @@ public class CustomerDao {
     	try {
     		Query removeForeignKey = em.createQuery("UPDATE User SET customerId=null WHERE customerId="+ customer.getId());
     		removeForeignKey.executeUpdate();
-    		removeForeignKey = em.createQuery("UPDATE Contract SET customerId=null WHERE customerId="+ customer.getId());
-    		removeForeignKey.executeUpdate();
+    		
+    		customer.getContracts().forEach(contract -> em.remove(em.merge(contract)));
+    		
     		em.remove(em.merge(customer));
     	} catch (SecurityException | IllegalStateException  e) {
     	    e.printStackTrace();
@@ -65,7 +66,8 @@ public class CustomerDao {
     		
     		Query removeForeignKey = em.createQuery("UPDATE User SET customerId=null WHERE customerId>= 0");
     		removeForeignKey.executeUpdate();
-    		removeForeignKey = em.createQuery("UPDATE Contract SET customerId=null WHERE customerId>= 0");
+    		
+    		removeForeignKey = em.createQuery("DELETE FROM Contract WHERE customerId>= 0");
     		removeForeignKey.executeUpdate();
     		
     		Query del = em.createQuery("DELETE FROM Customer WHERE id >= 0");

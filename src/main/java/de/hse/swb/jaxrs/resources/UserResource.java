@@ -77,8 +77,6 @@ public class UserResource {
     	if(dbUser == null) {
     		dbUser = new User();
     		dbUser.setId(0);
-    	}else {
-    		dbUser.setId(userSchema.getId());
     	}
     	dbUser.setName(userSchema.getName());
     	dbUser.setEmail(userSchema.getEmail());

@@ -35,14 +35,24 @@ public class ContractDao {
 	   	 return query.getResultList();
 	}
 	
+	@Transactional 
+	public Contract add(Contract contract) {
+		em.persist(contract);
+		return contract;
+	}
+	
+	@Transactional
+	public Contract update(Contract contract) {
+		return em.merge(contract);
+	}
+	
     @Transactional
     public Contract save(Contract contract) {
-    	if (contract.getContractId() != 0) {
-    		contract = em.merge(contract);
+    	if (contract.getId() != 0) {
+    		return update(contract);
     	} else {
-    		em.persist(contract);
+    		return add(contract);
     	}
-    	return contract;
     }
     
 	@Transactional 

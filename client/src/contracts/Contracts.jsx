@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import ContractDetails from "./ContractDetails";
-import {getCustomers, getContracts} from '../common/apiUtility';
+import {getCustomers, getContracts, deleteContract} from '../common/apiUtility';
 import { Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -47,6 +47,15 @@ class Contracts extends React.Component {
 		this.setState({isEditing: false})
 	}
 
+	removeContract(contractId, index){
+		deleteContract(contractId, this.props.url)
+
+		const temp = this.state.contracts.slice();
+		temp.splice(index,1);
+
+		this.setState({contracts: temp});
+	}
+
 	componentDidMount(){
 		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
 		getContracts(this.props.url, (json) => {this.setState({contracts: json})} );
@@ -68,7 +77,7 @@ class Contracts extends React.Component {
 									<Typography variant="body1" gutterBottom>{contract.endDate}</Typography>
 									<Typography variant="body1" gutterBottom>{contract.endDate}</Typography>
 									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract, index)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />} >Delete</Button>
+									<Button startIcon={<DeleteIcon />} onClick={() => this.removeContract(contract.id, index)}>Delete</Button>
 									<Button startIcon={<InfoIcon />} >Details</Button>
 									<div class='row-border'></div>
 								</div>

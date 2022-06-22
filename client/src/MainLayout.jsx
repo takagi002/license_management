@@ -11,6 +11,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import UserDetail from "./users/UserDetail";
+import {getCustomers, getUsers} from './common/apiUtility';
+import AddUserEditor from "./users/AddUserEditor";
+import AddCustomerEditor from "./customers/AddCustomerEditor";
+import AddContractEditor from "./contracts/AddContractEditor";
 
 const styles = theme => ({
 		center: {
@@ -30,7 +34,18 @@ class MainLayout extends React.Component {
             currentPageName: "Users",
             editorParameters: {},
 			isEditing: false,
+            customers: [],
+            users: [],
+            addItemParameters: {},
+            isAddingUser: false,
+            isAddingCustomer: false,
+            isAddingContract: false
 		}
+	}
+
+    componentDidMount(){
+		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+        getUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
 
     switchPage = (component, name) => {
@@ -38,16 +53,35 @@ class MainLayout extends React.Component {
         this.setState({currentPageName: name});
     }
 
-    openEditor(user) {
+    openEditor(user, customer) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
 			user,
+            customer,
 			cancel: () => this.setState({isEditing: false}),
 			save: () => this.saveUser(),
 		}});
 	}
 
-	
+    addItem(){
+        if(this.state.currentPageName === "Users"){
+            this.setState({isAddingUser: true});
+            this.setState({addItemParameters: {
+                cancel: () => this.setState({isAddingUser: false})
+            }});
+        }else if(this.state.currentPageName === "Customers"){
+            this.setState({isAddingCustomer: true});
+            this.setState({addItemParameters: {
+                cancel: () => this.setState({isAddingCustomer: false})
+            }});
+        }else if(this.state.currentPageName === "Contracts"){
+            this.setState({isAddingContract: true});
+            this.setState({addItemParameters: {
+                cancel: () => this.setState({isAddingContract: false})
+            }});
+        }
+    }
+
 	render() {
         return (
             <div>
@@ -58,7 +92,7 @@ class MainLayout extends React.Component {
                             <Box pl={'10px'} pt={'10px'} pb={'10px'} pr={'20px'}>
                                 <Typography variant="h4" display="inline" >{this.state.currentPageName}</Typography>
                             </Box>
-                            <Button size="medium" endIcon={<AddIcon />}>Add</Button>
+                            <Button size="medium" endIcon={<AddIcon />} onClick={() => this.addItem()}>Add</Button>
                             <div style={{marginLeft: "auto"}}>
                                 <TextField
                                     id="input-with-icon-textfield"
@@ -71,8 +105,10 @@ class MainLayout extends React.Component {
                                     }}
                                     variant="standard"
                                 /> 
-                                <Button onClick={() => this.openEditor(this.props.loggedInUser)} startIcon={<AccountCircle />}>Account Settings</Button>
-                                <Button startIcon={<LogoutIcon />}>Logout</Button>
+                                <Button onClick={
+                                    () => this.openEditor(this.props.loggedInUser, this.props.loggedInUser.customer ? this.props.loggedInUser.customer : {name: "No Customer", id: null} )
+                                    } startIcon={<AccountCircle />}>Account Settings</Button>
+                                <Button startIcon={<LogoutIcon />} onClick={() => this.props.para.logout()}>Logout</Button>
                             </div>
                         </header>
                     </Grid>
@@ -96,8 +132,11 @@ class MainLayout extends React.Component {
                         </main>
                     </Grid>
                 </Grid>
-                <UserDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
-            </div>
+                <UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+                <AddUserEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingUser}></AddUserEditor>
+                <AddCustomerEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingCustomer}></AddCustomerEditor>
+                <AddContractEditor url={this.props.url} users={this.state.users} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>
+            </div>                      
         );
 	}
 }

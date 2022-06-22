@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import UserDetail from "./users/UserDetail";
-import {getCustomers} from './common/apiUtility';
+import {getCustomers, getUsers} from './common/apiUtility';
 import AddUserEditor from "./users/AddUserEditor";
 import AddCustomerEditor from "./customers/AddCustomerEditor";
 import AddContractEditor from "./contracts/AddContractEditor";
@@ -35,6 +35,7 @@ class MainLayout extends React.Component {
             editorParameters: {},
 			isEditing: false,
             customers: [],
+            users: [],
             addItemParameters: {},
             isAddingUser: false,
             isAddingCustomer: false,
@@ -44,6 +45,7 @@ class MainLayout extends React.Component {
 
     componentDidMount(){
 		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+        getUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
 
     switchPage = (component, name) => {
@@ -133,7 +135,7 @@ class MainLayout extends React.Component {
                 <UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
                 <AddUserEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingUser}></AddUserEditor>
                 <AddCustomerEditor customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingCustomer}></AddCustomerEditor>
-                <AddContractEditor customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>
+                <AddContractEditor users={this.state.users} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>
             </div>                      
         );
 	}

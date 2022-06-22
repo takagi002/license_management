@@ -17,8 +17,14 @@ class AddCustomerEditor extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-
+			name: "",
+			address: "",
+			department: ""
 		}
+	}
+
+	handleNameChange = (event) => {
+		this.setState({name: event.target.value})
 	}
 		
 	render() {
@@ -35,11 +41,12 @@ class AddCustomerEditor extends React.Component {
 							type="text"
 							fullWidth
 							variant="standard"
+							onChange={this.handleNameChange}
 						/>
 						<TextField
 							autoFocus
 							margin="dense"
-							id="name"
+							id="address"
 							label="Address"
 							type="text"
 							fullWidth
@@ -48,7 +55,7 @@ class AddCustomerEditor extends React.Component {
 						<TextField
 							autoFocus
 							margin="dense"
-							id="name"
+							id="department"
 							label="Department"
 							type="text"
 							fullWidth

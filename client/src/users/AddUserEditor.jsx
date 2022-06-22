@@ -36,10 +36,11 @@ class AddUserEditor extends React.Component {
 		}
 	}
 
+	handleCustomerChange = (event) => {
+		this.setState({customerId: event.target.value})
+	}
+
 	handleChange = (event) => {
-		if (event.target.id==="customer-select") {
-			this.setState({customerId: event.target.value})
-		}
 		if (event.target.id==="name") {
 			this.setState({name: event.target.value});
 		}
@@ -77,16 +78,16 @@ class AddUserEditor extends React.Component {
 						<FormControl fullWidth>
   							<InputLabel id="demo-simple-select-label">Customer</InputLabel>
   							<Select
-							  onChange={this.handleChange}
+							  onChange={this.handleCustomerChange}
   							  labelId="demo-simple-select-label"
-  							  id="customer-select"
+  							  id="customer"
   							  value={this.state.customerId}
 							  label="Customer"
   							>
-  							  <MenuItem value={null}>No Customer</MenuItem>
+								<MenuItem value={0}>No Customer</MenuItem>
   							  {this.props.customers.map((customer, index) => {
 								return (
-									<MenuItem value={customer.id}>{customer.name}</MenuItem>
+									<MenuItem value={customer.customerId}>{customer.name}</MenuItem>
 								)})}
   							</Select>
 						</FormControl>

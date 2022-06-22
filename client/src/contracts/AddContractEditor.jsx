@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, FormControl, InputLabel, Select, MenuItem } from "@material-ui/core";
-import { getUsers, putContract } from "../common/apiUtility";
+import { putContract } from "../common/apiUtility";
 import { getNativeSelectUtilityClasses } from "@mui/material";
 
 const styles = theme => ({
@@ -21,6 +21,7 @@ class AddContractEditor extends React.Component {
 		this.state = {
 			customers: [],
 			users: [],
+			validUsers: [],
 			customerId: null,
 			startDate: "",
 			endDate: "",
@@ -36,15 +37,35 @@ class AddContractEditor extends React.Component {
 			licenseKey: ""
 		}
 	}
-	componentDidMount(){
-		getUsers(this.props.url, (json) => {this.setState({users: json})});
-	}
 
 	handleCustomerChange = (event) => {
 		this.setState({customerId: event.target.value})
+		console.log(event.target.value, this.state.customers[event.target.value])
+
+		let validUsersFromCustomer = []
+		this.props.users.forEach( (user) =>
+			{if (user.customer){
+				console.log(user)
+				if (user.customer.customerId === event.target.value){
+					console.log(user)
+					console.log(this.state.customerId)
+					validUsersFromCustomer.push(user)
+				}
+			}
+		}) 
+		this.setState({validUsers: validUsersFromCustomer})
 	}
+
 	handleUserOneChange = (event) => {
 		this.setState({responsible1: event.target.value})
+		let users = this.state.validUsers.slice()
+		let aindex
+		users.forEach( (user, index) => {
+			if(user.id == event.target.value.id){ aindex = index }
+		})
+		
+		users.splice(aindex, 1)
+		this.setState({validUsers: users})
 	}
 	handleUserTwoChange = (event) => {
 		this.setState({responsible2: event.target.value})
@@ -101,6 +122,7 @@ class AddContractEditor extends React.Component {
   							  value={this.state.customerId}
 							  label="Customer"
   							>
+								<MenuItem value={0}>No Customer</MenuItem>
   							  {this.props.customers.map((customer, index) => {
 								return (
 									<MenuItem value={customer.customerId}>{customer.name}</MenuItem>
@@ -116,14 +138,10 @@ class AddContractEditor extends React.Component {
   							  value={this.state.responsible1}
 							  label="User 1"
   							>
-  							   {this.state.users.map((user, index) => {
-									if (user.customer.customerId == this.state.customerId)
-									{
-										return (
-											<MenuItem value={user.id}>{user.firstname} {user.name}</MenuItem>
-										)
-									}
-								})}
+  							   {this.state.validUsers.map((user, index) => {
+								return (
+									<MenuItem value={user.id}>{user.firstname} {user.name}</MenuItem>
+								)})}
   							</Select>
 						</FormControl>
 						<FormControl fullWidth>
@@ -135,14 +153,7 @@ class AddContractEditor extends React.Component {
   							  value={this.state.customerId}
 							  label="User 2"
   							>
-  							  {this.state.users.map((user, index) => {
-									if (user.customer.customerId == this.state.customerId)
-									{
-										return (
-											<MenuItem value={user.id}>{user.firstname} {user.name}</MenuItem>
-										)
-									}
-								})}
+  		
   							</Select>
 						</FormControl>
 						<TextField

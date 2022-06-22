@@ -53,7 +53,6 @@ class UserDetail extends React.Component {
   								>
   								  <MenuItem value={null}>No Customer</MenuItem>
   								  {this.props.customers.map((customer, index) => {
-									console.log(this.state.customers)
 									return (
 										<MenuItem value={customer.id}>{customer.name}</MenuItem>
 									)})}

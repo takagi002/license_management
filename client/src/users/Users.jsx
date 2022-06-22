@@ -38,9 +38,13 @@ class Users extends React.Component {
 		}});
 	}
 
-	removeUser(user){
-		
-		deleteUser(this.props.url, )
+	removeUser(userId, index){
+		deleteUser(userId, this.props.url)
+
+		const temp = this.state.users.slice();
+		temp.splice(index,1);
+
+		this.setState({users: temp});
 	}
 
 	saveUser(user, index) {
@@ -73,7 +77,7 @@ class Users extends React.Component {
 									<Typography>{user.firstname} {user.name}</Typography>
 									<Typography>{user.email}</Typography>
 									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, customer, uIndex)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user)}>Delete</Button>
+									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)}>Delete</Button>
 									<div class='row-border'></div>
 								</div>
 							)}})}
@@ -99,7 +103,7 @@ class Users extends React.Component {
 									<Typography>{user.firstname} {user.name}</Typography>
 									<Typography>{user.email}</Typography>
 									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, noCustomer, index)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user)}>Delete</Button>
+									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)}>Delete</Button>
 									<div class='row-border'></div>
 								</div>
 							)}})}

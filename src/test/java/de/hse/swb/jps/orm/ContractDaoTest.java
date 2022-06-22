@@ -67,7 +67,7 @@ public class ContractDaoTest {
 	}
 	
 	private void printContract(Contract Contract) {
-		System.out.println("id: " + Contract.getContractId());
+		System.out.println("id: " + Contract.getId());
 //		List<Contract> Contracts = Contract.getContracts();
 //		for (Contract Contract: Contracts) {
 //			System.out.println("  Contract " + Contract.getId() + ": " + Contract.getContractname());

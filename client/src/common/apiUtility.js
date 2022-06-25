@@ -16,6 +16,15 @@ function getCustomers(baseUrl, callback){
             console.error( 'Request failed', error );
         });
 }
+function getCustomerById(baseUrl, id, callback){
+    fetch( baseUrl + "customers/" + id)
+        .then( resolveStatus )
+        .then( (response) => { return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
 
 function getUsers(baseUrl, callback){
     fetch(baseUrl + "users")
@@ -164,4 +173,4 @@ function deleteContract(contractId, baseUrl){
 
 
 export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer, deleteUser, deleteCustomer, deleteContract,
-    getContract, getUser, getCustomer, getUsersByCustomerId, getContractsByCustomerId, getUsersByCustomerIdAsync};
+    getContract, getUser, getCustomer, getUsersByCustomerId, getContractsByCustomerId, getUsersByCustomerIdAsync, getCustomerById};

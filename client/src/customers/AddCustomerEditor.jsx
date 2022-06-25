@@ -19,6 +19,7 @@ class AddCustomerEditor extends React.Component {
 		this.state = {
 			name: "",
 			address: "",
+			optAddress: "",
 			department: ""
 		}
 	}
@@ -28,6 +29,9 @@ class AddCustomerEditor extends React.Component {
 	}
 	handleAddressChange = (event) => {
 		this.setState({address: event.target.value})
+	}
+	handleOptAddressChange = (event) => {
+		this.setState({optAddress: event.target.value})
 	}
 	handleDepartmentChange = (event) => {
 		this.setState({department: event.target.value})
@@ -68,6 +72,16 @@ class AddCustomerEditor extends React.Component {
 							autoFocus
 							margin="dense"
 							id="department"
+							label="Optional Address"
+							type="text"
+							fullWidth
+							variant="standard"
+							onChange={this.handleOptAddressChange}
+						/>
+						<TextField
+							autoFocus
+							margin="dense"
+							id="department"
 							label="Department"
 							type="text"
 							fullWidth
@@ -79,7 +93,8 @@ class AddCustomerEditor extends React.Component {
 						<Button onClick={() => this.addCustomer({
 							customerId: 0,
 							name: this.state.name,
-							adresse: this.state.address,
+							address: this.state.address,
+							addressOptional: this.state.optAddress,
 							department: this.state.department
 						})}>Submit</Button>
 						<Button onClick={() => this.props.para.cancel()}>Cancel</Button>

@@ -2,11 +2,14 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import CustomerDetail from './CustomerDetail';
 import {getCustomers, getUsers, deleteCustomer, getContracts} from '../common/apiUtility';
-import { Button, Typography} from "@material-ui/core";
+import { Paper, Button, Typography, Grid, Box } from "@material-ui/core";
+import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContractListView from "./ContractListView";
 import UserListView from "./UserListView";
+import { styled } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
 
 const styles = theme => ({
 		center: {
@@ -17,6 +20,14 @@ const styles = theme => ({
 	},
 });
 
+const Item = styled(Paper)(({ theme }) => ({
+	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+	...theme.typography.body2,
+	padding: '12px',
+	textAlign: 'center',
+	color: theme.palette.text.secondary,
+  }));
+  
 class Customers extends React.Component {
 	
 	constructor(props) {
@@ -29,14 +40,16 @@ class Customers extends React.Component {
 			isViewingContracts: false,
 			isViewingUsers: false,
 			editorParameters: {},
+			viewContractsParameters: {},
+			viewUsersParameters: {}
 		}
 	}
 	
-    openEditor(customer, index) {
+    openEditor(customerId, index) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
-			customer,
-			index,
+			customerId: customerId,
+			index: index,
 			cancel: () => this.setState({isEditing: false}),
 			save: () => this.saveCustomer(),
 		}});
@@ -63,7 +76,7 @@ class Customers extends React.Component {
 	viewContracts(customerName, customerId) {
 		this.setState({isViewingContracts: true});
 		
-		this.setState({editorParameters:{
+		this.setState({viewContractsParameters:{
 			customer: customerName,
 			customerId: customerId,
 			cancel: () => this.setState({isViewingContracts: false}),
@@ -73,7 +86,7 @@ class Customers extends React.Component {
 	viewUsers(customerName, customerId){
 		this.setState({isViewingUsers: true});
 
-		this.setState({editorParameters:{
+		this.setState({viewUsersParameters:{
 			customer: customerName,
 			customerId: customerId,
 			cancel: () => this.setState({isViewingUsers: false}),
@@ -94,24 +107,29 @@ class Customers extends React.Component {
 
     render(){
 		return (
-			<div>{
+			<div>
+				<Stack spacing={2} divider={<Divider orientation="horizontal" />}>{
 				this.state.customers.map((customer, index) => {
 					return (
-					<div class="customerDetailGrid" key={index}>
-						<Typography variant="body1" gutterBottom>{customer.name}</Typography>
-						<Typography variant="body1" gutterBottom>{customer.adresse}</Typography>
-						<Typography variant="body1" gutterBottom>{customer.department}</Typography>
-						<Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer, index)}>Edit</Button>
-						<Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.id, index)}>Delete</Button>
-						<Button onClick={() => this.viewContracts(customer.name, customer.id)}>Contracts</Button>
-						<Button onClick={() => this.viewUsers(customer.name, customer.id)}>Users</Button>
-						<div class='row-border'></div>
-					</div>
+						
+						<Item elevation={0}>
+							<Grid container spacing={1} justifyContent="center" alignItems="center">
+								<Grid item xs={2}><Typography variant="body1" gutterBottom>{customer.name}</Typography></Grid>
+								<Grid item xs={3}><Typography variant="body1" gutterBottom>{customer.address}</Typography></Grid>
+								<Grid item xs={3}><Typography variant="body1" gutterBottom>{customer.addressOptional}</Typography></Grid>
+								<Grid item><Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer.id, index)}>Edit</Button></Grid>
+								<Grid item><Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.id, index)}>Delete</Button></Grid>
+								<Grid item><Button onClick={() => this.viewContracts(customer.name, customer.id)}>Contracts</Button></Grid>
+								<Grid item><Button onClick={() => this.viewUsers(customer.name, customer.id)}>Users</Button></Grid>
+							</Grid>
+						</Item>
+						
 				)})}
-				<CustomerDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></CustomerDetail>
-				<ContractListView url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isViewingContracts}></ContractListView>
-				<UserListView url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isViewingUsers}></UserListView>
-			</div>
+				</Stack>
+				<CustomerDetail url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isEditing}></CustomerDetail>
+				<ContractListView url={this.props.url} para={this.state.viewContractsParameters} isOpen={this.state.isViewingContracts}></ContractListView>
+				<UserListView url={this.props.url} para={this.state.viewUsersParameters} isOpen={this.state.isViewingUsers}></UserListView>
+			</div>	
 		);
 	}
 }

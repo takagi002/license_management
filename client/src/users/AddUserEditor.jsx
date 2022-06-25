@@ -89,7 +89,7 @@ class AddUserEditor extends React.Component {
 								<MenuItem value={0}>No Customer</MenuItem>
   							  {this.props.customers.map((customer, index) => {
 								return (
-									<MenuItem value={customer.customerId}>{customer.name}</MenuItem>
+									<MenuItem value={customer.id}>{customer.name}</MenuItem>
 								)})}
   							</Select>
 						</FormControl>

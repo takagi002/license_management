@@ -40,15 +40,11 @@ class AddContractEditor extends React.Component {
 
 	handleCustomerChange = (event) => {
 		this.setState({customerId: event.target.value})
-		console.log(event.target.value, this.state.customers[event.target.value])
 
 		let validUsersFromCustomer = []
 		this.props.users.forEach( (user) =>
-			{if (user.customer){
-				console.log(user)
-				if (user.customer.customerId === event.target.value){
-					console.log(user)
-					console.log(this.state.customerId)
+			{if (user.customerId){
+				if (user.customerId === event.target.value){
 					validUsersFromCustomer.push(user)
 				}
 			}
@@ -117,7 +113,7 @@ class AddContractEditor extends React.Component {
 								<MenuItem value={0}>No Customer</MenuItem>
   							  {this.props.customers.map((customer, index) => {
 								return (
-									<MenuItem value={customer.customerId}>{customer.name}</MenuItem>
+									<MenuItem value={customer.id}>{customer.name}</MenuItem>
 								)})}
   							</Select>
 						</FormControl>

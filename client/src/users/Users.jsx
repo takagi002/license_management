@@ -78,7 +78,7 @@ class Users extends React.Component {
 						<Typography>{customer.name}</Typography>
 						<div>
 							{this.state.usersOld.map((user, uIndex) => {
-								if (user.customer && user.customerId === customer.id)
+								if (user.customerId && user.customerId === customer.id)
 								{
 								return (
 								<div class="userGrid" key={uIndex}>
@@ -104,7 +104,7 @@ class Users extends React.Component {
 
 								}
 								
-								if (!user.customer)
+								if (!user.customerId)
 								{
 								return (
 								<div class="userGrid" key={index}>

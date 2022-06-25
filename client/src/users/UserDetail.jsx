@@ -22,18 +22,46 @@ class UserDetail extends React.Component {
 		super(props);
 		this.state = {
 			customers: [],
-			customerId: null
+			name: "",
+			firstname: "",
+			email: "",
+			password:"",
+			phone: "",
+			mobile: "",
+			admin: false
 		}
 	}
 
 
-	handleChange = (event) => {
+	handleCustomerChange = (event) => {
 		this.setState({customerName: event.target.value})
 	}
+	handleFirstNameChange = (event) => {
+		this.setState({firstname: event.target.value})
+	}
+	handleNameChange = (event) => {
+		this.setState({name: event.target.value})
+	}
+	handleEmailChange = (event) => {
+		this.setState({email: event.target.value})
+	}
+	handlePasswordChange = (event) => {
+		this.setState({password: event.target.value})
+	}
+	handlePhoneChange = (event) => {
+		this.setState({phone: event.target.value})
+	}
+	handleMobileChange = (event) => {
+		this.setState({mobile: event.target.value})
+	}
+	handleAdminChange = (event) => {
+		this.setState({admin: event.target.value})
+	}
 
-	//save() {
-	//	putUser
-	//}
+
+	saveUser(userData){
+
+	}
 	
 	render() {
 		return (
@@ -45,11 +73,12 @@ class UserDetail extends React.Component {
 							<FormControl fullWidth>
   								<InputLabel id="demo-simple-select-label">Customer</InputLabel>
   								<Select
-								  onChange={this.handleChange}
+								  onChange={this.handleCustomerChange}
   								  labelId="demo-simple-select-label"
   								  id="demo-simple-select"
   								  value={this.state.customerId}
 								  label="Customer"
+								  defaultValue={this.props.para.user.customerId}
   								>
   								  <MenuItem value={null}>No Customer</MenuItem>
   								  {this.props.customers.map((customer, index) => {
@@ -67,6 +96,7 @@ class UserDetail extends React.Component {
             					fullWidth
             					variant="standard"
 								defaultValue={this.props.para.user.firstname}
+								onChange={this.handleFirstNameChange}
 							/>
 							<TextField
             					autoFocus
@@ -77,16 +107,29 @@ class UserDetail extends React.Component {
             					fullWidth
             					variant="standard"
 								defaultValue={this.props.para.user.name}
+								onChange={this.handleNameChange}
 							/>
 							<TextField
             					autoFocus
             					margin="dense"
-            					id="name"
+            					id="email"
             					label="Email"
             					type="text"
             					fullWidth
             					variant="standard"
 								defaultValue={this.props.para.user.email}
+								onChange={this.handleEmailChange}
+							/>
+							<TextField
+            					autoFocus
+            					margin="dense"
+            					id="password"
+            					label="Password"
+            					type="password"
+            					fullWidth
+            					variant="standard"
+								defaultValue={this.props.para.user.password}
+								onChange={this.handlePasswordChange}
 							/>
 							<TextField
             					autoFocus
@@ -97,6 +140,7 @@ class UserDetail extends React.Component {
             					fullWidth
             					variant="standard"
 								defaultValue={this.props.para.user.phoneNumber1}
+								onChange={this.handlePhoneChange}
 							/>
 							<TextField
             					autoFocus
@@ -107,17 +151,18 @@ class UserDetail extends React.Component {
             					fullWidth
             					variant="standard"
 								defaultValue={this.props.para.user.phoneNumber2}
+								onChange={this.handleMobileChange}
 							/>
 							<div>
 								<FormGroup>
 								        {(() => {
 											if (this.props.para.user.admin) {
 											  return (
-												<FormControlLabel control={<Checkbox defaultChecked/>} label="isAdministrator" />
+												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox defaultChecked/>} label="isAdministrator" />
 											  )
 											} else {
 											  return (
-												<FormControlLabel control={<Checkbox/>} label="isAdministrator" />
+												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox/>} label="isAdministrator" />
 											  )
 											}
 										})()}
@@ -126,7 +171,9 @@ class UserDetail extends React.Component {
 						</DialogContent>
 
 						<DialogActions>
-							<Button onClick={() => this.props.para.save()} >Save</Button>
+							<Button onClick={() => this.saveUser({
+								//TODO: update changed fields
+							})} >Save</Button>
 							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 						</DialogActions>
 					</Dialog>

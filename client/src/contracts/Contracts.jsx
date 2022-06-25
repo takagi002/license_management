@@ -102,8 +102,6 @@ class Contracts extends React.Component {
 								)}})}
 								</Grid>
 							</Grid>
-						
-							
 						</Item>
 				)})}
 				</Stack>

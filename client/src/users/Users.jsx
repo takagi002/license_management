@@ -2,9 +2,12 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import UserDetail from "./UserDetail";
 import {getCustomers, getUsers, deleteUser, getUsersByCustomerId} from '../common/apiUtility';
-import { Button, Typography} from "@material-ui/core";
+import { Paper, Grid, Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
 
 const styles = theme => ({
 		center: {
@@ -14,6 +17,14 @@ const styles = theme => ({
 		minHeight: '100vh',
 	},
 });
+
+const Item = styled(Paper)(({ theme }) => ({
+	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+	...theme.typography.body2,
+	padding: '12px',
+	textAlign: 'center',
+	color: theme.palette.text.secondary,
+  }));
 
 class Users extends React.Component {
 	
@@ -33,7 +44,7 @@ class Users extends React.Component {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
 			user,
-			customer,
+			customerId: customer,
 			cancel: () => this.setState({isEditing: false}),
 			save: (user) => this.saveUser(),
 		}});
@@ -72,51 +83,53 @@ class Users extends React.Component {
 	render() {
 		return (
 			<div>
+				<Stack spacing={2} divider={<Divider orientation="horizontal" />}>
 				{this.state.customers.map((customer, cIndex) => {
 					return (
-					<div class="customerGrid" key={cIndex}>
-						<Typography>{customer.name}</Typography>
-						<div>
-							{this.state.usersOld.map((user, uIndex) => {
-								if (user.customerId && user.customerId === customer.id)
-								{
-								return (
-								<div class="userGrid" key={uIndex}>
-									<Typography>{user.firstname} {user.name}</Typography>
-									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, customer, uIndex)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)}>Delete</Button>
-									<div class='row-border'></div>
-								</div>
-							)}})}
-						</div>
-						<div class='row-border'></div>
-					</div>
+						<Item elevation={0}>
+							<Grid container spacing={1} justifyContent="center" alignItems="center">
+								<Grid item xs={2}><Typography>{customer.name}</Typography></Grid>
+								<Grid item xs={10}>
+								{this.state.usersOld.map((user, uIndex) => {
+									if (user.customerId && user.customerId === customer.id)
+									{
+									return (
+									<div class="userGrid" key={uIndex}>
+										<Typography>{user.firstname} {user.name}</Typography>
+										<Typography>{user.email}</Typography>
+										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, customer.id, uIndex)}>Edit</Button>
+										<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)}>Delete</Button>
+									</div>
+								)}})}
+								</Grid>
+							</Grid>
+						</Item>
 				)})}
 				<div class='row-border'></div>
-				<div class="customerGrid" >
-						<Typography>Without Customer</Typography>
-						<div>
-							{this.state.usersOld.map((user, index) => {
-								const noCustomer = {
-									id: null,
-									name: "No Customer",
-
-								}
-								
-								if (!user.customerId)
-								{
-								return (
-								<div class="userGrid" key={index}>
-									<Typography>{user.firstname} {user.name}</Typography>
-									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, noCustomer, index)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)}>Delete</Button>
-									<div class='row-border'></div>
-								</div>
-							)}})}
-						</div>
-					</div>
+				<Item elevation={0}>
+					<Grid container spacing={1} justifyContent="center" alignItems="center">
+					<Grid item xs={2}><Typography>Without Customer</Typography></Grid>
+						<Grid item xs={10}>
+								{this.state.usersOld.map((user, index) => {
+									const noCustomer = {
+										id: null,
+										name: "No Customer",
+									}
+									
+									if (!user.customerId)
+									{
+									return (
+									<div class="userGrid" key={index}>
+										<Typography>{user.firstname} {user.name}</Typography>
+										<Typography>{user.email}</Typography>
+										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, noCustomer, index)}>Edit</Button>
+										<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)}>Delete</Button>
+									</div>
+								)}})}
+						</Grid>
+					</Grid>
+				</Item>						
+				</Stack>
 				<UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);

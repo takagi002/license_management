@@ -59,7 +59,6 @@ class MainLayout extends React.Component {
 			user,
             customer,
 			cancel: () => this.setState({isEditing: false}),
-			save: () => this.saveUser(),
 		}});
 	}
 

@@ -41,7 +41,7 @@ class AddUserEditor extends React.Component {
 		this.setState({customerId: event.target.value})
 
 		this.setState({customer: 
-			this.state.customers.find(customer => customer.customerId === this.state.customerId) })
+			this.state.customers.find(customer => customer.id === this.state.customerId) })
 	}
 
 	handleNameChange = (event) => {
@@ -66,7 +66,7 @@ class AddUserEditor extends React.Component {
 		this.setState({isAdmin: event.target.checked});
 	}
 
-	addUser(userData){
+	saveUser(userData){
 		putUser(userData, this.props.url)
 		this.props.para.cancel()
 	}
@@ -148,7 +148,7 @@ class AddUserEditor extends React.Component {
 						</div>
 					</DialogContent>
 					<DialogActions>
-						<Button onClick={() => this.addUser({
+						<Button onClick={() => this.saveUser({
 							id: 0,				    
         					name: this.state.name,
         					firstname: this.state.firstname,

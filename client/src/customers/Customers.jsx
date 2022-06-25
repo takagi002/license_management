@@ -2,7 +2,7 @@ import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import CustomerDetail from './CustomerDetail';
 import {getCustomers, getUsers, deleteCustomer, getContracts} from '../common/apiUtility';
-import { Paper, Button, Typography, Grid, Box } from "@material-ui/core";
+import { Paper, Button, Typography, Grid } from "@material-ui/core";
 import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -26,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
 	padding: '12px',
 	textAlign: 'center',
 	color: theme.palette.text.secondary,
-  }));
+}));
   
 class Customers extends React.Component {
 	

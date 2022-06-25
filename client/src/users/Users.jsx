@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import UserDetail from "./UserDetail";
-import {getCustomers, getUsers, deleteUser} from '../common/apiUtility';
+import {getCustomers, getUsers, deleteUser, getUsersByCustomerId} from '../common/apiUtility';
 import { Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,7 +21,8 @@ class Users extends React.Component {
 		super(props);
 		this.state = {
 			customers: [],
-			users: [],
+			users:[],
+			usersOld: [],//depricated
 			editorParameters: {},
 			isEditing: false,
 
@@ -41,16 +42,16 @@ class Users extends React.Component {
 	removeUser(userId, index){
 		deleteUser(userId, this.props.url)
 
-		const temp = this.state.users.slice();
+		const temp = this.state.usersOld.slice();
 		temp.splice(index,1);
 
-		this.setState({users: temp});
+		this.setState({usersOld: temp});
 	}
 
 	saveUser(user, index) {
-		const temp = this.state.users.slice();
+		const temp = this.state.usersOld.slice();
 		temp[index] = user;
-		this.setState({users: temp});
+		this.setState({usersOld: temp});
 		
 		// close window
 		this.setState({isEditing: false})
@@ -58,7 +59,14 @@ class Users extends React.Component {
 
 	componentDidMount(){
 		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
-		getUsers(this.props.url, (json) => {this.setState({users: json})});
+		//TODO: after api fix for customerId==0 add a custommer to custommers with id 0
+		const customers = this.state.customers.slice();
+		customers.forEach((customer) => {
+			const users = getUsersByCustomerId(this.props.url, customer.id);
+			customer.add(users);
+		  });
+		
+		getUsers(this.props.url, (json) => {this.setState({usersOld: json})});
 	}
 	
 	render() {
@@ -69,8 +77,8 @@ class Users extends React.Component {
 					<div class="customerGrid" key={cIndex}>
 						<Typography>{customer.name}</Typography>
 						<div>
-							{this.state.users.map((user, uIndex) => {
-								if (user.customer && user.customer.customerId === customer.customerId)
+							{this.state.usersOld.map((user, uIndex) => {
+								if (user.customer && user.customerId === customer.id)
 								{
 								return (
 								<div class="userGrid" key={uIndex}>
@@ -89,7 +97,7 @@ class Users extends React.Component {
 				<div class="customerGrid" >
 						<Typography>Without Customer</Typography>
 						<div>
-							{this.state.users.map((user, index) => {
+							{this.state.usersOld.map((user, index) => {
 								const noCustomer = {
 									id: null,
 									name: "No Customer",

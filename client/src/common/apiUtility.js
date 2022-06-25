@@ -26,9 +26,37 @@ function getUsers(baseUrl, callback){
             console.error( 'Request failed', error );
         });
 }
+function getUsersByCustomerId(baseUrl, customerId, callback){
+    fetch(baseUrl + "users" + "?customerId="+ customerId)
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
+
+async function getUsersByCustomerIdAsync(baseUrl, customerId){
+    return await fetch(baseUrl + "users" + "?customerId="+ customerId)
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
 
 function getContracts(baseUrl, callback){
     fetch(baseUrl + "contracts")
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
+
+function getContractsByCustomerId(baseUrl, customerId, callback){
+    fetch(baseUrl + "contracts"+ "?customerId="+ customerId)
         .then( resolveStatus )
         .then( (response) => {return response.json() } )
         .then( callback )
@@ -136,4 +164,4 @@ function deleteContract(contractId, baseUrl){
 
 
 export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer, deleteUser, deleteCustomer, deleteContract,
-    getContract, getUser, getCustomer};
+    getContract, getUser, getCustomer, getUsersByCustomerId, getContractsByCustomerId, getUsersByCustomerIdAsync};

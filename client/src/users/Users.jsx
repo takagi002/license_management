@@ -46,7 +46,6 @@ class Users extends React.Component {
 			user,
 			customerId: customer,
 			cancel: () => this.setState({isEditing: false}),
-			save: (user) => this.saveUser(),
 		}});
 	}
 
@@ -57,15 +56,6 @@ class Users extends React.Component {
 		temp.splice(index,1);
 
 		this.setState({usersOld: temp});
-	}
-
-	saveUser(user, index) {
-		const temp = this.state.usersOld.slice();
-		temp[index] = user;
-		this.setState({usersOld: temp});
-		
-		// close window
-		this.setState({isEditing: false})
 	}
 
 	componentDidMount(){

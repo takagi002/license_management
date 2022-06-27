@@ -40,23 +40,13 @@ class Contracts extends React.Component {
 		}
 	}
 
-	openEditor = (contract, index) => {
+	openEditor = (contractId, index) => {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
-			contract,
-			index,
+			contractId: contractId,
+			index: index,
 			cancel: () => this.setState({isEditing: false}),
-			save: () => this.saveContract(),
 		}});
-	}
-	
-	saveContract(contract, index) {
-		const temp = this.state.contracts.slice();
-		temp[index] = contract;
-		this.setState({contracts: temp});
-
-		// close window
-		this.setState({isEditing: false})
 	}
 
 	removeContract(contractId, index){
@@ -94,7 +84,7 @@ class Contracts extends React.Component {
 										<Grid container spacing={1} justifyContent="center" alignItems="center">
 										<Grid item xs={2}><Typography variant="body1" gutterBottom>{contract.startDate}</Typography></Grid>
 										<Grid item xs={2}><Typography variant="body1" gutterBottom>{contract.endDate}</Typography></Grid>
-										<Grid item xs={2}><Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract, index)}>Edit</Button></Grid>
+										<Grid item xs={2}><Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract.id, index)}>Edit</Button></Grid>
 										<Grid item xs={3}><Button startIcon={<DeleteIcon />} onClick={() => this.removeContract(contract.id, index)}>Delete</Button></Grid>
 										<Grid item xs={3}><Button startIcon={<InfoIcon />} onClick={() => this.openContractDetails()}>Details</Button></Grid>
 										</Grid>
@@ -105,7 +95,7 @@ class Contracts extends React.Component {
 						</Item>
 				)})}
 				</Stack>
-				<ContractDetails para={this.state.editorParameters} isOpen={this.state.isViewingDetails}></ContractDetails>
+				<ContractDetails url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isEditing}></ContractDetails>
 			</div>
 		);
 	}

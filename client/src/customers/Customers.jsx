@@ -51,17 +51,7 @@ class Customers extends React.Component {
 			customerId: customerId,
 			index: index,
 			cancel: () => this.setState({isEditing: false}),
-			save: () => this.saveCustomer(),
 		}});
-	}
-
-	saveCustomer(customer, index){
-		const temp = this.state.customers.slice();
-		temp[index] = customer;
-		this.setState({customer: temp});
-		
-		// close window
-		this.setState({isEditing: false})
 	}
 
 	removeCustomer(customerId, index){

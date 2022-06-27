@@ -26,6 +26,12 @@ class CustomerDetail extends React.Component {
             getCustomerById(this.props.url, this.props.para.customerId, (json) => {this.setState({customer: json})});
         }
     }
+
+	saveCustomer(customerData){
+
+
+		this.props.para.cancel()
+	}
 		
 	render() {
 		return (
@@ -76,7 +82,7 @@ class CustomerDetail extends React.Component {
 							/>
 						</DialogContent>
 						<DialogActions>
-							<Button onClick={() => this.props.para.save()}>Save</Button>
+							<Button onClick={() => this.saveCustomer()}>Save</Button>
 							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 						</DialogActions>
 					</Dialog>

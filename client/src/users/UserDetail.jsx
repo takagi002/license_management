@@ -61,6 +61,7 @@ class UserDetail extends React.Component {
 
 	saveUser(userData){
 
+		this.props.para.cancel()
 	}
 	
 	render() {
@@ -134,23 +135,23 @@ class UserDetail extends React.Component {
 							<TextField
             					autoFocus
             					margin="dense"
-            					id="name"
+            					id="phone"
             					label="Phone"
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.phoneNumber1}
+								defaultValue={this.props.para.user.phoneNumber }
 								onChange={this.handlePhoneChange}
 							/>
 							<TextField
             					autoFocus
             					margin="dense"
-            					id="name"
+            					id="mobile"
             					label="Mobile"
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.phoneNumber2}
+								defaultValue={this.props.para.user.phoneNumberOptional}
 								onChange={this.handleMobileChange}
 							/>
 							<div>
@@ -177,7 +178,9 @@ class UserDetail extends React.Component {
 							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
+					
 				}
+				
 			</div>
 		);
 	}

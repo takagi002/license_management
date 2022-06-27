@@ -43,7 +43,8 @@ public class ContractDaoTest {
 		contract.setIpV4Adress1("192.0.2.146");
 		contract.setFeature1(45);
 		contract.setFeature1(50);
-		contract.setFeature1(98);		
+		contract.setFeature1(98);
+		contract.setVersion("Dev-Test");
 		return contract;
 	}
 	

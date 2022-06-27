@@ -1,5 +1,6 @@
 package de.hse.swb.jaxrs.resources;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,26 +73,30 @@ public class ContractResource {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ContractSchema saveContract(Contract contract) {
+    public ContractSchema saveContract(ContractSchema contract) {
     	Contract dbContract = contractDao.getContract(contract.getId());
     	if(dbContract == null) {
     		dbContract = new Contract();
     		dbContract.setId(0);
     	}
-    	dbContract.setStartDate(contract.getStartDate());
-    	dbContract.setEndDate(contract.getStartDate());
+    	
+    	dbContract.setStartDate(Date.valueOf(contract.getStartDate()));
+    	dbContract.setEndDate(Date.valueOf(contract.getStartDate()));
     	dbContract.setLicenseKey(contract.getLicenseKey());
     	dbContract.setVersion(contract.getVersion());
     	dbContract.setFeature1(contract.getFeature1());
     	dbContract.setFeature2(contract.getFeature2());
     	dbContract.setFeature3(contract.getFeature3());
-    	dbContract.setIpV4Adress1(contract.getIpV4Adress1());
-    	dbContract.setIpV4Adress2(contract.getIpV4Adress2());
-    	dbContract.setIpV4Adress3(contract.getIpV4Adress3());
-    	dbContract.setCustomer(customerDao.getCustomer(contract.getCustomer().getId()));
-    	dbContract.setUser1(userDao.getUser(contract.getUser1().getId()));
-    	dbContract.setUser2(userDao.getUser(contract.getUser2().getId()));
+    	dbContract.setIpV4Adress1(contract.getIpV4Address1());
+    	dbContract.setIpV4Adress2(contract.getIpV4Address2());
+    	dbContract.setIpV4Adress3(contract.getIpV4Address3());
+    	dbContract.setCustomer(customerDao.getCustomer(contract.getCustomerId()));
+    	dbContract.setUser1(userDao.getUser(contract.getUser1Id()));
     	
+    	if(contract.getUser2Id() != 0) {
+    		dbContract.setUser2(userDao.getUser(contract.getUser2Id()));
+    	}
+    		
         return new ContractSchema(contractDao.save(dbContract));
     } 
     
@@ -103,23 +108,26 @@ public class ContractResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ContractSchema addContract(Contract contract) {
+    public ContractSchema addContract(ContractSchema contract) {
     	Contract dbContract = new Contract();
 		dbContract.setId(0);
     	
-    	dbContract.setStartDate(contract.getStartDate());
-    	dbContract.setEndDate(contract.getStartDate());
+		dbContract.setStartDate(Date.valueOf(contract.getStartDate()));
+    	dbContract.setEndDate(Date.valueOf(contract.getStartDate()));
     	dbContract.setLicenseKey(contract.getLicenseKey());
     	dbContract.setVersion(contract.getVersion());
     	dbContract.setFeature1(contract.getFeature1());
     	dbContract.setFeature2(contract.getFeature2());
     	dbContract.setFeature3(contract.getFeature3());
-    	dbContract.setIpV4Adress1(contract.getIpV4Adress1());
-    	dbContract.setIpV4Adress2(contract.getIpV4Adress2());
-    	dbContract.setIpV4Adress3(contract.getIpV4Adress3());
-    	dbContract.setCustomer(customerDao.getCustomer(contract.getCustomer().getId()));
-    	dbContract.setUser1(userDao.getUser(contract.getUser1().getId()));
-    	dbContract.setUser2(userDao.getUser(contract.getUser2().getId()));
+    	dbContract.setIpV4Adress1(contract.getIpV4Address1());
+    	dbContract.setIpV4Adress2(contract.getIpV4Address2());
+    	dbContract.setIpV4Adress3(contract.getIpV4Address3());
+    	dbContract.setCustomer(customerDao.getCustomer(contract.getCustomerId()));
+    	dbContract.setUser1(userDao.getUser(contract.getUser1Id()));
+    	
+    	if(contract.getUser2Id() != 0) {
+    		dbContract.setUser2(userDao.getUser(contract.getUser2Id()));
+    	}
     	
         return new ContractSchema(contractDao.save(dbContract));
     }

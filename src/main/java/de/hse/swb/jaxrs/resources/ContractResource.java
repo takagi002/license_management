@@ -87,9 +87,9 @@ public class ContractResource {
     	dbContract.setFeature1(contract.getFeature1());
     	dbContract.setFeature2(contract.getFeature2());
     	dbContract.setFeature3(contract.getFeature3());
-    	dbContract.setIpV4Adress1(contract.getIpv4address1());
-    	dbContract.setIpV4Adress2(contract.getIpv4address2());
-    	dbContract.setIpV4Adress3(contract.getIpv4address3());
+    	dbContract.setIpV4Adress1(contract.getIpV4Address1());
+    	dbContract.setIpV4Adress2(contract.getIpV4Address2());
+    	dbContract.setIpV4Adress3(contract.getIpV4Address3());
     	dbContract.setCustomer(customerDao.getCustomer(contract.getCustomerId()));
     	dbContract.setUser1(userDao.getUser(contract.getUser1Id()));
     	
@@ -119,9 +119,9 @@ public class ContractResource {
     	dbContract.setFeature1(contract.getFeature1());
     	dbContract.setFeature2(contract.getFeature2());
     	dbContract.setFeature3(contract.getFeature3());
-    	dbContract.setIpV4Adress1(contract.getIpv4address1());
-    	dbContract.setIpV4Adress2(contract.getIpv4address2());
-    	dbContract.setIpV4Adress3(contract.getIpv4address3());
+    	dbContract.setIpV4Adress1(contract.getIpV4Address1());
+    	dbContract.setIpV4Adress2(contract.getIpV4Address2());
+    	dbContract.setIpV4Adress3(contract.getIpV4Address3());
     	dbContract.setCustomer(customerDao.getCustomer(contract.getCustomerId()));
     	dbContract.setUser1(userDao.getUser(contract.getUser1Id()));
     	

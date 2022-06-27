@@ -45,7 +45,7 @@ class Users extends React.Component {
 		this.setState({editorParameters:{
 			userId: userId,
 			customerId: customerId,
-			cancel: () => this.setState({isEditing: false}),
+			cancel: () => this.setState({isEditing: false, editorParameters:{userId: null}}),
 		}});
 	}
 

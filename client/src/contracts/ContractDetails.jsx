@@ -39,6 +39,7 @@ class ContractDetails extends React.Component {
             getContract(this.props.para.contractId, this.props.url, (json) => {this.setState({contract: json,
 				startDate: json.startDate,
 				endDate: json.endDate,
+				customerId: json.customerId,
 				user1: json.user1Id,
 				user2: json.user2Id,
 				version: json.version,
@@ -259,23 +260,23 @@ class ContractDetails extends React.Component {
 						<DialogActions>
 							<Button onClick={() => this.generateLicenseKey()} disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}>Update Key</Button>
 							<Button disabled={true}>Mail Key</Button>
-							<Button onClick={() => this.saveContract({
+							<Button onClick={() => { this.saveContract({
 								id: this.state.contract.id,
 								customerId: this.state.customerId,
 								customerName: null,
 								startDate: this.state.startDate,
 								endDate: this.state.endDate,
 								version: this.state.version,
-								user1: this.state.responsible1,
-								user2: this.state.responsible2,
-								ipv4address1: this.state.ip1,
-								ipv4address2: this.state.ip2,
-								ipv4address3: this.state.ip3,
+								user1Id: this.state.user1,
+								user2Id: this.state.user2,
+								ipV4Address1: this.state.ip1,
+								ipV4Address2: this.state.ip2,
+								ipV4Address3: this.state.ip3,
 								feature1: this.state.feature1,
 								feature2: this.state.feature2,
 								feature3: this.state.feature3,
-								licenseKey: this.state.licenseKey
-							})} >Save</Button>
+								licenseKey: this.state.license
+							})}} >Save</Button>
 							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 						</DialogActions>
 					</Dialog>

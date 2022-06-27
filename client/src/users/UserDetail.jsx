@@ -192,7 +192,7 @@ class UserDetail extends React.Component {
 						</DialogContent>
 
 						<DialogActions>
-							<Button onClick={() => this.saveUser({
+							<Button onClick={() => { this.saveUser({
 							id: this.state.user.id,				    
         					name: this.state.name,
         					firstname: this.state.firstname,
@@ -204,7 +204,7 @@ class UserDetail extends React.Component {
         					customerId: this.state.customerId,
 							customerName: null,
 							admin: this.state.admin
-						})} >Save</Button>
+						})}} >Save</Button>
 							<Button onClick={() => {this.props.para.cancel(); this.setState({user: null})}}>Cancel</Button>
 						</DialogActions>
 					</Dialog>

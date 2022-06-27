@@ -81,8 +81,9 @@ public class UserResource {
     		dbUser.setId(0);
     	}
     	dbUser.setName(userSchema.getName());
+    	dbUser.setName(userSchema.getFirstname());
     	dbUser.setEmail(userSchema.getEmail());
-    	dbUser.setPassword("tmp");
+    	//dbUser.setPassword("tmp");
     	dbUser.setPhoneNumber1(userSchema.getPhoneNumber());
     	dbUser.setPhoneNumber2(userSchema.getPhoneNumberOptional());
     	dbUser.setAdmin(userSchema.isAdmin());
@@ -93,7 +94,7 @@ public class UserResource {
     	}
     	
     	UserSchema user = new UserSchema(userdao.saveUser(dbUser));
-    	if(userSchema.getPassword() != "forbidden") {
+    	if(!userSchema.getPassword().equals("forbidden")) {
     		userdao.changePassword(dbUser, userSchema.getPassword());
     	}
     	user.setPassword("forbidden");

@@ -44,8 +44,13 @@ public class ContractDao {
 	@Transactional
 	public Contract update(Contract contract) {
 		em.merge(contract.getCustomer());
-		em.merge(contract.getUser1());
-		em.merge(contract.getUser2());
+		
+		if(contract.getUser1() == null) {
+			em.merge(contract.getUser1());
+		}
+		if(contract.getUser2() == null) {
+			em.merge(contract.getUser2());
+		}
 		return em.merge(contract);
 	}
 	

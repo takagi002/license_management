@@ -28,6 +28,11 @@ public class UserDao {
 		return em.find(User.class, id);
 	}
 	
+	public List<User> getUserWithoutCustomer() {
+		TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.customer = null", User.class);
+		return query.getResultList();
+	}
+	
 	public User getUserByUsername(String username) {
 		TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :name", User.class);
 		query.setParameter("name", username);
@@ -35,33 +40,47 @@ public class UserDao {
 	}
 	
 	@Transactional
-    public User add(User user) {
+    public User addUser(User user) {
+		
+		String username = generateUsername(user.getFirstname(), user.getName());
+		user.setUsername(username);
+		
 		em.persist(user);
     	return user;
     }
 	
 	@Transactional
-	public User update(User user) {
+	public User updateUser(User user) {
+		if(user.getCustomer() != null)
+		{
+			em.merge(user.getCustomer());
+		}
 		return em.merge(user);
 	}
 	
 	@Transactional
-	public User save(User user) {
+	public User saveUser(User user) {
 		if( user.getId() != 0) {
-			return update(user);
+			return updateUser(user);
 		} else {
-			return add(user);
+			return addUser(user);
 		}
 	}
 	
 	@Transactional
 	public User changePassword(User user, String newPassword) {
 		user.setPassword(hashPassword(newPassword));
-		return update(user);
+		return updateUser(user);
 	}
 
     @Transactional
     public void removeUser(User user) {
+
+		Query removeForeignKey = em.createQuery("UPDATE Contract SET user1_userId=null WHERE user1_userId=" + user.getId());
+		removeForeignKey.executeUpdate();
+		removeForeignKey = em.createQuery("UPDATE Contract SET user2_userId=null WHERE user2_userId=" + user.getId());
+		removeForeignKey.executeUpdate();
+		
     	em.remove(em.merge(user));
     }
     
@@ -69,6 +88,11 @@ public class UserDao {
     public void removeAllUsers() {
     	try {
 
+    		Query removeForeignKey = em.createQuery("UPDATE Contract SET user1_userId=null WHERE user1_userId >= 0");
+    		removeForeignKey.executeUpdate();
+    		removeForeignKey = em.createQuery("UPDATE Contract SET user2_userId=null WHERE user2_userId >= 0");
+    		removeForeignKey.executeUpdate();
+    		
     	    Query del = em.createQuery("DELETE FROM User WHERE id >= 0");
     	    del.executeUpdate();
 
@@ -106,11 +130,23 @@ public class UserDao {
            
 			
 		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
     	
     	 return passwordDigest;
     	
+    }
+    private String generateUsername(String firstname, String name) {
+    	
+		String username = firstname.substring(0, 2) + name.substring(0, 2);
+		
+		TypedQuery<User> query = em.createQuery("SELECT u FROM User u where u.username like '%"+username+"%'", User.class);
+		List<User> results = query.getResultList();
+		
+		int amountOfUsers = results.size();
+		String number = String.format("%03d", amountOfUsers);
+		
+		//System.out.println(username + number);
+		return username + number;
     }
 }

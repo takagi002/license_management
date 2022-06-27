@@ -1,5 +1,6 @@
 package de.hse.swb.jaxrs.resources;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -10,13 +11,15 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 
+import de.hse.swb.jaxrs.model.CustomerSchema;
+import de.hse.swb.jaxrs.model.CustomerSimpleSchema;
 import de.hse.swb.jpa.orm.dao.CustomerDao;
 import de.hse.swb.jpa.orm.model.Customer;
-import de.hse.swb.jpa.orm.model.User;
 import io.vertx.core.http.HttpServerRequest;
 
 
@@ -33,15 +36,19 @@ public class CustomerResource {
 
 	    @GET
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public List<Customer> getCustomers() {
-	        return customerDao.getCustomers();
+	    public List<CustomerSimpleSchema> getCustomers() {
+	    	List<CustomerSimpleSchema> customers = new ArrayList<>();
+	    	List<Customer> dbCustomers = customerDao.getCustomers();
+	    	
+	    	dbCustomers.forEach(costumer -> customers.add(new CustomerSimpleSchema(costumer)));
+	        return customers;
 	    }
 	    
 	    @GET
-	    @Path("id")
+	    @Path("{id}")
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public Customer getCustomer(Long id) {
-	        return customerDao.getCustomer(id);
+	    public CustomerSchema getCustomer(@PathParam("id") long id) {
+	        return new CustomerSchema(customerDao.getCustomer(id));
 	    }
 
 	    /**
@@ -52,8 +59,19 @@ public class CustomerResource {
 	    @PUT
 	    @Consumes(MediaType.APPLICATION_JSON)
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public Customer saveUser(Customer customer) {
-	        return customerDao.updateCustomer(customer);
+	    public CustomerSchema saveUser(CustomerSchema customerSchema) {
+	    	Customer dbCustomer = customerDao.getCustomer(customerSchema.getId());
+	    	if(dbCustomer == null) {
+	    		dbCustomer = new Customer();
+		    	dbCustomer.setId(0);
+	    	}
+
+	    	dbCustomer.setName(customerSchema.getName());
+	    	dbCustomer.setAdresse(customerSchema.getAddress());
+	    	dbCustomer.setAdresse2(customerSchema.getAddressOptional());
+	    	dbCustomer.setDepartment(customerSchema.getDepartment());
+	    	
+	        return new CustomerSchema(customerDao.saveCustomer(dbCustomer));
 	    } 
 	    
 	    /**
@@ -64,14 +82,22 @@ public class CustomerResource {
 	    @POST
 	    @Consumes(MediaType.APPLICATION_JSON)
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public Customer addCustomer(Customer customer) {
-	        return customerDao.addCustomer(customer);
+	    public CustomerSchema addCustomer(CustomerSchema customerSchema) {
+	    	
+	    	Customer customer = new Customer();
+	    	customer.setId(0);
+	    	customer.setName(customerSchema.getName());
+	    	customer.setAdresse(customerSchema.getAddress());
+	    	customer.setAdresse2(customerSchema.getAddressOptional());
+	    	customer.setDepartment(customerSchema.getDepartment());
+	    	
+	    	return new CustomerSchema(customerDao.addCustomer(customer));
 	    }
 	    
 	    @DELETE
-	    @Path("id")
+	    @Path("{id}")
 	    @Produces(MediaType.APPLICATION_JSON)
-	    public void deleteCustomer(Long id) {
+	    public void deleteCustomer(@PathParam("id") long id) {
 	    	Customer customer = customerDao.getCustomer(id);
 	    	customerDao.removeCustomer(customer);
 	    }

@@ -2,7 +2,13 @@ package de.hse.swb.jpa.orm.model;
 
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "Customer")
@@ -21,23 +27,26 @@ public class Customer {
 	@Column(name = "adresse", length=100, nullable = false)
     private String adresse;
 	
-	//@OneToMany(mappedBy = "customer")
-	//private List<User> users;
+	@Column(name = "adresse2", length=100)
+    private String adresse2;
 	
-	//@OneToMany(mappedBy = "customer")
-	//private List<Contract> contracts;
+	@OneToMany(mappedBy = "customer")
+	private List<User> users;
 	
+	@OneToMany(mappedBy = "customer")
+	private List<Contract> contracts;
+
 	public Customer() {}
 
     public Customer(String customerName) {
         this.name = customerName;
     }
-
-	public long getCustomerId() {
+    
+    public long getId() {
 		return id;
 	}
 
-	public void setCustomerId(long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -64,8 +73,16 @@ public class Customer {
 	public void setAdresse(String adresse) {
 		this.adresse = adresse;
 	}
+	
+	public String getAdresse2() {
+		return adresse2;
+	}
 
-	/*public List<User> getUsers() {
+	public void setAdresse2(String adresse2) {
+		this.adresse2 = adresse2;
+	}
+
+	public List<User> getUsers() {
 		return users;
 	}
 
@@ -79,5 +96,5 @@ public class Customer {
 
 	public void setContracts(List<Contract> contracts) {
 		this.contracts = contracts;
-	}*/
+	}
 }

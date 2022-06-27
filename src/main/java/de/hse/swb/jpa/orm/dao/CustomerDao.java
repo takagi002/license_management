@@ -26,25 +26,51 @@ public class CustomerDao {
 	}
 	
 	@Transactional 
-    public Customer addCustomer(Customer Customer) {
-    	em.persist(Customer);
-    	return Customer;
+    public Customer addCustomer(Customer customer) {
+    	em.persist(customer);
+    	return customer;
     } 
     
     @Transactional
-    public Customer updateCustomer(Customer Customer) {
-    	em.merge(Customer);
-    	return Customer;
+    public Customer updateCustomer(Customer customer) {
+    	em.merge(customer);
+    	return customer;
+    }
+    
+    @Transactional
+    public Customer saveCustomer(Customer customer) {
+    	if( customer.getId() != 0) {
+			return updateCustomer(customer);
+		} else {
+			return addCustomer(customer);
+		}
     }
 
     @Transactional
-    public void removeCustomer(Customer Customer) {
-    	em.remove(em.merge(Customer));
+    public void removeCustomer(Customer customer) {
+    	try {
+    		Query removeForeignKey = em.createQuery("UPDATE User SET customerId=null WHERE customerId="+ customer.getId());
+    		removeForeignKey.executeUpdate();
+    		
+    		if(customer.getContracts() != null)
+				customer.getContracts().forEach(contract -> em.remove(em.merge(contract)));
+    		
+    		em.remove(em.merge(customer));
+    	} catch (SecurityException | IllegalStateException  e) {
+    	    e.printStackTrace();
+    	}
     }
     
     @Transactional
     public void removeAllCustomers() {
     	try {
+    		
+    		Query removeForeignKey = em.createQuery("UPDATE User SET customerId=null WHERE customerId>= 0");
+    		removeForeignKey.executeUpdate();
+    		
+    		removeForeignKey = em.createQuery("DELETE FROM Contract WHERE customerId>= 0");
+    		removeForeignKey.executeUpdate();
+    		
     		Query del = em.createQuery("DELETE FROM Customer WHERE id >= 0");
     	    del.executeUpdate();
     	} catch (SecurityException | IllegalStateException  e) {

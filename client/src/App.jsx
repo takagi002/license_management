@@ -1,8 +1,10 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 
-import Login from './Login';
-import Posts from './Posts'
+import Login from './login/Login';
+import MainLayout from './MainLayout';
+import Customers from "./customers/Customers";
+import Logout from "@mui/icons-material/Logout";
 
 const styles = theme => ({
 	center: {
@@ -13,7 +15,7 @@ const styles = theme => ({
 	},
 });
 
-const theUrl ="http://localhost:8080/step4/";
+const theUrl ="http://localhost:8080/";
 
 class App extends React.Component {
 
@@ -21,17 +23,22 @@ class App extends React.Component {
 		super(props);
 	    this.state = {	  
 			loggedIn: false,
+			loggedInUser: null,
+			mainParameters: {
+				logout: () => this.setState({loggedIn: false, loggedInUser: null})
+			}
 		};
 	}
 
-	authorized = () => {
+	authorized = (user) => {
+		this.setState({loggedInUser: user})
 		this.setState({loggedIn: true});
 	}
-  
+
 	render() {
 		if (this.state.loggedIn) {
 			return (
-			<Posts url={theUrl} ></Posts> 
+				<MainLayout para={this.state.mainParameters} loggedInUser={this.state.loggedInUser} url={theUrl}></MainLayout> 
 			);
 		} else {
 			return (

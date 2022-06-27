@@ -153,4 +153,27 @@
 .addButton span:first-Child {
   -webkit-transform: rotate(90deg);
           transform: rotate(90deg); }
+.customerGrid {
+	display: grid;
+	grid-template-columns: 1fr 4fr;}
+	
+.userGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+  }
+	
+.customerDetailGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
+}
 
+.contractGrid {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+.row-border{
+  border-top: 2px solid gray;
+  grid-column: 1 / 8; 
+}

@@ -51,6 +51,7 @@ public class UserDao {
 	
 	@Transactional
 	public User updateUser(User user) {
+		em.merge(user.getCustomer());
 		return em.merge(user);
 	}
 	

@@ -43,6 +43,9 @@ public class ContractDao {
 	
 	@Transactional
 	public Contract update(Contract contract) {
+		em.merge(contract.getCustomer());
+		em.merge(contract.getUser1());
+		em.merge(contract.getUser2());
 		return em.merge(contract);
 	}
 	

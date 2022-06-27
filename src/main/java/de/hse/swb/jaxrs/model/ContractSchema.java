@@ -15,8 +15,11 @@ public class ContractSchema {
 	private String ipV4Address2;
 	private String ipV4Address3;
 	private long customerId;
+	private String customerName;
 	private long user1Id;
+	private String user1Name;
 	private long user2Id;
+	private String user2Name;
 	
 	public ContractSchema() {}
 	public ContractSchema(Contract contract) {
@@ -32,8 +35,11 @@ public class ContractSchema {
 		this.ipV4Address2 = contract.getIpV4Adress2();
 		this.ipV4Address3 = contract.getIpV4Adress3();
 		this.customerId = contract.getCustomer().getId();
+		this.customerName = contract.getCustomer().getName();
 		this.user1Id = contract.getUser1().getId();
+		this.user1Name = contract.getUser1().getName();
 		this.user2Id = contract.getUser2().getId();
+		this.user2Name = contract.getUser1().getName();
 	}
 	
 	public long getId() {
@@ -108,17 +114,35 @@ public class ContractSchema {
 	public void setCustomerId(long customerId) {
 		this.customerId = customerId;
 	}
+	public String getCustomerName() {
+		return customerName;
+	}
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
 	public long getUser1Id() {
 		return user1Id;
 	}
 	public void setUser1Id(long user1Id) {
 		this.user1Id = user1Id;
 	}
+	public String getUser1Name() {
+		return user1Name;
+	}
+	public void setUser1Name(String user1Name) {
+		this.user1Name = user1Name;
+	}
 	public long getUser2Id() {
 		return user2Id;
 	}
 	public void setUser2Id(long user2Id) {
 		this.user2Id = user2Id;
+	}
+	public String getUser2Name() {
+		return user2Name;
+	}
+	public void setUser2Name(String user2Name) {
+		this.user2Name = user2Name;
 	}
 	
 }

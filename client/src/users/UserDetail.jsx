@@ -179,11 +179,11 @@ class UserDetail extends React.Component {
 								        {(() => {
 											if (this.state.user.admin) {
 											  return (
-												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox defaultChecked/>} label="isAdministrator" />
+												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox defaultChecked/>} label="isAdministrator" disabled={!this.props.loggedInUser.admin}/>
 											  )
 											} else {
 											  return (
-												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox/>} label="isAdministrator" />
+												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox/>} label="isAdministrator" disabled={!this.props.loggedInUser.admin}/>
 											  )
 											}
 										})()}

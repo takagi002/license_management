@@ -25,14 +25,14 @@ class App extends React.Component {
 			loggedIn: false,
 			loggedInUser: null,
 			mainParameters: {
-				logout: () => this.setState({loggedIn: false})
+				logout: () => this.setState({loggedIn: false, loggedInUser: null})
 			}
 		};
 	}
 
 	authorized = (user) => {
-		this.setState({loggedIn: true});
 		this.setState({loggedInUser: user})
+		this.setState({loggedIn: true});
 	}
 
 	render() {

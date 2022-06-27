@@ -88,8 +88,8 @@ class Users extends React.Component {
 										<div class="userGrid" key={uIndex}>
 											<Typography>{user.firstname} {user.name}</Typography>
 											<Typography>{user.email}</Typography>
-											<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, customer.id, uIndex)}>Edit</Button>
-											<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)}>Delete</Button>
+											<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, customer.id, uIndex)} disabled={!this.props.loggedInUser.admin && this.props.loggedInUser.id !== user.id}>Edit</Button>
+											<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)} disabled={!this.props.loggedInUser.admin}>Delete</Button>
 										</div>
 								)}})}
 								</Grid>
@@ -113,15 +113,15 @@ class Users extends React.Component {
 									<div class="userGrid" key={index}>
 										<Typography>{user.firstname} {user.name}</Typography>
 										<Typography>{user.email}</Typography>
-										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, noCustomer, index)}>Edit</Button>
-										<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)}>Delete</Button>
+										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, noCustomer, index)} disabled={!this.props.loggedInUser.admin && this.props.loggedInUser.id !== user.id}>Edit</Button>
+										<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)} disabled={!this.props.loggedInUser.admin}>Delete</Button>
 									</div>
 								)}})}
 						</Grid>
 					</Grid>
 				</Item>						
 				</Stack>
-				<UserDetail url={this.props.url} customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+				<UserDetail loggedInUser={this.props.loggedInUser} url={this.props.url} customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);
 	}

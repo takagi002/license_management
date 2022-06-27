@@ -1,7 +1,7 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import UserDetail from "./UserDetail";
-import {getCustomers, getUsers, deleteUser, getUsersByCustomerId} from '../common/apiUtility';
+import {getCustomers, getUsers, deleteUser, getUsersByCustomerIdAsync} from '../common/apiUtility';
 import { Paper, Grid, Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -40,11 +40,11 @@ class Users extends React.Component {
 		}
 	}
 	
-	openEditor(user, customer, index) {
+	openEditor(userId, customerId, index) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
-			user,
-			customerId: customer,
+			userId: userId,
+			customerId: customerId,
 			cancel: () => this.setState({isEditing: false}),
 		}});
 	}
@@ -63,7 +63,7 @@ class Users extends React.Component {
 		//TODO: after api fix for customerId==0 add a custommer to custommers with id 0
 		const customers = this.state.customers.slice();
 		customers.forEach((customer) => {
-			const users = getUsersByCustomerId(this.props.url, customer.id);
+			const users = getUsersByCustomerIdAsync(this.props.url, customer.id);
 			customer.add(users);
 		  });
 		
@@ -81,15 +81,16 @@ class Users extends React.Component {
 								<Grid item xs={2}><Typography>{customer.name}</Typography></Grid>
 								<Grid item xs={10}>
 								{this.state.usersOld.map((user, uIndex) => {
-									if (user.customerId && user.customerId === customer.id)
+									console.log(this.props.filter)
+									if (user.customerId && user.customerId === customer.id && (user.name.includes(this.props.filter) || user.firstname.includes(this.props.filter) || this.props.filter === ""))
 									{
 									return (
-									<div class="userGrid" key={uIndex}>
-										<Typography>{user.firstname} {user.name}</Typography>
-										<Typography>{user.email}</Typography>
-										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, customer.id, uIndex)}>Edit</Button>
-										<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)}>Delete</Button>
-									</div>
+										<div class="userGrid" key={uIndex}>
+											<Typography>{user.firstname} {user.name}</Typography>
+											<Typography>{user.email}</Typography>
+											<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, customer.id, uIndex)}>Edit</Button>
+											<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)}>Delete</Button>
+										</div>
 								)}})}
 								</Grid>
 							</Grid>
@@ -106,13 +107,13 @@ class Users extends React.Component {
 										name: "No Customer",
 									}
 									
-									if (!user.customerId)
+									if (!user.customerId && (user.name.includes(this.props.filter) || user.firstname.includes(this.props.filter) || this.props.filter === ""))
 									{
 									return (
 									<div class="userGrid" key={index}>
 										<Typography>{user.firstname} {user.name}</Typography>
 										<Typography>{user.email}</Typography>
-										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, noCustomer, index)}>Edit</Button>
+										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, noCustomer, index)}>Edit</Button>
 										<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)}>Delete</Button>
 									</div>
 								)}})}
@@ -120,7 +121,7 @@ class Users extends React.Component {
 					</Grid>
 				</Item>						
 				</Stack>
-				<UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+				<UserDetail url={this.props.url} customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);
 	}

@@ -262,13 +262,13 @@ class AddContractEditor extends React.Component {
 							version: this.state.version,
 							user1: this.state.responsible1,
 							user2: this.state.responsible2,
-							ipv4address1: this.state.ip1,
-							ipv4address2: this.state.ip2,
-							ipv4address3: this.state.ip3,
+							ipV4Address1: this.state.ip1,
+							ipV4Address2: this.state.ip2,
+							ipV4Address3: this.state.ip3,
 							feature1: this.state.featureA,
 							feature2: this.state.featureB,
 							feature3: this.state.featureC,
-							licenseKey: this.licenseKey
+							licenseKey: this.state.licenseKey
 						})}>Submit</Button>
 						<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
 					</DialogActions>

@@ -5,7 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-
+import { getUser, putUser } from '../common/apiUtility';
 
 const styles = theme => ({
 		center: {
@@ -21,7 +21,9 @@ class UserDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			user: null,
 			customers: [],
+			customerId: "",
 			name: "",
 			firstname: "",
 			email: "",
@@ -32,9 +34,25 @@ class UserDetail extends React.Component {
 		}
 	}
 
+	componentDidUpdate(oldProps){
+        if(this.props.para.userId !== oldProps.para.userId){
+            getUser(this.props.para.userId, this.props.url, (json) => {this.setState({user: json,
+				customerId: json.customerId,
+				name: json.name,
+				firstname: json.firstname,
+				email: json.email,
+				password: json.password,
+				phone: json.phoneNumber,
+				mobile: json.phoneNumberOptional,
+				admin: json.admin
+				})});
+
+        }
+    }
+
 
 	handleCustomerChange = (event) => {
-		this.setState({customerName: event.target.value})
+		this.setState({customerId: event.target.value})
 	}
 	handleFirstNameChange = (event) => {
 		this.setState({firstname: event.target.value})
@@ -60,6 +78,8 @@ class UserDetail extends React.Component {
 
 
 	saveUser(userData){
+		putUser(userData, this.props.url)
+		this.setState({user: null})
 
 		this.props.para.cancel()
 	}
@@ -67,19 +87,19 @@ class UserDetail extends React.Component {
 	render() {
 		return (
 			<div>
-				{ this.props.para.user &&
+				{ this.state.user &&
 					<Dialog open={this.props.isOpen}>
 						<DialogContent>
-							<DialogTitle>Editing User {this.props.para.user.firstname}</DialogTitle>
+							<DialogTitle>Editing User {this.state.user.firstname}</DialogTitle>
 							<FormControl fullWidth>
   								<InputLabel id="demo-simple-select-label">Customer</InputLabel>
   								<Select
 								  onChange={this.handleCustomerChange}
   								  labelId="demo-simple-select-label"
   								  id="demo-simple-select"
-  								  value={this.state.customerId}
+  								  value={this.state.customerName}
 								  label="Customer"
-								  defaultValue={this.props.para.user.customerId}
+								  defaultValue={this.state.user.customerId}
   								>
   								  <MenuItem value={null}>No Customer</MenuItem>
   								  {this.props.customers.map((customer, index) => {
@@ -96,7 +116,7 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.firstname}
+								defaultValue={this.state.user.firstname}
 								onChange={this.handleFirstNameChange}
 							/>
 							<TextField
@@ -107,7 +127,7 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.name}
+								defaultValue={this.state.user.name}
 								onChange={this.handleNameChange}
 							/>
 							<TextField
@@ -118,7 +138,7 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.email}
+								defaultValue={this.state.user.email}
 								onChange={this.handleEmailChange}
 							/>
 							<TextField
@@ -129,7 +149,7 @@ class UserDetail extends React.Component {
             					type="password"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.password}
+								defaultValue={this.state.user.password}
 								onChange={this.handlePasswordChange}
 							/>
 							<TextField
@@ -140,7 +160,7 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.phoneNumber }
+								defaultValue={this.state.user.phoneNumber}
 								onChange={this.handlePhoneChange}
 							/>
 							<TextField
@@ -151,13 +171,13 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.phoneNumberOptional}
+								defaultValue={this.state.user.phoneNumberOptional}
 								onChange={this.handleMobileChange}
 							/>
 							<div>
 								<FormGroup>
 								        {(() => {
-											if (this.props.para.user.admin) {
+											if (this.state.user.admin) {
 											  return (
 												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox defaultChecked/>} label="isAdministrator" />
 											  )
@@ -173,9 +193,19 @@ class UserDetail extends React.Component {
 
 						<DialogActions>
 							<Button onClick={() => this.saveUser({
-								//TODO: update changed fields
-							})} >Save</Button>
-							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
+							id: this.state.user.id,				    
+        					name: this.state.name,
+        					firstname: this.state.firstname,
+        					username: this.state.user.username, 
+        					password: this.state.password,
+        					email: this.state.email,
+        					phoneNumber: this.state.phone,
+        					phoneNumberOptional: this.state.mobile,
+        					customerId: this.state.customerId,
+							customerName: null,
+							admin: this.state.admin
+						})} >Save</Button>
+							<Button onClick={() => {this.props.para.cancel(); this.setState({user: null})}}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
 					

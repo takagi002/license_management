@@ -9,6 +9,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import { styled } from '@mui/material/styles';
+import SingleContractDetails from "./SingleContractDetails";
 
 const styles = theme => ({
 		center: {
@@ -58,9 +59,13 @@ class Contracts extends React.Component {
 		this.setState({contracts: temp});
 	}
 
-	openContractDetails(){
+	openContractDetails(contractId, index){
 		this.setState({isViewingDetails: true})
-
+		this.setState({editorParameters:{
+			contractId: contractId,
+			index: index,
+			cancel: () => this.setState({isViewingDetails: false}),
+		}});
 	}
 
 	componentDidMount(){
@@ -78,7 +83,7 @@ class Contracts extends React.Component {
 							<Grid container spacing={1} justifyContent="center" alignItems="center">
 								<Grid item xs={2}><Typography variant="body1" gutterBottom>{customer.name}</Typography></Grid>
 								<Grid item xs={10}>{this.state.contracts.map((contract, index) => {
-									if (customer.id === contract.customerId)
+									if (customer.id === contract.customerId && ( contract.customerName.includes(this.props.filter) || this.props.filter === ""))
 									{return (
 									<div>
 										<Grid container spacing={1} justifyContent="center" alignItems="center">
@@ -86,7 +91,7 @@ class Contracts extends React.Component {
 										<Grid item xs={2}><Typography variant="body1" gutterBottom>{contract.endDate}</Typography></Grid>
 										<Grid item xs={2}><Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract.id, index)}>Edit</Button></Grid>
 										<Grid item xs={3}><Button startIcon={<DeleteIcon />} onClick={() => this.removeContract(contract.id, index)}>Delete</Button></Grid>
-										<Grid item xs={3}><Button startIcon={<InfoIcon />} onClick={() => this.openContractDetails()}>Details</Button></Grid>
+										<Grid item xs={3}><Button startIcon={<InfoIcon />} onClick={() => this.openContractDetails(contract.id, index)}>Details</Button></Grid>
 										</Grid>
 									</div>
 								)}})}
@@ -96,6 +101,7 @@ class Contracts extends React.Component {
 				)})}
 				</Stack>
 				<ContractDetails url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isEditing}></ContractDetails>
+				<SingleContractDetails url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isViewingDetails}></SingleContractDetails>
 			</div>
 		);
 	}

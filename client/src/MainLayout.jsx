@@ -30,7 +30,8 @@ class MainLayout extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            currentPage: <Users url={this.props.url}></Users>,
+            filter:"",
+            currentPage: <Users filter="" url={this.props.url}></Users>,
             currentPageName: "Users",
             editorParameters: {},
 			isEditing: false,
@@ -44,6 +45,7 @@ class MainLayout extends React.Component {
 	}
 
     componentDidMount(){
+        this.setState({currentPage: <Users filter={this.state.filter} url={this.props.url}></Users>});
 		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
         getUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
@@ -53,14 +55,22 @@ class MainLayout extends React.Component {
         this.setState({currentPageName: name});
     }
 
-    openEditor(user, customer) {
+    openEditor(userId, customerId) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
-			user,
-            customer,
+			userId: userId,
+            customerId: customerId,
 			cancel: () => this.setState({isEditing: false}),
 		}});
 	}
+
+    onfilterChange = (event) => {
+        this.setState({filter: event.target.value})
+        this.setState({currentPage: React.cloneElement(
+            this.state.currentPage,
+            {filter: event.target.value}
+          )});
+    }
 
     addItem(){
         if(this.state.currentPageName === "Users"){
@@ -103,9 +113,11 @@ class MainLayout extends React.Component {
                                         ),
                                     }}
                                     variant="standard"
+                                    defaultValue=""
+                                    onChange={this.onfilterChange}
                                 /> 
                                 <Button onClick={
-                                    () => this.openEditor(this.props.loggedInUser, this.props.loggedInUser.customer ? this.props.loggedInUser.customer : {name: "No Customer", id: null} )
+                                    () => this.openEditor(this.props.loggedInUser.id, this.props.loggedInUser.customerId ? this.props.loggedInUser.customerId : {name: "No Customer", id: null} )
                                     } startIcon={<AccountCircle />}>Account Settings</Button>
                                 <Button startIcon={<LogoutIcon />} onClick={() => this.props.para.logout()}>Logout</Button>
                             </div>
@@ -115,7 +127,7 @@ class MainLayout extends React.Component {
                     {/* left bar */}
                     <Grid item xs={2}>
                         <Grid contrainer direction="row" justifyContent="center" alignItems="center">
-                            <NavBar switchPage={this.switchPage} url={this.props.url}></NavBar>
+                            <NavBar switchPage={this.switchPage} filter={this.state.filter} url={this.props.url}></NavBar>
                         </Grid>
                     </Grid>
 
@@ -131,7 +143,7 @@ class MainLayout extends React.Component {
                         </main>
                     </Grid>
                 </Grid>
-                <UserDetail customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+                <UserDetail url={this.props.url} customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
                 <AddUserEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingUser}></AddUserEditor>
                 <AddCustomerEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingCustomer}></AddCustomerEditor>
                 <AddContractEditor url={this.props.url} users={this.state.users} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>

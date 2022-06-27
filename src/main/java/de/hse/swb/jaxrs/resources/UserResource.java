@@ -46,6 +46,8 @@ public class UserResource {
     	System.out.println(customerId);
     	if (customerId == null) {
     		dbUsers = userdao.getUsers();
+    	} else if(customerId == 0){
+    		dbUsers = userdao.getUserWithoutCustomer();
     	} else {
     		dbUsers = customerDao.getCustomer(customerId).getUsers();
     	}

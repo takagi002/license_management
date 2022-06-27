@@ -27,19 +27,19 @@ class NavBar extends React.Component {
 				<List>
 
           			<ListItem>
-            			<ListItemButton onClick={() => (this.props.switchPage(<Customers filter={this.props.filter} url={this.props.url}/>, "Customers"))}>
+            			<ListItemButton onClick={() => (this.props.switchPage(<Customers loggedInUser={this.props.loggedInUser} filter={this.props.filter} url={this.props.url}/>, "Customers"))}>
               				<ListItemText primary="Customers" />
             			</ListItemButton>
           			</ListItem>
 					<Divider />
 					<ListItem>
-            			<ListItemButton onClick={() => (this.props.switchPage(<Contracts filter={this.props.filter} url={this.props.url}/>, "Contracts"))}>
+            			<ListItemButton onClick={() => (this.props.switchPage(<Contracts loggedInUser={this.props.loggedInUser} filter={this.props.filter} url={this.props.url}/>, "Contracts"))}>
               				<ListItemText primary="Contracts" />
             			</ListItemButton>
           			</ListItem>
 					<Divider />
           			<ListItem>
-            			<ListItemButton onClick={() => (this.props.switchPage(<Users filter={this.props.filter} url={this.props.url}/>, "Users"))}>
+            			<ListItemButton onClick={() => (this.props.switchPage(<Users loggedInUser={this.props.loggedInUser} filter={this.props.filter} url={this.props.url}/>, "Users"))}>
               				<ListItemText primary="Users" />
             			</ListItemButton>
           			</ListItem>

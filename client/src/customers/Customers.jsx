@@ -108,8 +108,8 @@ class Customers extends React.Component {
 									<Grid item xs={2}><Typography variant="body1" gutterBottom>{customer.name}</Typography></Grid>
 									<Grid item xs={3}><Typography variant="body1" gutterBottom>{customer.address}</Typography></Grid>
 									<Grid item xs={3}><Typography variant="body1" gutterBottom>{customer.addressOptional}</Typography></Grid>
-									<Grid item><Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer.id, index)}>Edit</Button></Grid>
-									<Grid item><Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.id, index)}>Delete</Button></Grid>
+									<Grid item><Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer.id, index)} disabled={!this.props.loggedInUser.admin}>Edit</Button></Grid>
+									<Grid item><Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.id, index)} disabled={!this.props.loggedInUser.admin}>Delete</Button></Grid>
 									<Grid item><Button onClick={() => this.viewContracts(customer.name, customer.id)}>Contracts</Button></Grid>
 									<Grid item><Button onClick={() => this.viewUsers(customer.name, customer.id)}>Users</Button></Grid>
 								</Grid>

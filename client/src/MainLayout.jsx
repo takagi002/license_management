@@ -31,7 +31,7 @@ class MainLayout extends React.Component {
 		super(props);
 		this.state = {
             filter:"",
-            currentPage: <Users filter="" url={this.props.url}></Users>,
+            currentPage: <Users loggedInUser={this.props.loggedInUser} filter="" url={this.props.url}></Users>,
             currentPageName: "Users",
             editorParameters: {},
 			isEditing: false,
@@ -45,7 +45,7 @@ class MainLayout extends React.Component {
 	}
 
     componentDidMount(){
-        this.setState({currentPage: <Users filter={this.state.filter} url={this.props.url}></Users>});
+        this.setState({currentPage: <Users loggedInUser={this.props.loggedInUser} filter={this.state.filter} url={this.props.url}></Users>});
 		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
         getUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
@@ -101,7 +101,7 @@ class MainLayout extends React.Component {
                             <Box pl={'10px'} pt={'10px'} pb={'10px'} pr={'20px'}>
                                 <Typography variant="h4" display="inline" >{this.state.currentPageName}</Typography>
                             </Box>
-                            <Button size="medium" endIcon={<AddIcon />} onClick={() => this.addItem()}>Add</Button>
+                            <Button size="medium" endIcon={<AddIcon />} onClick={() => this.addItem()} disabled={(this.state.currentPageName === "Users" || this.state.currentPageName === "Customers") && !this.props.loggedInUser.admin} >Add</Button>
                             <div style={{marginLeft: "auto"}}>
                                 <TextField
                                     id="input-with-icon-textfield"
@@ -127,7 +127,7 @@ class MainLayout extends React.Component {
                     {/* left bar */}
                     <Grid item xs={2}>
                         <Grid contrainer direction="row" justifyContent="center" alignItems="center">
-                            <NavBar switchPage={this.switchPage} filter={this.state.filter} url={this.props.url}></NavBar>
+                            <NavBar switchPage={this.switchPage} loggedInUser={this.props.loggedInUser} filter={this.state.filter} url={this.props.url}></NavBar>
                         </Grid>
                     </Grid>
 

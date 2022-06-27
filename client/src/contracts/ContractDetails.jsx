@@ -123,6 +123,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.startDate}
 								onChange={this.handleStartDateChange}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -134,6 +135,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.endDate}
 								onChange={this.handleEndDateChange}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -145,6 +147,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.version}
 								onChange={this.handleVersionChange}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -156,6 +159,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.user1Id}
 								onChange={this.handleUser1Change}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -167,6 +171,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.user2Id}
 								onChange={this.handleUser2Change}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -211,6 +216,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.feature1}
 								onChange={this.handleFeature1Change}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -222,6 +228,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.feature2}
 								onChange={this.handleFeature2Change}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -233,6 +240,7 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.feature3}
 								onChange={this.handleFeature3Change}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 							<TextField
 								autoFocus
@@ -244,11 +252,12 @@ class ContractDetails extends React.Component {
 								variant="standard"
 								defaultValue={this.state.contract.licenseKey}
 								onChange={this.handleLicenseChange}
+								disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}
 							/>
 						</DialogContent>
 
 						<DialogActions>
-							<Button onClick={() => this.generateLicenseKey()}>Update Key</Button>
+							<Button onClick={() => this.generateLicenseKey()} disabled={this.props.para.isExpired && !this.props.loggedInUser.admin}>Update Key</Button>
 							<Button disabled={true}>Mail Key</Button>
 							<Button onClick={() => this.saveContract({
 								id: this.state.contract.id,

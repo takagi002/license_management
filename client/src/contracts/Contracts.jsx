@@ -20,6 +20,14 @@ const styles = theme => ({
 	},
 });
 
+const dateInPast = function (firstDate, secondDate) {
+	if (firstDate.setHours(0, 0, 0, 0) <= secondDate.setHours(0, 0, 0, 0)) {
+	  return true;
+	}
+  
+	return false;
+};
+
 const Item = styled(Paper)(({ theme }) => ({
 	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
 	...theme.typography.body2,
@@ -38,14 +46,16 @@ class Contracts extends React.Component {
 			isEditing: false,
 			isViewingDetails: false,
 			editorParameters: {},
+			current_date: new Date()
 		}
 	}
 
-	openEditor = (contractId, index) => {
+	openEditor = (contractId, index, isExpired) => {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
 			contractId: contractId,
 			index: index,
+			isExpired: isExpired,
 			cancel: () => this.setState({isEditing: false}),
 		}});
 	}
@@ -84,14 +94,16 @@ class Contracts extends React.Component {
 								<Grid item xs={2}><Typography variant="body1" gutterBottom>{customer.name}</Typography></Grid>
 								<Grid item xs={10}>{this.state.contracts.map((contract, index) => {
 									if (customer.id === contract.customerId && ( contract.customerName.includes(this.props.filter) || this.props.filter === ""))
-									{return (
+									{
+										let expireDate = new Date(contract.endDate)
+										return (
 									<div>
 										<Grid container spacing={1} justifyContent="center" alignItems="center">
 										<Grid item xs={2}><Typography variant="body1" gutterBottom>{contract.startDate}</Typography></Grid>
 										<Grid item xs={2}><Typography variant="body1" gutterBottom>{contract.endDate}</Typography></Grid>
-										<Grid item xs={2}><Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract.id, index)}>Edit</Button></Grid>
-										<Grid item xs={3}><Button startIcon={<DeleteIcon />} onClick={() => this.removeContract(contract.id, index)}>Delete</Button></Grid>
-										<Grid item xs={3}><Button startIcon={<InfoIcon />} onClick={() => this.openContractDetails(contract.id, index)}>Details</Button></Grid>
+										<Grid item xs={2}><Button startIcon={<EditIcon />} onClick={() => this.openEditor(contract.id, index, dateInPast(expireDate, this.state.current_date))} disabled={!this.props.loggedInUser.admin && contract.customerId !== this.props.loggedInUser.customerId}>Edit</Button></Grid>
+										<Grid item xs={3}><Button startIcon={<DeleteIcon />} onClick={() => this.removeContract(contract.id, index)} disabled={!this.props.loggedInUser.admin}>Delete</Button></Grid>
+										<Grid item xs={3}><Button startIcon={<InfoIcon />} onClick={() => this.openContractDetails(contract.id, index)} disabled={!this.props.loggedInUser.admin && contract.customerId !== this.props.loggedInUser.customerId}>Details</Button></Grid>
 										</Grid>
 									</div>
 								)}})}
@@ -100,7 +112,7 @@ class Contracts extends React.Component {
 						</Item>
 				)})}
 				</Stack>
-				<ContractDetails url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isEditing}></ContractDetails>
+				<ContractDetails loggedInUser={this.props.loggedInUser} url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isEditing}></ContractDetails>
 				<SingleContractDetails url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isViewingDetails}></SingleContractDetails>
 			</div>
 		);

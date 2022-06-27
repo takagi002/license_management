@@ -5,8 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {getCustomers} from '../common/apiUtility';
-
+import { getUser, putUser } from '../common/apiUtility';
 
 const styles = theme => ({
 		center: {
@@ -22,44 +21,90 @@ class UserDetail extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			user: null,
 			customers: [],
-			customerName: "No Customer"
+			customerId: "",
+			name: "",
+			firstname: "",
+			email: "",
+			password:"",
+			phone: "",
+			mobile: "",
+			admin: false
 		}
 	}
 
-	componentDidMount(){
-		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+	componentDidUpdate(oldProps){
+        if(this.props.para.userId !== oldProps.para.userId){
+            getUser(this.props.para.userId, this.props.url, (json) => {this.setState({user: json,
+				customerId: json.customerId,
+				name: json.name,
+				firstname: json.firstname,
+				email: json.email,
+				password: json.password,
+				phone: json.phoneNumber,
+				mobile: json.phoneNumberOptional,
+				admin: json.admin
+				})});
+
+        }
+    }
+
+
+	handleCustomerChange = (event) => {
+		this.setState({customerId: event.target.value})
+	}
+	handleFirstNameChange = (event) => {
+		this.setState({firstname: event.target.value})
+	}
+	handleNameChange = (event) => {
+		this.setState({name: event.target.value})
+	}
+	handleEmailChange = (event) => {
+		this.setState({email: event.target.value})
+	}
+	handlePasswordChange = (event) => {
+		this.setState({password: event.target.value})
+	}
+	handlePhoneChange = (event) => {
+		this.setState({phone: event.target.value})
+	}
+	handleMobileChange = (event) => {
+		this.setState({mobile: event.target.value})
+	}
+	handleAdminChange = (event) => {
+		this.setState({admin: event.target.value})
 	}
 
-	handleChange = (event) => {
-		this.setState({customerName: event.target.value})
-	}
 
-	//save() {
-	//	putUser
-	//}
+	saveUser(userData){
+		putUser(userData, this.props.url)
+		this.setState({user: null})
+
+		this.props.para.cancel()
+	}
 	
 	render() {
 		return (
 			<div>
-				{ this.props.para.user &&
+				{ this.state.user &&
 					<Dialog open={this.props.isOpen}>
 						<DialogContent>
-							<DialogTitle>Editing User {this.props.para.user.firstname}</DialogTitle>
+							<DialogTitle>Editing User {this.state.user.firstname}</DialogTitle>
 							<FormControl fullWidth>
   								<InputLabel id="demo-simple-select-label">Customer</InputLabel>
   								<Select
-								  onChange={this.handleChange}
+								  onChange={this.handleCustomerChange}
   								  labelId="demo-simple-select-label"
   								  id="demo-simple-select"
   								  value={this.state.customerName}
-  								  label="Customer"
+								  label="Customer"
+								  defaultValue={this.state.user.customerId}
   								>
-  								  <MenuItem value={"No Customer"}>No Customer</MenuItem>
-									<MenuItem value={"Customer 1"}>Customer 1</MenuItem>
-  								  {this.state.customers.map((customer, index) => {
+  								  <MenuItem value={null}>No Customer</MenuItem>
+  								  {this.props.customers.map((customer, index) => {
 									return (
-										<MenuItem value={customer.name}>{customer.name}</MenuItem>
+										<MenuItem value={customer.id}>{customer.name}</MenuItem>
 									)})}
   								</Select>
 							</FormControl>
@@ -71,7 +116,8 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.firstname}
+								defaultValue={this.state.user.firstname}
+								onChange={this.handleFirstNameChange}
 							/>
 							<TextField
             					autoFocus
@@ -81,48 +127,63 @@ class UserDetail extends React.Component {
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.name}
+								defaultValue={this.state.user.name}
+								onChange={this.handleNameChange}
 							/>
 							<TextField
             					autoFocus
             					margin="dense"
-            					id="name"
+            					id="email"
             					label="Email"
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.email}
+								defaultValue={this.state.user.email}
+								onChange={this.handleEmailChange}
 							/>
 							<TextField
             					autoFocus
             					margin="dense"
-            					id="name"
+            					id="password"
+            					label="Password"
+            					type="password"
+            					fullWidth
+            					variant="standard"
+								defaultValue={this.state.user.password}
+								onChange={this.handlePasswordChange}
+							/>
+							<TextField
+            					autoFocus
+            					margin="dense"
+            					id="phone"
             					label="Phone"
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.phoneNumber1}
+								defaultValue={this.state.user.phoneNumber}
+								onChange={this.handlePhoneChange}
 							/>
 							<TextField
             					autoFocus
             					margin="dense"
-            					id="name"
+            					id="mobile"
             					label="Mobile"
             					type="text"
             					fullWidth
             					variant="standard"
-								defaultValue={this.props.para.user.phoneNumber2}
+								defaultValue={this.state.user.phoneNumberOptional}
+								onChange={this.handleMobileChange}
 							/>
 							<div>
 								<FormGroup>
 								        {(() => {
-											if (this.props.para.user.admin) {
+											if (this.state.user.admin) {
 											  return (
-												<FormControlLabel control={<Checkbox defaultChecked/>} label="isAdministrator" />
+												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox defaultChecked/>} label="isAdministrator" disabled={!this.props.loggedInUser.admin}/>
 											  )
 											} else {
 											  return (
-												<FormControlLabel control={<Checkbox/>} label="isAdministrator" />
+												<FormControlLabel onChange={this.handleAdminChange} control={<Checkbox/>} label="isAdministrator" disabled={!this.props.loggedInUser.admin}/>
 											  )
 											}
 										})()}
@@ -131,11 +192,25 @@ class UserDetail extends React.Component {
 						</DialogContent>
 
 						<DialogActions>
-							<Button onClick={() => this.props.para.save()} >Save</Button>
-							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
+							<Button onClick={() => { this.saveUser({
+							id: this.state.user.id,				    
+        					name: this.state.name,
+        					firstname: this.state.firstname,
+        					username: this.state.user.username, 
+        					password: this.state.password,
+        					email: this.state.email,
+        					phoneNumber: this.state.phone,
+        					phoneNumberOptional: this.state.mobile,
+        					customerId: this.state.customerId,
+							customerName: null,
+							admin: this.state.admin
+						})}} >Save</Button>
+							<Button onClick={() => {this.props.para.cancel(); this.setState({user: null})}}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
+					
 				}
+				
 			</div>
 		);
 	}

@@ -13,7 +13,16 @@ function getCustomers(baseUrl, callback){
         .then( (response) => { return response.json() } )
         .then( callback )
         .catch( function( error ) {
-            console.log( 'Request failed', error );
+            console.error( 'Request failed', error );
+        });
+}
+function getCustomerById(baseUrl, id, callback){
+    fetch( baseUrl + "customers/" + id)
+        .then( resolveStatus )
+        .then( (response) => { return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
         });
 }
 
@@ -23,7 +32,25 @@ function getUsers(baseUrl, callback){
         .then( (response) => {return response.json() } )
         .then( callback )
         .catch( function( error ) {
-            console.log( 'Request failed', error );
+            console.error( 'Request failed', error );
+        });
+}
+function getUsersByCustomerId(baseUrl, customerId, callback){
+    fetch(baseUrl + "users" + "?customerId="+ customerId)
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
+
+async function getUsersByCustomerIdAsync(baseUrl, customerId){
+    return await fetch(baseUrl + "users" + "?customerId="+ customerId)
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
         });
 }
 
@@ -33,13 +60,53 @@ function getContracts(baseUrl, callback){
         .then( (response) => {return response.json() } )
         .then( callback )
         .catch( function( error ) {
-            console.log( 'Request failed', error );
+            console.error( 'Request failed', error );
         });
 }
 
-function putUser(userData, baseUrl, callback){
+function getContractsByCustomerId(baseUrl, customerId, callback){
+    fetch(baseUrl + "contracts"+ "?customerId="+ customerId)
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
+
+function getCustomer(customerId, baseUrl, callback){
+    fetch( baseUrl + "customers/" + customerId)
+        .then( resolveStatus )
+        .then( (response) => { return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
+
+function getUser(userId, baseUrl, callback){
+    fetch(baseUrl + "users/" + userId)
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
+
+function getContract(contractId, baseUrl, callback){
+    fetch(baseUrl + "contracts/" + contractId)
+        .then( resolveStatus )
+        .then( (response) => {return response.json() } )
+        .then( callback )
+        .catch( function( error ) {
+            console.error( 'Request failed', error );
+        });
+}
+
+function putUser(userData, baseUrl){
     var formdata = JSON.stringify(userData);
-    fetch(baseUrl + "users/"+ userData.id, {
+    fetch(baseUrl + "users", {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -50,9 +117,9 @@ function putUser(userData, baseUrl, callback){
 
 }
 
-function putContract(contractData, baseUrl, callback){
+function putContract(contractData, baseUrl){
     var formdata = JSON.stringify(contractData);
-    fetch(baseUrl + "contracts/"+ contractData, {
+    fetch(baseUrl + "contracts", {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -62,9 +129,9 @@ function putContract(contractData, baseUrl, callback){
     })
 }
 
-function putCustomer(customerData, baseUrl, callback){
+function putCustomer(customerData, baseUrl){
     var formdata = JSON.stringify(customerData);
-    fetch(baseUrl + "customers/"+ customerData, {
+    fetch(baseUrl + "customers", {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -74,5 +141,36 @@ function putCustomer(customerData, baseUrl, callback){
     })
 }
 
+function deleteUser(userId, baseUrl){
+    fetch(baseUrl + "users/" + userId, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'delete'
+    })
+}
 
-export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer};
+function deleteCustomer(customerId, baseUrl){
+    fetch(baseUrl + "customers/" + customerId, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'delete'
+    })
+}
+
+function deleteContract(contractId, baseUrl){
+    fetch(baseUrl + "contracts/" + contractId, {
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+        },
+        method: 'delete'
+    })
+}
+
+
+export {resolveStatus, getCustomers, getUsers, getContracts, putUser, putContract, putCustomer, deleteUser, deleteCustomer, deleteContract,
+    getContract, getUser, getCustomer, getUsersByCustomerId, getContractsByCustomerId, getUsersByCustomerIdAsync, getCustomerById};

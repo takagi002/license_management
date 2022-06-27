@@ -1,10 +1,15 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import CustomerDetail from './CustomerDetail';
-import {getCustomers, getUsers} from '../common/apiUtility';
-import { Button, Typography} from "@material-ui/core";
+import {getCustomers, getUsers, deleteCustomer, getContracts} from '../common/apiUtility';
+import { Paper, Button, Typography, Grid } from "@material-ui/core";
+import Stack from '@mui/material/Stack';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ContractListView from "./ContractListView";
+import UserListView from "./UserListView";
+import { styled } from '@mui/material/styles';
+import Divider from '@mui/material/Divider';
 
 const styles = theme => ({
 		center: {
@@ -15,6 +20,14 @@ const styles = theme => ({
 	},
 });
 
+const Item = styled(Paper)(({ theme }) => ({
+	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+	...theme.typography.body2,
+	padding: '12px',
+	textAlign: 'center',
+	color: theme.palette.text.secondary,
+}));
+  
 class Customers extends React.Component {
 	
 	constructor(props) {
@@ -22,28 +35,52 @@ class Customers extends React.Component {
 		this.state = {
 			customers: [],
 			users: [],
+			contracts: [],
 			isEditing: false,
+			isViewingContracts: false,
+			isViewingUsers: false,
 			editorParameters: {},
+			viewContractsParameters: {},
+			viewUsersParameters: {}
 		}
 	}
 	
-    openEditor(customer, index) {
+    openEditor(customerId, index) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
-			customer,
-			index,
+			customerId: customerId,
+			index: index,
 			cancel: () => this.setState({isEditing: false}),
-			save: () => this.saveCustomer(),
 		}});
 	}
 
-	saveCustomer(customer, index){
+	removeCustomer(customerId, index){
+		deleteCustomer(customerId, this.props.url)
+
 		const temp = this.state.customers.slice();
-		temp[index] = customer;
-		this.setState({customer: temp});
+		temp.splice(index,1);
+
+		this.setState({customers: temp});
+	}
+	
+	viewContracts(customerName, customerId) {
+		this.setState({isViewingContracts: true});
 		
-		// close window
-		this.setState({isEditing: false})
+		this.setState({viewContractsParameters:{
+			customer: customerName,
+			customerId: customerId,
+			cancel: () => this.setState({isViewingContracts: false}),
+		}});
+	}
+
+	viewUsers(customerName, customerId){
+		this.setState({isViewingUsers: true});
+
+		this.setState({viewUsersParameters:{
+			customer: customerName,
+			customerId: customerId,
+			cancel: () => this.setState({isViewingUsers: false}),
+		}});
 	}
 
 	closeEditor() {
@@ -54,27 +91,38 @@ class Customers extends React.Component {
 	componentDidMount(){
 		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
 		getUsers(this.props.url, (json) => {this.setState({users: json})});
+		getContracts(this.props.url, (json) => {this.setState({contracts: json})});
 	}
 
 
     render(){
 		return (
-			<div>{
+			<div>
+				<Stack spacing={2} divider={<Divider orientation="horizontal" />}>{
 				this.state.customers.map((customer, index) => {
-					return (
-					<div class="customerDetailGrid" key={index}>
-						<Typography variant="body1" gutterBottom>{customer.name}</Typography>
-						<Typography variant="body1" gutterBottom>{customer.adresse}</Typography>
-						<Typography variant="body1" gutterBottom>{customer.department}</Typography>
-						<Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer, index)}>Edit</Button>
-						<Button startIcon={<DeleteIcon />}>Delete</Button>
-						<Button>Contracts</Button>
-						<Button>Users</Button>
-						<div class='row-border'></div>
-					</div>
-				)})}
-				<CustomerDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></CustomerDetail>
-			</div>
+					if(customer.name.includes(this.props.filter) || this.props.filter === ""){
+						return (
+						
+							<Item elevation={0}>
+								<Grid container spacing={1} justifyContent="center" alignItems="center">
+									<Grid item xs={2}><Typography variant="body1" gutterBottom>{customer.name}</Typography></Grid>
+									<Grid item xs={3}><Typography variant="body1" gutterBottom>{customer.address}</Typography></Grid>
+									<Grid item xs={3}><Typography variant="body1" gutterBottom>{customer.addressOptional}</Typography></Grid>
+									<Grid item><Button startIcon={<EditIcon />} onClick={() => this.openEditor(customer.id, index)} disabled={!this.props.loggedInUser.admin}>Edit</Button></Grid>
+									<Grid item><Button startIcon={<DeleteIcon />} onClick={() => this.removeCustomer(customer.id, index)} disabled={!this.props.loggedInUser.admin}>Delete</Button></Grid>
+									<Grid item><Button onClick={() => this.viewContracts(customer.name, customer.id)}>Contracts</Button></Grid>
+									<Grid item><Button onClick={() => this.viewUsers(customer.name, customer.id)}>Users</Button></Grid>
+								</Grid>
+							</Item>
+							
+						)
+					}
+				})}
+				</Stack>
+				<CustomerDetail url={this.props.url} para={this.state.editorParameters} isOpen={this.state.isEditing}></CustomerDetail>
+				<ContractListView url={this.props.url} para={this.state.viewContractsParameters} isOpen={this.state.isViewingContracts}></ContractListView>
+				<UserListView url={this.props.url} para={this.state.viewUsersParameters} isOpen={this.state.isViewingUsers}></UserListView>
+			</div>	
 		);
 	}
 }

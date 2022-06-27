@@ -11,6 +11,10 @@ import InputAdornment from '@mui/material/InputAdornment';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import LogoutIcon from '@mui/icons-material/Logout';
 import UserDetail from "./users/UserDetail";
+import {getCustomers, getUsers} from './common/apiUtility';
+import AddUserEditor from "./users/AddUserEditor";
+import AddCustomerEditor from "./customers/AddCustomerEditor";
+import AddContractEditor from "./contracts/AddContractEditor";
 
 const styles = theme => ({
 		center: {
@@ -26,11 +30,24 @@ class MainLayout extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-            currentPage: <Users url={this.props.url}></Users>,
+            filter:"",
+            currentPage: <Users loggedInUser={this.props.loggedInUser} filter="" url={this.props.url}></Users>,
             currentPageName: "Users",
             editorParameters: {},
 			isEditing: false,
+            customers: [],
+            users: [],
+            addItemParameters: {},
+            isAddingUser: false,
+            isAddingCustomer: false,
+            isAddingContract: false
 		}
+	}
+
+    componentDidMount(){
+        this.setState({currentPage: <Users loggedInUser={this.props.loggedInUser} filter={this.state.filter} url={this.props.url}></Users>});
+		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
+        getUsers(this.props.url, (json) => {this.setState({users: json})});
 	}
 
     switchPage = (component, name) => {
@@ -38,16 +55,42 @@ class MainLayout extends React.Component {
         this.setState({currentPageName: name});
     }
 
-    openEditor(user) {
+    openEditor(userId, customerId) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
-			user,
-			cancel: () => this.setState({isEditing: false}),
-			save: () => this.saveUser(),
+			userId: userId,
+            customerId: customerId,
+			cancel: () => this.setState({isEditing: false, editorParameters:{userId: null}}),
 		}});
 	}
 
-	
+    onfilterChange = (event) => {
+        this.setState({filter: event.target.value})
+        this.setState({currentPage: React.cloneElement(
+            this.state.currentPage,
+            {filter: event.target.value}
+          )});
+    }
+
+    addItem(){
+        if(this.state.currentPageName === "Users"){
+            this.setState({isAddingUser: true});
+            this.setState({addItemParameters: {
+                cancel: () => this.setState({isAddingUser: false})
+            }});
+        }else if(this.state.currentPageName === "Customers"){
+            this.setState({isAddingCustomer: true});
+            this.setState({addItemParameters: {
+                cancel: () => this.setState({isAddingCustomer: false})
+            }});
+        }else if(this.state.currentPageName === "Contracts"){
+            this.setState({isAddingContract: true});
+            this.setState({addItemParameters: {
+                cancel: () => this.setState({isAddingContract: false})
+            }});
+        }
+    }
+
 	render() {
         return (
             <div>
@@ -58,7 +101,7 @@ class MainLayout extends React.Component {
                             <Box pl={'10px'} pt={'10px'} pb={'10px'} pr={'20px'}>
                                 <Typography variant="h4" display="inline" >{this.state.currentPageName}</Typography>
                             </Box>
-                            <Button size="medium" endIcon={<AddIcon />}>Add</Button>
+                            <Button size="medium" endIcon={<AddIcon />} onClick={() => this.addItem()} disabled={(this.state.currentPageName === "Users" || this.state.currentPageName === "Customers") && !this.props.loggedInUser.admin} >Add</Button>
                             <div style={{marginLeft: "auto"}}>
                                 <TextField
                                     id="input-with-icon-textfield"
@@ -70,9 +113,13 @@ class MainLayout extends React.Component {
                                         ),
                                     }}
                                     variant="standard"
+                                    defaultValue=""
+                                    onChange={this.onfilterChange}
                                 /> 
-                                <Button onClick={() => this.openEditor(this.props.loggedInUser)} startIcon={<AccountCircle />}>Account Settings</Button>
-                                <Button startIcon={<LogoutIcon />}>Logout</Button>
+                                <Button onClick={
+                                    () => this.openEditor(this.props.loggedInUser.id, this.props.loggedInUser.customerId ? this.props.loggedInUser.customerId : {name: "No Customer", id: null} )
+                                    } startIcon={<AccountCircle />}>Account Settings</Button>
+                                <Button startIcon={<LogoutIcon />} onClick={() => this.props.para.logout()}>Logout</Button>
                             </div>
                         </header>
                     </Grid>
@@ -80,7 +127,7 @@ class MainLayout extends React.Component {
                     {/* left bar */}
                     <Grid item xs={2}>
                         <Grid contrainer direction="row" justifyContent="center" alignItems="center">
-                            <NavBar switchPage={this.switchPage} url={this.props.url}></NavBar>
+                            <NavBar switchPage={this.switchPage} loggedInUser={this.props.loggedInUser} filter={this.state.filter} url={this.props.url}></NavBar>
                         </Grid>
                     </Grid>
 
@@ -96,8 +143,11 @@ class MainLayout extends React.Component {
                         </main>
                     </Grid>
                 </Grid>
-                <UserDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
-            </div>
+                <UserDetail url={this.props.url} customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+                <AddUserEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingUser}></AddUserEditor>
+                <AddCustomerEditor url={this.props.url} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingCustomer}></AddCustomerEditor>
+                <AddContractEditor url={this.props.url} users={this.state.users} customers={this.state.customers} para={this.state.addItemParameters} isOpen={this.state.isAddingContract} ></AddContractEditor>
+            </div>                      
         );
 	}
 }

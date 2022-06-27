@@ -17,7 +17,7 @@ public class Contract {
 	private Customer customer;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
-	@JoinColumn(name = "user1_userId", referencedColumnName = "userId", nullable = false)
+	@JoinColumn(name = "user1_userId", referencedColumnName = "userId")
 	private User user1;
 	
 	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
@@ -29,6 +29,9 @@ public class Contract {
 	
 	@Column(name = "endDate", columnDefinition = "DATE NOT NULL")
     private Date endDate;
+	
+	@Column(name = "version" , columnDefinition = "VARCHAR(26) NOT NULL")
+    private String version;
 	
 	@Column(name = "licenseKey", columnDefinition = "TEXT NOT NULL")
     private String licenseKey;
@@ -57,11 +60,11 @@ public class Contract {
 		this.customer = customer;
 	}
 	
-	public long getContractId() {
+	public long getId() {
 		return id;
 	}
 
-	public void setContractId(long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -103,6 +106,14 @@ public class Contract {
 
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
+	}
+
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 
 	public String getLicenseKey() {

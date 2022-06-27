@@ -2,6 +2,7 @@ package de.hse.swb.jps.orm;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +53,7 @@ public class UserDaoTest {
 	@Test
 	void testAddUser_1() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		List<User> results = userdao.getUsers();
 		assertEquals(1, results.size());
@@ -61,7 +62,7 @@ public class UserDaoTest {
 	@Test
 	void testAddUser_11() {
 		List<User> users = createMultipleUsers(11);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		List<User> results = userdao.getUsers();
 		assertEquals(11, results.size());
@@ -70,10 +71,10 @@ public class UserDaoTest {
 	@Test
 	void testUpdateUser() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		user.setEmail("ding@test.test");
-		userdao.update(user);
+		userdao.updateUser(user);
 		
 		User result = userdao.getUser(1);
 		assertNotEquals("test0@test.test", result.getEmail());
@@ -82,7 +83,7 @@ public class UserDaoTest {
 	@Test
 	void testRemoveUser() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		userdao.removeUser(user);
 		
@@ -93,7 +94,7 @@ public class UserDaoTest {
 	@Test
 	void testRemoveUsers() {
 		List<User> users = createMultipleUsers(7);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		userdao.removeAllUsers();
 		
@@ -111,7 +112,7 @@ public class UserDaoTest {
 	@Test
 	void testGetUsers_34() {
 		List<User> users = createMultipleUsers(34);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		List<User> results = userdao.getUsers();
 		assertEquals(34, results.size());
@@ -121,54 +122,62 @@ public class UserDaoTest {
 	@Test
 	void testGetUser_Solo() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		User result = userdao.getUser(user.getId());
-		assertEquals("test0", result.getUsername());
+		assertEquals("tete000", result.getUsername());
+	}
+	@Test
+	void testGetUser_ID0() {
+		User user = createUser(0);
+		userdao.addUser(user);
+		
+		User result = userdao.getUser(0);
+		assertNull(result);
 	}
 	
 	@Test
 	void testGetUser_3thOutOf6() {
 		List<User> users = createMultipleUsers(6);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
 		User result = userdao.getUser(users.get(2).getId());
-		assertEquals("test2", result.getUsername());
+		assertEquals("tete002", result.getUsername());
 	}
 	
 	@Test
 	void testGetUserByUsername_Solo() {
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
-		User result = userdao.getUserByUsername("test0");
-		assertEquals("test0", result.getUsername());
+		User result = userdao.getUserByUsername("tete000");
+		assertEquals("tete000", result.getUsername());
 	}
 	
 	@Test
 	void testGetUserByUsername_3thOutOf6() {
 		List<User> users = createMultipleUsers(6);
-		users.forEach((user) -> userdao.add(user));
+		users.forEach((user) -> userdao.addUser(user));
 		
-		User result = userdao.getUserByUsername("test2");
-		assertEquals("test2", result.getUsername());
+		User result = userdao.getUserByUsername("tete002");
+		assertEquals("tete002", result.getUsername());
 	}
 	
 	@Test
 	void testLoginCorrect(){
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
-		User result = userdao.login("test0", "password");
+		User result = userdao.login("tete000", "password");
 		assertNotEquals(null, result);
 	}
 	
 	@Test
 	void testLoginWrong(){
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
-		User result = userdao.login("test0", "wrong");
+		User result = userdao.login("tete000", "wrong");
 		assertEquals(null, result);
 	}
 	
@@ -177,11 +186,11 @@ public class UserDaoTest {
 		String newPassword = "12345";
 		
 		User user = createUser(0);
-		userdao.add(user);
+		userdao.addUser(user);
 		
 		userdao.changePassword(user, newPassword);
 		
-		User result = userdao.login("test0", newPassword);
+		User result = userdao.login("tete000", newPassword);
 		assertNotEquals(null, result);
 	}	
 

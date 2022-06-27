@@ -37,7 +37,7 @@ public class CustomerDaoTest {
 	}
 	
 	private void printCustomer(Customer customer) {
-		System.out.println("ID: " + customer.getCustomerId());
+		System.out.println("ID: " + customer.getId());
 		System.out.println("CustomerName: " + customer.getName());
 //		List<Project> projects = Customer.getProjects();
 //		for (Project project: projects) {

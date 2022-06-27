@@ -43,7 +43,8 @@ public class ContractDaoTest {
 		contract.setIpV4Adress1("192.0.2.146");
 		contract.setFeature1(45);
 		contract.setFeature1(50);
-		contract.setFeature1(98);		
+		contract.setFeature1(98);
+		contract.setVersion("Dev-Test");
 		return contract;
 	}
 	
@@ -67,7 +68,7 @@ public class ContractDaoTest {
 	}
 	
 	private void printContract(Contract Contract) {
-		System.out.println("id: " + Contract.getContractId());
+		System.out.println("id: " + Contract.getId());
 //		List<Contract> Contracts = Contract.getContracts();
 //		for (Contract Contract: Contracts) {
 //			System.out.println("  Contract " + Contract.getId() + ": " + Contract.getContractname());

@@ -1,10 +1,13 @@
 import React from "react";
 import { withStyles } from '@material-ui/core/styles';
 import UserDetail from "./UserDetail";
-import {getCustomers, getUsers} from '../common/apiUtility';
-import { Button, Typography} from "@material-ui/core";
+import {getCustomers, getUsers, deleteUser, getUsersByCustomerIdAsync} from '../common/apiUtility';
+import { Paper, Grid, Button, Typography} from "@material-ui/core";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Stack from '@mui/material/Stack';
+import Divider from '@mui/material/Divider';
+import { styled } from '@mui/material/styles';
 
 const styles = theme => ({
 		center: {
@@ -15,85 +18,110 @@ const styles = theme => ({
 	},
 });
 
+const Item = styled(Paper)(({ theme }) => ({
+	backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+	...theme.typography.body2,
+	padding: '12px',
+	textAlign: 'center',
+	color: theme.palette.text.secondary,
+  }));
+
 class Users extends React.Component {
 	
 	constructor(props) {
 		super(props);
 		this.state = {
 			customers: [],
-			users: [],
+			users:[],
+			usersOld: [],//depricated
 			editorParameters: {},
 			isEditing: false,
 
 		}
 	}
 	
-	openEditor(user, index) {
+	openEditor(userId, customerId, index) {
 		this.setState({isEditing: true});
 		this.setState({editorParameters:{
-			user,
-			cancel: () => this.setState({isEditing: false}),
-			save: (user) => this.saveUser(),
+			userId: userId,
+			customerId: customerId,
+			cancel: () => this.setState({isEditing: false, editorParameters:{userId: null}}),
 		}});
 	}
-	saveUser(user, index) {
-		const temp = this.state.users.slice();
-		temp[index] = user;
-		this.setState({users: temp});
-		
-		// close window
-		this.setState({isEditing: false})
+
+	removeUser(userId, index){
+		deleteUser(userId, this.props.url)
+
+		const temp = this.state.usersOld.slice();
+		temp.splice(index,1);
+
+		this.setState({usersOld: temp});
 	}
 
 	componentDidMount(){
 		getCustomers(this.props.url, (json) => {this.setState({customers: json})});
-		getUsers(this.props.url, (json) => {this.setState({users: json})});
+		//TODO: after api fix for customerId==0 add a custommer to custommers with id 0
+		const customers = this.state.customers.slice();
+		customers.forEach((customer) => {
+			const users = getUsersByCustomerIdAsync(this.props.url, customer.id);
+			customer.add(users);
+		  });
+		
+		getUsers(this.props.url, (json) => {this.setState({usersOld: json})});
 	}
 	
 	render() {
 		return (
 			<div>
+				<Stack spacing={2} divider={<Divider orientation="horizontal" />}>
 				{this.state.customers.map((customer, cIndex) => {
 					return (
-					<div class="customerGrid" key={cIndex}>
-						<Typography>{customer.name}</Typography>
-						<div>
-							{this.state.users.map((user, uIndex) => {
-								if (user.customer && user.customer.customerId === customer.customerId)
-								{
-								return (
-								<div class="userGrid" key={uIndex}>
-									<Typography>{user.firstname} {user.name}</Typography>
-									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, uIndex)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />}>Delete</Button>
-									<div class='row-border'></div>
-								</div>
-							)}})}
-						</div>
-						<div class='row-border'></div>
-					</div>
+						<Item elevation={0}>
+							<Grid container spacing={1} justifyContent="center" alignItems="center">
+								<Grid item xs={2}><Typography>{customer.name}</Typography></Grid>
+								<Grid item xs={10}>
+								{this.state.usersOld.map((user, uIndex) => {
+									console.log(this.props.filter)
+									if (user.customerId && user.customerId === customer.id && (user.name.includes(this.props.filter) || user.firstname.includes(this.props.filter) || this.props.filter === ""))
+									{
+									return (
+										<div class="userGrid" key={uIndex}>
+											<Typography>{user.firstname} {user.name}</Typography>
+											<Typography>{user.email}</Typography>
+											<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, customer.id, uIndex)} disabled={!this.props.loggedInUser.admin && this.props.loggedInUser.id !== user.id}>Edit</Button>
+											<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, uIndex)} disabled={!this.props.loggedInUser.admin}>Delete</Button>
+										</div>
+								)}})}
+								</Grid>
+							</Grid>
+						</Item>
 				)})}
 				<div class='row-border'></div>
-				<div class="customerGrid" >
-						<Typography>Without Customer</Typography>
-						<div>
-							{this.state.users.map((user, index) => {
-
-								if (!user.customer)
-								{
-								return (
-								<div class="userGrid" key={index}>
-									<Typography>{user.firstname} {user.name}</Typography>
-									<Typography>{user.email}</Typography>
-									<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user, index)}>Edit</Button>
-									<Button startIcon={<DeleteIcon />}>Delete</Button>
-									<div class='row-border'></div>
-								</div>
-							)}})}
-						</div>
-					</div>
-				<UserDetail para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
+				<Item elevation={0}>
+					<Grid container spacing={1} justifyContent="center" alignItems="center">
+					<Grid item xs={2}><Typography>Without Customer</Typography></Grid>
+						<Grid item xs={10}>
+								{this.state.usersOld.map((user, index) => {
+									const noCustomer = {
+										id: null,
+										name: "No Customer",
+									}
+									
+									if (!user.customerId && (user.name.includes(this.props.filter) || user.firstname.includes(this.props.filter) || this.props.filter === ""))
+									{
+									return (
+									<div class="userGrid" key={index}>
+										<Typography>{user.firstname} {user.name}</Typography>
+										<Typography>{user.email}</Typography>
+										<Button startIcon={<EditIcon />} onClick={() => this.openEditor(user.id, noCustomer, index)} disabled={!this.props.loggedInUser.admin && this.props.loggedInUser.id !== user.id}>Edit</Button>
+										<Button startIcon={<DeleteIcon />} onClick={() => this.removeUser(user.id, index)} disabled={!this.props.loggedInUser.admin}>Delete</Button>
+									</div>
+								)}})}
+						</Grid>
+					</Grid>
+				</Item>						
+				</Stack>
+				<UserDetail loggedInUser={this.props.loggedInUser} url={this.props.url} customers={this.state.customers} para={this.state.editorParameters} isOpen={this.state.isEditing}></UserDetail>
 			</div>
 		);
 	}

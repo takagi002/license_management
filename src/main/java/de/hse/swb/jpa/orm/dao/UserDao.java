@@ -28,6 +28,11 @@ public class UserDao {
 		return em.find(User.class, id);
 	}
 	
+	public List<User> getUserWithoutCustomer() {
+		TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.customer = null", User.class);
+		return query.getResultList();
+	}
+	
 	public User getUserByUsername(String username) {
 		TypedQuery<User> query = em.createQuery("SELECT u FROM User u WHERE u.username = :name", User.class);
 		query.setParameter("name", username);

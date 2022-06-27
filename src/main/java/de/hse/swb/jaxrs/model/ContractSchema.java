@@ -11,12 +11,12 @@ public class ContractSchema {
 	private int feature1;
 	private int feature2;
 	private int feature3;
-	private String ipv4address1;
-	private String ipv4address2;
-	private String ipv4address3;
-	private CustomerSchema customer;
-	private UserSimpelSchema user1;
-	private UserSimpelSchema user2;
+	private String ipV4Address1;
+	private String ipV4Address2;
+	private String ipV4Address3;
+	private long customerId;
+	private long user1Id;
+	private long user2Id;
 	
 	public ContractSchema() {}
 	public ContractSchema(Contract contract) {
@@ -28,12 +28,12 @@ public class ContractSchema {
 		this.feature1 = contract.getFeature1();
 		this.feature2 =  contract.getFeature2();
 		this.feature3 = contract.getFeature3();
-		this.ipv4address1 = contract.getIpV4Adress1();
-		this.ipv4address2 = contract.getIpV4Adress2();
-		this.ipv4address3 = contract.getIpV4Adress3();
-		this.customer = new CustomerSchema(contract.getCustomer());
-		this.user1 = new UserSimpelSchema(contract.getUser1());
-		this.user2 = new UserSimpelSchema(contract.getUser2());
+		this.ipV4Address1 = contract.getIpV4Adress1();
+		this.ipV4Address2 = contract.getIpV4Adress2();
+		this.ipV4Address3 = contract.getIpV4Adress3();
+		this.customerId = contract.getCustomer().getId();
+		this.user1Id = contract.getUser1().getId();
+		this.user2Id = contract.getUser2().getId();
 	}
 	
 	public long getId() {
@@ -84,41 +84,41 @@ public class ContractSchema {
 	public void setFeature3(int features3) {
 		this.feature3 = features3;
 	}
-	public String getIpv4address1() {
-		return ipv4address1;
+	public String getIpV4Address1() {
+		return ipV4Address1;
 	}
-	public void setIpv4address1(String ipv4address1) {
-		this.ipv4address1 = ipv4address1;
+	public void setIpV4Address1(String ipV4Address1) {
+		this.ipV4Address1 = ipV4Address1;
 	}
-	public String getIpv4address2() {
-		return ipv4address2;
+	public String getIpV4Address2() {
+		return ipV4Address2;
 	}
-	public void setIpv4address2(String ipv4address2) {
-		this.ipv4address2 = ipv4address2;
+	public void setIpV4Address2(String ipV4Address2) {
+		this.ipV4Address2 = ipV4Address2;
 	}
-	public String getIpv4address3() {
-		return ipv4address3;
+	public String getIpV4Address3() {
+		return ipV4Address3;
 	}
-	public void setIpv4address3(String ipv4address3) {
-		this.ipv4address3 = ipv4address3;
+	public void setIpV4Address3(String ipV4Address3) {
+		this.ipV4Address3 = ipV4Address3;
 	}
-	public CustomerSchema getCustomer() {
-		return customer;
+	public long getCustomerId() {
+		return customerId;
 	}
-	public void setCustomer(CustomerSchema customer) {
-		this.customer = customer;
+	public void setCustomerId(long customerId) {
+		this.customerId = customerId;
 	}
-	public UserSimpelSchema getUser1() {
-		return user1;
+	public long getUser1Id() {
+		return user1Id;
 	}
-	public void setUser1(UserSimpelSchema user1) {
-		this.user1 = user1;
+	public void setUser1Id(long user1Id) {
+		this.user1Id = user1Id;
 	}
-	public UserSimpelSchema getUser2() {
-		return user2;
+	public long getUser2Id() {
+		return user2Id;
 	}
-	public void setUser2(UserSimpelSchema user2) {
-		this.user2 = user2;
+	public void setUser2Id(long user2Id) {
+		this.user2Id = user2Id;
 	}
 	
 }

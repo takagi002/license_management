@@ -152,17 +152,13 @@ class AddUserEditor extends React.Component {
 							id: 0,				    
         					name: this.state.name,
         					firstname: this.state.firstname,
-        					username: this.state.email.substring(0,8), /*TODO: autogen the username*/
+        					username: "user000", 
         					password: this.state.password,
         					email: this.state.email,
-        					phoneNumber1: this.state.phoneNumber,
-        					phoneNumber2: this.state.phoneNumberOptional,
-        					customer: {
-								customerId: 0,
-								name: "a customer",
-								adresse: "addaress",
-								department: "car"
-							},
+        					phoneNumber: this.state.phoneNumber,
+        					phoneNumberOptional: this.state.phoneNumberOptional,
+        					customerId: this.state.customerId,
+							customerName: this.state.customerName,
 							admin: this.state.isAdmin
 						})}>Submit</Button>
 						<Button onClick={() => this.props.para.cancel()}>Cancel</Button>

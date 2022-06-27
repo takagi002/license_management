@@ -255,18 +255,19 @@ class AddContractEditor extends React.Component {
 					<DialogActions>
 						<Button onClick={() => this.addContract({
 							id: 0,
-							customer: this.state.customerId,
+							customerId: this.state.customerId,
+							customerName: null,
 							startDate: this.state.startDate,
 							endDate: this.state.endDate,
 							version: this.state.version,
-							responsible1: this.state.responsible1,
-							responsible2: this.state.responsible2,
-							ip1: this.state.ip1,
-							ip2: this.state.ip2,
-							ip3: this.state.ip3,
-							featureA: this.state.featureA,
-							featureB: this.state.featureB,
-							featureC: this.state.featureC,
+							user1: this.state.responsible1,
+							user2: this.state.responsible2,
+							ipv4address1: this.state.ip1,
+							ipv4address2: this.state.ip2,
+							ipv4address3: this.state.ip3,
+							feature1: this.state.featureA,
+							feature2: this.state.featureB,
+							feature3: this.state.featureC,
 							licenseKey: this.licenseKey
 						})}>Submit</Button>
 						<Button onClick={() => this.props.para.cancel()}>Cancel</Button>

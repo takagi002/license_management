@@ -91,7 +91,7 @@ class AddCustomerEditor extends React.Component {
 					</DialogContent>
 					<DialogActions>
 						<Button onClick={() => this.addCustomer({
-							customerId: 0,
+							id: 0,
 							name: this.state.name,
 							address: this.state.address,
 							addressOptional: this.state.optAddress,

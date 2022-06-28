@@ -81,7 +81,7 @@ public class ContractResource {
     	}
     	
     	dbContract.setStartDate(Date.valueOf(contract.getStartDate()));
-    	dbContract.setEndDate(Date.valueOf(contract.getStartDate()));
+    	dbContract.setEndDate(Date.valueOf(contract.getEndDate()));
     	dbContract.setLicenseKey(contract.getLicenseKey());
     	dbContract.setVersion(contract.getVersion());
     	dbContract.setFeature1(contract.getFeature1());
@@ -113,7 +113,7 @@ public class ContractResource {
 		dbContract.setId(0);
     	
 		dbContract.setStartDate(Date.valueOf(contract.getStartDate()));
-    	dbContract.setEndDate(Date.valueOf(contract.getStartDate()));
+    	dbContract.setEndDate(Date.valueOf(contract.getEndDate()));
     	dbContract.setLicenseKey(contract.getLicenseKey());
     	dbContract.setVersion(contract.getVersion());
     	dbContract.setFeature1(contract.getFeature1());

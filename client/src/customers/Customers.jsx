@@ -50,7 +50,7 @@ class Customers extends React.Component {
 		this.setState({editorParameters:{
 			customerId: customerId,
 			index: index,
-			cancel: () => this.setState({isEditing: false}),
+			cancel: () => this.setState({isEditing: false, editorParameters: {customerId: null}}),
 		}});
 	}
 

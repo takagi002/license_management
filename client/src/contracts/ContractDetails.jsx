@@ -277,7 +277,7 @@ class ContractDetails extends React.Component {
 								feature3: this.state.feature3,
 								licenseKey: this.state.license
 							})}} >Save</Button>
-							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
+							<Button onClick={() => {this.props.para.cancel(); this.setState({contract: null})}}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
 				}

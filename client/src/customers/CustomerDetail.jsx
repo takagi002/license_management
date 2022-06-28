@@ -114,7 +114,7 @@ class CustomerDetail extends React.Component {
 								addressOptional: this.state.optAddress,
 								department: this.state.department
 							})}>Save</Button>
-							<Button onClick={() => this.props.para.cancel()}>Cancel</Button>
+							<Button onClick={() => {this.props.para.cancel(); this.setState({customer: null})}}>Cancel</Button>
 						</DialogActions>
 					</Dialog>
 				}

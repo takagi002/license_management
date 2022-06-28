@@ -38,8 +38,11 @@ public class ContractSchema {
 		this.customerName = contract.getCustomer().getName();
 		this.user1Id = contract.getUser1().getId();
 		this.user1Name = contract.getUser1().getName();
-		this.user2Id = contract.getUser2().getId();
-		this.user2Name = contract.getUser1().getName();
+		if (contract.getUser2() != null){
+			this.user2Id = contract.getUser2().getId();
+			this.user2Name = contract.getUser1().getName();
+		}
+		
 	}
 	
 	public long getId() {

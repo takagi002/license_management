@@ -7,12 +7,14 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import org.jboss.logging.annotations.Cause;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import de.hse.swb.jpa.orm.dao.ContractDao;
+import de.hse.swb.jpa.orm.dao.CustomerDao;
 import de.hse.swb.jpa.orm.dao.UserDao;
 import de.hse.swb.jpa.orm.model.Contract;
 import de.hse.swb.jpa.orm.model.Customer;
@@ -23,6 +25,9 @@ import io.quarkus.test.junit.QuarkusTest;
 public class ContractDaoTest {
 	@Inject
 	ContractDao contractdao;
+
+	@Inject
+	CustomerDao customerdao;
 	
 	@Inject
 	UserDao userdao;
@@ -50,10 +55,16 @@ public class ContractDaoTest {
 	
 	public void addTwoContracts() {
 		Contract first = createContract();
+		customerdao.addCustomer(first.getCustomer());
+		userdao.addUser(first.getUser1());
+		userdao.addUser(first.getUser2());
 		contractdao.save(first);
 		Contract second = createContract();
 		second.setUser1(createUserTest("user3"));
 		second.setUser2(createUserTest("user4"));
+		customerdao.addCustomer(second.getCustomer());
+		userdao.addUser(second.getUser1());
+		userdao.addUser(second.getUser2());
 		contractdao.save(second);
 	}
 	
@@ -85,6 +96,9 @@ public class ContractDaoTest {
 	@Test
 	void addContract_1() {
 		Contract first = createContract();
+		customerdao.addCustomer(first.getCustomer());
+		userdao.addUser(first.getUser1());
+		userdao.addUser(first.getUser2());
 		contractdao.save(first);
 		List<Contract> Contracts = contractdao.getContracts();
 		assertEquals(Contracts.size(),1);

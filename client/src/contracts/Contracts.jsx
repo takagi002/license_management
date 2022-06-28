@@ -56,7 +56,7 @@ class Contracts extends React.Component {
 			contractId: contractId,
 			index: index,
 			isExpired: isExpired,
-			cancel: () => this.setState({isEditing: false}),
+			cancel: () => this.setState({isEditing: false, editorParameters: {contractId: null}}),
 		}});
 	}
 

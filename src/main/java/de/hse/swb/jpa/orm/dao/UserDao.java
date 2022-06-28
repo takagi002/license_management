@@ -41,10 +41,13 @@ public class UserDao {
 	
 	@Transactional
     public User addUser(User user) {
-		
+	
 		String username = generateUsername(user.getFirstname(), user.getName());
 		user.setUsername(username);
-		
+		if(user.getCustomer() != null)
+		{
+			em.merge(user.getCustomer());
+		}
 		em.persist(user);
     	return user;
     }

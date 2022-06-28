@@ -12,15 +12,15 @@ public class Contract {
     @Column(name = "contractId", nullable = false, unique = true)
     private long id;
 	
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.MERGE)
 	@JoinColumn(name = "customerId", referencedColumnName = "customerId", nullable = false)
 	private Customer customer;
 	
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.MERGE)
 	@JoinColumn(name = "user1_userId", referencedColumnName = "userId")
 	private User user1;
 	
-	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY,cascade=CascadeType.MERGE)
 	@JoinColumn(name = "user2_userId", referencedColumnName = "userId")
 	private User user2;
 	

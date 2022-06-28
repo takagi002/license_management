@@ -79,11 +79,11 @@ public class UserResource {
     	if(dbUser == null) {
     		dbUser = new User();
     		dbUser.setId(0);
+            dbUser.setPassword("tmp");
     	}
     	dbUser.setName(userSchema.getName());
-    	dbUser.setName(userSchema.getFirstname());
+    	dbUser.setFirstname(userSchema.getFirstname());
     	dbUser.setEmail(userSchema.getEmail());
-    	//dbUser.setPassword("tmp");
     	dbUser.setPhoneNumber1(userSchema.getPhoneNumber());
     	dbUser.setPhoneNumber2(userSchema.getPhoneNumberOptional());
     	dbUser.setAdmin(userSchema.isAdmin());

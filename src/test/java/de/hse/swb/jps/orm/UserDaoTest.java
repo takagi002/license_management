@@ -76,7 +76,7 @@ public class UserDaoTest {
 		user.setEmail("ding@test.test");
 		userdao.updateUser(user);
 		
-		User result = userdao.getUser(1);
+		User result = userdao.getUser(user.getId());
 		assertNotEquals("test0@test.test", result.getEmail());
 	}
 	

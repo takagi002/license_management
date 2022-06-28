@@ -153,7 +153,7 @@ class AddUserEditor extends React.Component {
         					name: this.state.name,
         					firstname: this.state.firstname,
         					username: "user000", 
-        					password: this.state.password,
+        					password: "password",
         					email: this.state.email,
         					phoneNumber: this.state.phoneNumber,
         					phoneNumberOptional: this.state.phoneNumberOptional,
